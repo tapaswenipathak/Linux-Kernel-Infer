@@ -1,0 +1,53 @@
+Type: Resource Leak
+Where: https://elixir.bootlin.com/linux/latest/source/tools/objtool/orc_dump.c#L100
+Explanation: File is opened using fopen but the function call exists without closing
+the file.
+Code:
+`
+  resource acquired by call to `open()` at line 94, column 7 is not released after line 102, column 3.
+  100.   	elf = elf_begin(fd, ELF_C_READ_MMAP, NULL);
+  101.   	if (!elf) {
+  102. > 		WARN_ELF("elf_begin");
+  103.   		return -1;
+  104.   	}
+  resource acquired by call to `open()` at line 94, column 7 is not released after line 107, column 3.
+  105.   
+  106.   	if (elf_getshdrnum(elf, &nr_sections)) {
+  107. > 		WARN_ELF("elf_getshdrnum");
+  108.   		return -1;
+  109.   	}
+  resource acquired by call to `open()` at line 94, column 7 is not released after line 112, column 3.
+  110.   
+  111.   	if (elf_getshdrstrndx(elf, &shstrtab_idx)) {
+  112. > 		WARN_ELF("elf_getshdrstrndx");
+  113.   		return -1;
+  114.   	}
+  resource acquired by call to `open()` at line 94, column 7 is not released after line 119, column 4.
+  117.   		scn = elf_getscn(elf, i);
+  118.   		if (!scn) {
+  119. > 			WARN_ELF("elf_getscn");
+  120.   			return -1;
+  121.   		}
+  resource acquired by call to `open()` at line 94, column 7 is not released after line 124, column 4.
+  122.   
+  123.   		if (!gelf_getshdr(scn, &sh)) {
+  124. > 			WARN_ELF("gelf_getshdr");
+  125.   			return -1;
+  126.   		}
+  resource acquired by call to `open()` at line 94, column 7 is not released after line 130, column 4.
+  128.   		name = elf_strptr(elf, shstrtab_idx, sh.sh_name);
+  129.   		if (!name) {
+  130. > 			WARN_ELF("elf_strptr");
+  131.   			return -1;
+  132.   		}
+  resource acquired by call to `open()` at line 94, column 7 is not released after line 136, column 4.
+  134.   		data = elf_getdata(scn, NULL);
+  135.   		if (!data) {
+  136. > 			WARN_ELF("elf_getdata");
+  137.   			return -1;
+  138.   		}
+
+`
+Category: Bug to me, but may be need to read more documentation
+In method orc_dump, file is opened using open(objname, O_RDONLY), before return -1 there
+should be a call to fclose I think. Seems a bug not sure.

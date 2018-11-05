@@ -1,0 +1,5 @@
+Type: Wsign-compare
+Where: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/intel_pm.c#L9533
+Explanation: comparison of integers of different signs: 'unsigned long long' and 'int'
+Code: ret = wait_for_atomic(COND, 50);
+Commit ID: a0b8a1fe3443 ("drm/i915/gen9: Fix PCODE polling during CDCLK change notification")

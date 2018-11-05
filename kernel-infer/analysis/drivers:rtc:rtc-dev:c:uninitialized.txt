@@ -1,0 +1,15 @@
+Type: UNINITIALIZED_VALUE
+Where: https://elixir.bootlin.com/linux/latest/source/drivers/rtc/rtc-dev.c#L194
+Explanation: The value read from ret was never initialized.
+Code:
+`
+  sizeof(unsigned long);
+    }
+    return ret;
+}
+`
+Commit ID: TODO
+Category: FP
+
+At line 155 there is an infinite do while loop which will break only if there is a
+value assigned to ret variable. ret always has a value assigned.

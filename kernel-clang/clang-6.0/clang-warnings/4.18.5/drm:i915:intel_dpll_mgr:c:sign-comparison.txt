@@ -1,0 +1,5 @@
+Type: Wsign-compare
+Where: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/intel_dpll_mgr.c#L1258
+Explanation: comparison of integers of different signs: 'unsigned int' and 'const int' [-Wsign-compare]
+Code: for (i = 0; i < dividers[d].n_dividers; i++) {
+Commit ID: dc2538139277 ("drm/i915/skl: Replace the HDMI DPLL divider computation algorithm")

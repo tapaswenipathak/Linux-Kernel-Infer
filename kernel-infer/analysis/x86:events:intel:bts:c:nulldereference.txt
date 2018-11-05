@@ -1,0 +1,40 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/latest/source/arch/x86/events/intel/bts.c#L232
+Explanation: Pointer buf last assigned on line 229 could be null and is dereferenced
+at line 232, column 7.
+Code:
+`
+u64 config = 0;
+if (!buf->snapshot)
+  config |= ARCH_PERFMON_EVENTSEL_INT;
+if (!event->attr.exclude_kernel)
+`
+Category: FP
+buf is assigned at line 229 by the return value of perf_get_aux, which has a definition
+like
+
+`
+void *perf_get_aux(struct perf_output_handle *handle)
+{
+	/* this is only valid between perf_aux_output_begin and *_end */
+	if (!handle->event)
+		return NULL;
+
+	return handle->rb->aux_priv;
+}
+`
+This function returns a local non static pointer to memory location which does not
+seem to be null safe.
+
+Per the comment above __bts_event_start:
+/*
+ * Ordering PMU callbacks wrt themselves and the PMI is done by means
+ * of bts::state, which:
+ *  - is set when bts::handle::event is valid, that is, between
+ *    perf_aux_output_begin() and perf_aux_output_end();
+ *  - is zero otherwise;
+ *  - is ordered against bts::handle::event with a compiler barrier.
+ */
+
+the function is safe. I'm not sure as it is hard to track this function since it has
+multiple definitions and a global variable.

@@ -1,0 +1,867 @@
+  CC      arch/x86/kernel/asm-offsets.s
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:20:
+In file included from ./include/linux/atomic.h:5:
+In file included from ./arch/x86/include/asm/atomic.h:283:
+./include/asm-generic/atomic-instrumented.h:365:10: error: invalid output size for constraint '=a'
+                return arch_cmpxchg((u64 *)ptr, (u64)old, (u64)new);
+                       ^
+./arch/x86/include/asm/cmpxchg.h:149:2: note: expanded from macro 'arch_cmpxchg'
+        __cmpxchg(ptr, old, new, sizeof(*(ptr)))
+        ^
+./arch/x86/include/asm/cmpxchg.h:134:2: note: expanded from macro '__cmpxchg'
+        __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
+        ^
+./arch/x86/include/asm/cmpxchg.h:95:17: note: expanded from macro '__raw_cmpxchg'
+                             : "=a" (__ret), "+m" (*__ptr)              \
+                                     ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:20:
+In file included from ./include/linux/atomic.h:5:
+In file included from ./arch/x86/include/asm/atomic.h:283:
+./include/asm-generic/atomic-instrumented.h:365:10: error: invalid output size for constraint '=a'
+./arch/x86/include/asm/cmpxchg.h:149:2: note: expanded from macro 'arch_cmpxchg'
+        __cmpxchg(ptr, old, new, sizeof(*(ptr)))
+        ^
+./arch/x86/include/asm/cmpxchg.h:134:2: note: expanded from macro '__cmpxchg'
+        __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
+        ^
+./arch/x86/include/asm/cmpxchg.h:104:17: note: expanded from macro '__raw_cmpxchg'
+                             : "=a" (__ret), "+m" (*__ptr)              \
+                                     ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:20:
+In file included from ./include/linux/atomic.h:5:
+In file included from ./arch/x86/include/asm/atomic.h:283:
+./include/asm-generic/atomic-instrumented.h:365:10: error: invalid output size for constraint '=a'
+./arch/x86/include/asm/cmpxchg.h:149:2: note: expanded from macro 'arch_cmpxchg'
+        __cmpxchg(ptr, old, new, sizeof(*(ptr)))
+        ^
+./arch/x86/include/asm/cmpxchg.h:134:2: note: expanded from macro '__cmpxchg'
+        __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
+        ^
+./arch/x86/include/asm/cmpxchg.h:113:17: note: expanded from macro '__raw_cmpxchg'
+                             : "=a" (__ret), "+m" (*__ptr)              \
+                                     ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:20:
+In file included from ./include/linux/atomic.h:5:
+In file included from ./arch/x86/include/asm/atomic.h:283:
+./include/asm-generic/atomic-instrumented.h:365:10: error: invalid output size for constraint '=a'
+./arch/x86/include/asm/cmpxchg.h:149:2: note: expanded from macro 'arch_cmpxchg'
+        __cmpxchg(ptr, old, new, sizeof(*(ptr)))
+        ^
+./arch/x86/include/asm/cmpxchg.h:134:2: note: expanded from macro '__cmpxchg'
+        __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
+        ^
+./arch/x86/include/asm/cmpxchg.h:122:17: note: expanded from macro '__raw_cmpxchg'
+                             : "=a" (__ret), "+m" (*__ptr)              \
+                                     ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:20:
+In file included from ./include/linux/atomic.h:5:
+In file included from ./arch/x86/include/asm/atomic.h:283:
+./include/asm-generic/atomic-instrumented.h:391:10: error: invalid output size for constraint '=a'
+                return arch_sync_cmpxchg((u64 *)ptr, (u64)old, (u64)new);
+                       ^
+./arch/x86/include/asm/cmpxchg.h:152:2: note: expanded from macro 'arch_sync_cmpxchg'
+        __sync_cmpxchg(ptr, old, new, sizeof(*(ptr)))
+        ^
+./arch/x86/include/asm/cmpxchg.h:137:2: note: expanded from macro '__sync_cmpxchg'
+        __raw_cmpxchg((ptr), (old), (new), (size), "lock; ")
+        ^
+./arch/x86/include/asm/cmpxchg.h:95:17: note: expanded from macro '__raw_cmpxchg'
+                             : "=a" (__ret), "+m" (*__ptr)              \
+                                     ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:20:
+In file included from ./include/linux/atomic.h:5:
+In file included from ./arch/x86/include/asm/atomic.h:283:
+./include/asm-generic/atomic-instrumented.h:391:10: error: invalid output size for constraint '=a'
+./arch/x86/include/asm/cmpxchg.h:152:2: note: expanded from macro 'arch_sync_cmpxchg'
+        __sync_cmpxchg(ptr, old, new, sizeof(*(ptr)))
+        ^
+./arch/x86/include/asm/cmpxchg.h:137:2: note: expanded from macro '__sync_cmpxchg'
+        __raw_cmpxchg((ptr), (old), (new), (size), "lock; ")
+        ^
+./arch/x86/include/asm/cmpxchg.h:104:17: note: expanded from macro '__raw_cmpxchg'
+                             : "=a" (__ret), "+m" (*__ptr)              \
+                                     ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:20:
+In file included from ./include/linux/atomic.h:5:
+In file included from ./arch/x86/include/asm/atomic.h:283:
+./include/asm-generic/atomic-instrumented.h:391:10: error: invalid output size for constraint '=a'
+./arch/x86/include/asm/cmpxchg.h:152:2: note: expanded from macro 'arch_sync_cmpxchg'
+        __sync_cmpxchg(ptr, old, new, sizeof(*(ptr)))
+        ^
+./arch/x86/include/asm/cmpxchg.h:137:2: note: expanded from macro '__sync_cmpxchg'
+        __raw_cmpxchg((ptr), (old), (new), (size), "lock; ")
+        ^
+./arch/x86/include/asm/cmpxchg.h:113:17: note: expanded from macro '__raw_cmpxchg'
+                             : "=a" (__ret), "+m" (*__ptr)              \
+                                     ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:20:
+In file included from ./include/linux/atomic.h:5:
+In file included from ./arch/x86/include/asm/atomic.h:283:
+./include/asm-generic/atomic-instrumented.h:391:10: error: invalid output size for constraint '=a'
+./arch/x86/include/asm/cmpxchg.h:152:2: note: expanded from macro 'arch_sync_cmpxchg'
+        __sync_cmpxchg(ptr, old, new, sizeof(*(ptr)))
+        ^
+./arch/x86/include/asm/cmpxchg.h:137:2: note: expanded from macro '__sync_cmpxchg'
+        __raw_cmpxchg((ptr), (old), (new), (size), "lock; ")
+        ^
+./arch/x86/include/asm/cmpxchg.h:122:17: note: expanded from macro '__raw_cmpxchg'
+                             : "=a" (__ret), "+m" (*__ptr)              \
+                                     ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:20:
+In file included from ./include/linux/atomic.h:5:
+In file included from ./arch/x86/include/asm/atomic.h:283:
+./include/asm-generic/atomic-instrumented.h:418:10: error: invalid output size for constraint '=a'
+                return arch_cmpxchg_local((u64 *)ptr, (u64)old, (u64)new);
+                       ^
+./arch/x86/include/asm/cmpxchg.h:155:2: note: expanded from macro 'arch_cmpxchg_local'
+        __cmpxchg_local(ptr, old, new, sizeof(*(ptr)))
+        ^
+./arch/x86/include/asm/cmpxchg.h:140:2: note: expanded from macro '__cmpxchg_local'
+        __raw_cmpxchg((ptr), (old), (new), (size), "")
+        ^
+./arch/x86/include/asm/cmpxchg.h:95:17: note: expanded from macro '__raw_cmpxchg'
+                             : "=a" (__ret), "+m" (*__ptr)              \
+                                     ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:20:
+In file included from ./include/linux/atomic.h:5:
+In file included from ./arch/x86/include/asm/atomic.h:283:
+./include/asm-generic/atomic-instrumented.h:418:10: error: invalid output size for constraint '=a'
+./arch/x86/include/asm/cmpxchg.h:155:2: note: expanded from macro 'arch_cmpxchg_local'
+        __cmpxchg_local(ptr, old, new, sizeof(*(ptr)))
+        ^
+./arch/x86/include/asm/cmpxchg.h:140:2: note: expanded from macro '__cmpxchg_local'
+        __raw_cmpxchg((ptr), (old), (new), (size), "")
+        ^
+./arch/x86/include/asm/cmpxchg.h:104:17: note: expanded from macro '__raw_cmpxchg'
+                             : "=a" (__ret), "+m" (*__ptr)              \
+                                     ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:20:
+In file included from ./include/linux/atomic.h:5:
+In file included from ./arch/x86/include/asm/atomic.h:283:
+./include/asm-generic/atomic-instrumented.h:418:10: error: invalid output size for constraint '=a'
+./arch/x86/include/asm/cmpxchg.h:155:2: note: expanded from macro 'arch_cmpxchg_local'
+        __cmpxchg_local(ptr, old, new, sizeof(*(ptr)))
+        ^
+./arch/x86/include/asm/cmpxchg.h:140:2: note: expanded from macro '__cmpxchg_local'
+        __raw_cmpxchg((ptr), (old), (new), (size), "")
+        ^
+./arch/x86/include/asm/cmpxchg.h:113:17: note: expanded from macro '__raw_cmpxchg'
+                             : "=a" (__ret), "+m" (*__ptr)              \
+                                     ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:20:
+In file included from ./include/linux/atomic.h:5:
+In file included from ./arch/x86/include/asm/atomic.h:283:
+./include/asm-generic/atomic-instrumented.h:418:10: error: invalid output size for constraint '=a'
+./arch/x86/include/asm/cmpxchg.h:155:2: note: expanded from macro 'arch_cmpxchg_local'
+        __cmpxchg_local(ptr, old, new, sizeof(*(ptr)))
+        ^
+./arch/x86/include/asm/cmpxchg.h:140:2: note: expanded from macro '__cmpxchg_local'
+        __raw_cmpxchg((ptr), (old), (new), (size), "")
+        ^
+./arch/x86/include/asm/cmpxchg.h:122:17: note: expanded from macro '__raw_cmpxchg'
+                             : "=a" (__ret), "+m" (*__ptr)              \
+                                     ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:10:9: note: expanded from macro '__const_hweight8'
+         ((!!((w) & (1ULL << 0))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:11:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 1))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:12:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 2))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:13:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 3))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:14:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 4))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:15:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 5))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:16:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 6))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:17:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 7)))))
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:10:9: note: expanded from macro '__const_hweight8'
+         ((!!((w) & (1ULL << 0))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:11:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 1))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:12:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 2))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:13:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 3))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:14:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 4))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:15:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 5))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:16:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 6))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:49: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:17:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 7)))))
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:10:9: note: expanded from macro '__const_hweight8'
+         ((!!((w) & (1ULL << 0))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:11:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 1))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:12:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 2))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:13:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 3))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:14:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 4))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:15:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 5))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:16:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 6))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:48: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                               ^
+./include/asm-generic/bitops/const_hweight.h:17:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 7)))))
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:10:9: note: expanded from macro '__const_hweight8'
+         ((!!((w) & (1ULL << 0))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:11:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 1))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:12:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 2))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:13:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 3))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:14:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 4))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:15:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 5))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:16:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 6))) +     \
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:21:
+In file included from ./include/linux/kernel.h:11:
+./include/linux/bitops.h:72:41: warning: shift count >= width of type [-Wshift-count-overflow]
+        return sizeof(w) == 4 ? hweight32(w) : hweight64(w);
+                                               ^~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
+#define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+                                                ^~~~~~~~~~~~~~~~~~~~
+./include/asm-generic/bitops/const_hweight.h:21:76: note: expanded from macro '__const_hweight64'
+#define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+                                                                           ^  ~~
+./include/asm-generic/bitops/const_hweight.h:20:73: note: expanded from macro '__const_hweight32'
+#define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
+                                                                        ^
+./include/asm-generic/bitops/const_hweight.h:19:72: note: expanded from macro '__const_hweight16'
+#define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
+                                                                       ^
+./include/asm-generic/bitops/const_hweight.h:17:9: note: expanded from macro '__const_hweight8'
+          (!!((w) & (1ULL << 7)))))
+               ^
+In file included from arch/x86/kernel/asm-offsets.c:9:
+In file included from ./include/linux/crypto.h:24:
+In file included from ./include/linux/slab.h:15:
+In file included from ./include/linux/gfp.h:6:
+In file included from ./include/linux/mmzone.h:8:
+In file included from ./include/linux/spinlock.h:51:
+In file included from ./include/linux/preempt.h:81:
+In file included from ./arch/x86/include/asm/preempt.h:7:
+In file included from ./include/linux/thread_info.h:38:
+In file included from ./arch/x86/include/asm/thread_info.h:53:
+./arch/x86/include/asm/cpufeature.h:150:2: warning: "Compiler lacks ASM_GOTO support. Add -D __BPF_TRACING__ to your compiler
+      arguments" [-W#warnings]
+#warning "Compiler lacks ASM_GOTO support. Add -D __BPF_TRACING__ to your compiler arguments"
+ ^
+33 warnings and 12 errors generated.
+Kbuild:56: recipe for target 'arch/x86/kernel/asm-offsets.s' failed
+make[1]: *** [arch/x86/kernel/asm-offsets.s] Error 1
+Makefile:1077: recipe for target 'prepare0' failed
+make: *** [prepare0] Error 2
+

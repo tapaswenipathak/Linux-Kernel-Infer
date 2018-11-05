@@ -1,0 +1,5 @@
+Type: Wsign-compare
+Where: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/i915_drv.c#L2246
+Explanation: comparison of integers of different signs: 'int' and 'unsigned long'
+Code: for (i = 0; i < ARRAY_SIZE(s->lra_limits); i++)
+Commit ID: ddeea5b0c36f ("drm/i915: vlv: add runtime PM support")

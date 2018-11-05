@@ -1,0 +1,24 @@
+Type: RESOURCE_LEAK
+Where: https://elixir.bootlin.com/linux/latest/source/usr/gen_init_cpio.c#L568
+Explanation: resource of type _IO_FILE acquired by call to fopen() at line 561,
+column 25 is not released after line 568, column 9.
+Code:
+`
+	else if (!(cpio_list = fopen(filename, "r"))) {
+		fprintf(stderr, "ERROR: unable to open '%s': %s\n\n",
+			filename, strerror(errno));
+		usage(argv[0]);
+		exit(1);
+	}
+
+	while (fgets(line, LINE_SIZE, cpio_list)) {
+		int type_idx;
+		size_t slen = strlen(line);
+`
+Commit ID: TODO
+Category: FP
+
+In the reports file would be opened using fopen(filename, "r")) and would be read
+line by line in while loop at 568 line. At line 623 with exit(ec) call all open streams
+will be closed.
+
