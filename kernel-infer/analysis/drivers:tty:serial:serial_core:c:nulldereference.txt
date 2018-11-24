@@ -1,0 +1,23 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/tty/serial/serial_core.c#L297
+Code:
+
+	if (tty_port_initialized(port)) {
+		tty_port_set_initialized(port, 0);
+
+		/*
+		 * Turn off DTR and RTS early.
+		 */
+		if (uport && uart_console(uport) && tty)
+			uport->cons->cflag = tty->termios.c_cflag;
+
+		if (!tty || C_HUPCL(tty))
+			uart_port_dtr_rts(uport, 0);
+
+		uart_port_shutdown(port);
+	}
+
+Commit ID: TODO
+Category: FP
+Explanation: uport is not being dereferenced after assigning null in uart_port_dtr_rts.
+Patch: No

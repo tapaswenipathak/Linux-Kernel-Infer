@@ -1,0 +1,64 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/video/fbdev/core/syscopyarea.c#L320
+Code:
+	u32 dx = area->dx, dy = area->dy, sx = area->sx, sy = area->sy;
+	u32 height = area->height, width = area->width;
+	unsigned long const bits_per_line = p->fix.line_length*8u;
+	unsigned long *base = NULL;
+	int bits = BITS_PER_LONG, bytes = bits >> 3;
+	unsigned dst_idx = 0, src_idx = 0, rev_copy = 0;
+
+	if (p->state != FBINFO_STATE_RUNNING)
+		return;
+
+	/* if the beginning of the target area might overlap with the end of
+	the source area, be have to copy the area reverse. */
+	if ((dy == sy && dx > sx) || (dy > sy)) {
+		dy += height;
+		sy += height;
+		rev_copy = 1;
+	}
+
+	/* split the base of the framebuffer into a long-aligned address and
+	   the index of the first bit */
+	base = (unsigned long *)((unsigned long)p->screen_base & ~(bytes-1));
+	dst_idx = src_idx = 8*((unsigned long)p->screen_base & (bytes-1));
+	/* add offset of source and target area */
+	dst_idx += dy*bits_per_line + dx*p->var.bits_per_pixel;
+	src_idx += sy*bits_per_line + sx*p->var.bits_per_pixel;
+Commit ID: TODO
+Category: FP
+Explanation: base is stroing the address of buffer
+Patch: No
+
+-------------------------------------------------------------------------------------
+
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/video/fbdev/core/syscopyarea.c#L322
+Code:
+	unsigned long *base = NULL;
+	int bits = BITS_PER_LONG, bytes = bits >> 3;
+	unsigned dst_idx = 0, src_idx = 0, rev_copy = 0;
+
+	if (p->state != FBINFO_STATE_RUNNING)
+		return;
+
+	/* if the beginning of the target area might overlap with the end of
+	the source area, be have to copy the area reverse. */
+	if ((dy == sy && dx > sx) || (dy > sy)) {
+		dy += height;
+		sy += height;
+		rev_copy = 1;
+	}
+
+	/* split the base of the framebuffer into a long-aligned address and
+	   the index of the first bit */
+	base = (unsigned long *)((unsigned long)p->screen_base & ~(bytes-1));
+	dst_idx = src_idx = 8*((unsigned long)p->screen_base & (bytes-1));
+	/* add offset of source and target area */
+	dst_idx += dy*bits_per_line + dx*p->var.bits_per_pixel;
+	src_idx += sy*bits_per_line + sx*p->var.bits_per_pixel;
+Commit ID: TODO
+Category: FP
+Explanation: dst_idx is storing the offset of source area
+Patch: No

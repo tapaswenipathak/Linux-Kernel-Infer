@@ -1,0 +1,28 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/mailbox/pcc.c#L341
+Code:
+	int ret = 0;
+
+	if (id >= pcc_mbox_ctrl.num_chans) {
+		pr_debug("pcc_send_data: Invalid mbox_chan passed\n");
+		return -ENOENT;
+	}
+
+	doorbell = &pcct_ss->doorbell_register;
+	doorbell_preserve = pcct_ss->preserve_mask;
+	doorbell_write = pcct_ss->write_mask;
+
+	/* Sync notification from OS to Platform. */
+	if (pcc_doorbell_vaddr[id]) {
+		ret = read_register(pcc_doorbell_vaddr[id], &doorbell_val,
+			doorbell->bit_width);
+		if (ret)
+			return ret;
+		ret = write_register(pcc_doorbell_vaddr[id],
+			(doorbell_val & doorbell_preserve) | doorbell_write,
+			doorbell->bit_width);
+	} else {
+Commit ID: TODO
+Category: FP
+Explanation: ret is storing the return value of many functions
+Patch: No

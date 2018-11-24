@@ -1,0 +1,16 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/sound/hda/hdac_controller.c#L90
+Code:
+	timeout = jiffies + msecs_to_jiffies(100);
+	while ((snd_hdac_chip_readb(bus, RIRBCTL) & AZX_RBCTL_DMA_EN)
+		&& time_before(jiffies, timeout))
+		udelay(10);
+
+	timeout = jiffies + msecs_to_jiffies(100);
+	while ((snd_hdac_chip_readb(bus, CORBCTL) & AZX_CORBCTL_RUN)
+		&& time_before(jiffies, timeout))
+		udelay(10);
+Commit ID: TODO
+Category: FP
+Explanation: time_before required timeout calculation calculated from jiffies and msecs_to_jiffes(value).
+Patch: No

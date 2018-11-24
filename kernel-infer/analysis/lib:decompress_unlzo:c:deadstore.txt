@@ -1,0 +1,8 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/lib/decompress_unlzo.c#L118
+Code:
+u8 r = 0;
+Commit ID: TODO
+Category: Bug
+Explanation: r variable is not used.
+Patch: In process

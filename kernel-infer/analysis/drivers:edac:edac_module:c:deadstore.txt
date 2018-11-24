@@ -1,0 +1,17 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/edac/edac_module.c#L104
+Code:
+static int __init edac_init(void)
+{
+	int err = 0;
+
+	edac_printk(KERN_INFO, EDAC_MC, EDAC_VERSION "\n");
+
+	err = edac_subsys_init();
+	if (err)
+		return err;
+
+Commit ID: TODO
+Category: FP
+Explanation: err holds the erroneous outputs returned from devices.
+Patch: No

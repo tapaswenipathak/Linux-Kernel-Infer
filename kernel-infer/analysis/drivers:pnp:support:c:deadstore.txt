@@ -1,0 +1,26 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/pnp/support.c#L126
+Code:
+	case IORESOURCE_IO:
+		port = &option->u.port;
+		len += scnprintf(buf + len, sizeof(buf) - len, "io  min %#llx "
+				 "max %#llx align %lld size %lld flags %#x",
+				 (unsigned long long) port->min,
+				 (unsigned long long) port->max,
+				 (unsigned long long) port->align,
+				 (unsigned long long) port->size, port->flags);
+		break;
+	case IORESOURCE_MEM:
+		mem = &option->u.mem;
+		len += scnprintf(buf + len, sizeof(buf) - len, "mem min %#llx "
+				 "max %#llx align %lld size %lld flags %#x",
+				 (unsigned long long) mem->min,
+				 (unsigned long long) mem->max,
+				 (unsigned long long) mem->align,
+				 (unsigned long long) mem->size, mem->flags);
+Commit ID: TODO
+Category: FP
+Explanation: len is inside a switch case.  len need not be having values returned from
+scnprintf for these switch cases, also there is break statement that it is not fall
+through switch case.
+Patch: In process

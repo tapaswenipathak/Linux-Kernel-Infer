@@ -1,0 +1,16 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/trace/blktrace.c#L172
+Code:
+	if (!(blk_tracer_flags.val & TRACE_BLK_OPT_CGROUP))
+		blkcg = NULL;
+#ifdef CONFIG_BLK_CGROUP
+	trace_note(bt, 0, BLK_TN_MESSAGE, buf, n,
+		blkcg ? cgroup_get_kernfs_id(blkcg->css.cgroup) : NULL);
+#else
+	trace_note(bt, 0, BLK_TN_MESSAGE, buf, n, NULL);
+#endif
+	local_irq_restore(flags);
+Commit ID: TODO
+Category: FP
+Explanation: blkcg ternary condition check inside ifdef.
+Patch: No

@@ -1,0 +1,15 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/gpu/drm/drm_dp_mst_topology.c#L373
+Code:
+	if (msg->curchunk_idx >= msg->curchunk_len) {
+		/* do CRC */
+		crc4 = drm_dp_msg_data_crc4(msg->chunk, msg->curchunk_len - 1);
+		/* copy chunk into bigger msg */
+		memcpy(&msg->msg[msg->curlen], msg->chunk, msg->curchunk_len - 1);
+		msg->curlen += msg->curchunk_len - 1;
+	}
+	return true;
+Commit ID: TODO
+Category: Bug
+Explanation: crc4 is storing the msg data, is not being used after assigning
+Patch: No

@@ -1,0 +1,24 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/ata/libata-sff.c#L223
+Code:
+	timeout = ata_deadline(timer_start, tmout_pat);
+	while (status != 0xff && (status & ATA_BUSY) &&
+	       time_before(jiffies, timeout)) {
+		ata_msleep(ap, 50);
+		status = ata_sff_busy_wait(ap, ATA_BUSY, 3);
+	}
+
+	if (status != 0xff && (status & ATA_BUSY))
+		ata_port_warn(ap,
+			      "port is slow to respond, please be patient (Status 0x%x)\n",
+			      status);
+
+	timeout = ata_deadline(timer_start, tmout);
+	while (status != 0xff && (status & ATA_BUSY) &&
+	       time_before(jiffies, timeout)) {
+		ata_msleep(ap, 50);
+Commit ID: TODO
+Category: FP
+Explanation: wonder why would infer give the error, an important variable
+Patch to kernel: No
+Patch to infer: Yes

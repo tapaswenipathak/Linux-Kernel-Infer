@@ -1,0 +1,23 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/usb/host/ohci-hcd.c#L1261
+Code:
+	int retval = 0;
+
+	if (usb_disabled())
+		return -ENODEV;
+
+	printk(KERN_INFO "%s: " DRIVER_DESC "\n", hcd_name);
+	pr_debug ("%s: block sizes: ed %zd td %zd\n", hcd_name,
+		sizeof (struct ed), sizeof (struct td));
+	set_bit(USB_OHCI_LOADED, &usb_hcds_loaded);
+
+	ohci_debug_root = debugfs_create_dir("ohci", usb_debug_root);
+
+#ifdef PS3_SYSTEM_BUS_DRIVER
+	retval = ps3_ohci_driver_register(&PS3_SYSTEM_BUS_DRIVER);
+	if (retval < 0)
+		goto error_ps3;
+Commit ID: TODO
+Category: FP
+Explanation: retval is holding error values for this function.
+Patch: No

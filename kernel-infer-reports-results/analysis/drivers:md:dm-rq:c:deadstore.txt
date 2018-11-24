@@ -1,0 +1,20 @@
+Type: DEAD_STORe
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/md/dm-rq.c#L199
+Code:
+	dm_request_endio_fn rq_end_io = NULL;
+
+	if (tio->ti) {
+		rq_end_io = tio->ti->type->rq_end_io;
+
+		if (mapped && rq_end_io)
+			r = rq_end_io(tio->ti, clone, error, &tio->info);
+	}
+Commit ID: TODO
+Category: FP
+Explanation: This is nice, rq_end_io is of type
+
+typedef int (*dm_request_endio_fn) (struct dm_target *ti,
+				    struct request *clone, blk_status_t error,
+				    union map_info *map_context);
+and later is initialized with class type initialisation something like a(1). 
+Patch: No

@@ -1,0 +1,7 @@
+Type: DEAD_STORE
+Where: http://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/gpu/drm/i915/intel_runtime_pm.cdlds
+Code: kernel 5.0-rc8
+Commit ID:
+Category:
+Explanation:
+Patch:

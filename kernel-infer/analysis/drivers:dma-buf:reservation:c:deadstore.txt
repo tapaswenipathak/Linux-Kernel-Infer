@@ -1,0 +1,12 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/dma-buf/reservation.c#L284
+Code:
+		}
+	} else {
+		dst_list = NULL;
+	}
+
+Commit ID: TODO
+Category: FP/Bug
+Explanation: inside this dst_list is getting assigned a null as that's a list ds
+Patch: No

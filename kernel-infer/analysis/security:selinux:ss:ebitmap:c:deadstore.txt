@@ -1,0 +1,10 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/security/selinux/ss/ebitmap.c#L148
+Code:
+	struct ebitmap_node *e_iter = NULL;
+	struct ebitmap_node *e_prev = NULL;
+	u32 offset = 0, idx;
+Commit ID: TODO
+Category: FP 
+Explanation: e_prev is being used to iterate over ebitmap
+Patch: No

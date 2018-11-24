@@ -1,0 +1,26 @@
+Type: DEAD_STORE
+Where:https://elixir.bootlin.com/linux/v5.0-rc8/source/net/sched/sch_api.c#L205
+Code:
+static struct Qdisc_ops *qdisc_lookup_default(const char *name)
+{
+	struct Qdisc_ops *q = NULL;
+
+	for (q = qdisc_base; q; q = q->next) {
+		if (!strcmp(name, q->id)) {
+			if (!try_module_get(q->owner))
+				q = NULL;
+			break;
+		}
+	}
+
+	return q;
+}
+
+.
+
+static struct Qdisc_ops *qdisc_base;
+Commit ID: TODO
+Category: I think bug
+Explanation: qdisc_base can have null plus seems like address is being looped in for
+with a pointer variable to a pointer variable, where q should be pointer to pointer
+Patch: In Process

@@ -1,0 +1,29 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/crypto/jitterentropy.c#L138
+Code:
+	__u64 time = 0;
+	__u64 shuffle = 0;
+	unsigned int i = 0;
+	unsigned int mask = (1<<bits) - 1;
+
+	jent_get_nstime(&time);
+	/*
+	 * mix the current state of the random number into the shuffle
+	 * calculation to balance that shuffle a bit more
+	 */
+	if (ec)
+		time ^= ec->data;
+	/*
+	 * we fold the time value as much as possible to ensure that as many
+	 * bits of the time stamp are included as possible
+	 */
+	for (i = 0; (DATA_SIZE_BITS / bits) > i; i++) {
+		shuffle ^= time & mask;
+		time = time >> bits;
+	}
+
+Commit ID: TODO
+Category: FP
+Explanation: i is a loop counter
+Patch to kernel: No
+Patch to infer: Yes

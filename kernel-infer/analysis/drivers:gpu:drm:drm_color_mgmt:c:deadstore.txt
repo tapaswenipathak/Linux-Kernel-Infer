@@ -1,0 +1,48 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/gpu/drm/drm_color_mgmt.c#L242
+Code:
+	int ret = 0;
+
+	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+		return -EOPNOTSUPP;
+
+	crtc = drm_crtc_find(dev, file_priv, crtc_lut->crtc_id);
+	if (!crtc)
+		return -ENOENT;
+
+	if (crtc->funcs->gamma_set == NULL)
+		return -ENOSYS;
+
+	/* memcpy into gamma store */
+	if (crtc_lut->gamma_size != crtc->gamma_size)
+		return -EINVAL;
+
+	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+
+	size = crtc_lut->gamma_size * (sizeof(uint16_t));
+	r_base = crtc->gamma_store;
+	if (copy_from_user(r_base, (void __user *)(unsigned long)crtc_lut->red, size)) {
+		ret = -EFAULT;
+		goto out;
+	}
+
+	g_base = r_base + size;
+	if (copy_from_user(g_base, (void __user *)(unsigned long)crtc_lut->green, size)) {
+		ret = -EFAULT;
+		goto out;
+	}
+
+	b_base = g_base + size;
+	if (copy_from_user(b_base, (void __user *)(unsigned long)crtc_lut->blue, size)) {
+		ret = -EFAULT;
+		goto out;
+	}
+
+	ret = crtc->funcs->gamma_set(crtc, r_base, g_base, b_base,
+				     crtc->gamma_size, &ctx);
+
+Commit ID: TODO
+Category: FP
+Explanation: ret is the return value of the function
+Patch: No
+Patch to infer: In process

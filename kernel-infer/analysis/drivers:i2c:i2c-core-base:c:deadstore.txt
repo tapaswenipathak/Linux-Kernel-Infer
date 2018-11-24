@@ -1,0 +1,19 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/i2c/i2c-core-base.c#L164
+Code:
+	struct i2c_bus_recovery_info *bri = adap->bus_recovery_info;
+	int ret = -EOPNOTSUPP;
+
+	if (bri->get_bus_free)
+		ret = bri->get_bus_free(adap);
+	else if (bri->get_sda)
+		ret = bri->get_sda(adap);
+
+	if (ret < 0)
+		return ret;
+
+	return ret ? 0 : -EBUSY;
+Commit ID: TODO
+Category: FP
+Explanation: ret is holding the bus status returned from the function call.
+Patch: No

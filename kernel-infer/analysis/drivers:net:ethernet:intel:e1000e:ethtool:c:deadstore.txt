@@ -1,0 +1,33 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/net/ethernet/intel/e1000e/ethtool.c#L303
+Code:
+		else
+			hw->phy.autoneg_advertised = advertising |
+			    ADVERTISED_TP | ADVERTISED_Autoneg;
+		advertising = hw->phy.autoneg_advertised;
+		if (adapter->fc_autoneg)
+			hw->fc.requested_mode = e1000_fc_default;
+	} else {
+		u32 speed = cmd->base.speed;
+		/* calling this overrides forced MDI setting */
+		if (e1000_set_spd_dplx(adapter, speed, cmd->base.duplex)) {
+			ret_val = -EINVAL;
+			goto out;
+		}
+	}
+
+	/* MDI-X => 2; MDI => 1; Auto => 3 */
+	if (cmd->base.eth_tp_mdix_ctrl) {
+		/* fix up the value for auto (3 => 0) as zero is mapped
+		 * internally to auto
+		 */
+		if (cmd->base.eth_tp_mdix_ctrl == ETH_TP_MDI_AUTO)
+			hw->phy.mdix = AUTO_ALL_MODES;
+		else
+			hw->phy.mdix = cmd->base.eth_tp_mdix_ctrl;
+	}
+
+Commit ID: TODO
+Category: Bug
+Explanation: the value stored in advertising is not being used
+Patch: No

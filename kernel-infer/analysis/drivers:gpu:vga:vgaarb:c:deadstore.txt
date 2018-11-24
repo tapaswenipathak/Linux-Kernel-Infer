@@ -1,0 +1,30 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/gpu/vga/vgaarb.c#L199
+Code:
+
+	u32 flags = 0;
+
+	/* Account for "normal" resources to lock. If we decode the legacy,
+	 * counterpart, we need to request it as well
+	 */
+	if ((rsrc & VGA_RSRC_NORMAL_IO) &&
+	    (vgadev->decodes & VGA_RSRC_LEGACY_IO))
+		rsrc |= VGA_RSRC_LEGACY_IO;
+	if ((rsrc & VGA_RSRC_NORMAL_MEM) &&
+	    (vgadev->decodes & VGA_RSRC_LEGACY_MEM))
+		rsrc |= VGA_RSRC_LEGACY_MEM;
+
+	vgaarb_dbg(dev, "%s: %d\n", __func__, rsrc);
+	vgaarb_dbg(dev, "%s: owns: %d\n", __func__, vgadev->owns);
+
+	/* Check what resources we need to acquire */
+	wants = rsrc & ~vgadev->owns;
+
+	/* We already own everything, just mark locked & bye bye */
+	if (wants == 0)
+		goto lock_them;
+
+Commit ID: TODO
+Category: FP
+Explanation: flags is being used inside enable_them goto.
+Patch: No

@@ -1,0 +1,33 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/security/keys/request_key.c#L258
+Code:
+		 * find one that we actually have */
+		switch (cred->jit_keyring) {
+		case KEY_REQKEY_DEFL_DEFAULT:
+		case KEY_REQKEY_DEFL_REQUESTOR_KEYRING:
+			if (cred->request_key_auth) {
+				authkey = cred->request_key_auth;
+				down_read(&authkey->sem);
+				rka = get_request_key_auth(authkey);
+				if (!test_bit(KEY_FLAG_REVOKED,
+					      &authkey->flags))
+					dest_keyring =
+						key_get(rka->dest_keyring);
+				up_read(&authkey->sem);
+				if (dest_keyring) {
+					do_perm_check = false;
+					break;
+				}
+			}
+
+#define __rcu_dereference_protected(p, c, space) \
+({ \
+	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
+	rcu_dereference_sparse(p, space); \
+	((typeof(*p) __force __kernel *)(p)); \
+})
+
+Commit ID: TODO
+Category: Possibly bug
+Explanation: can return null should be null checked before dereferencing
+Patch: No

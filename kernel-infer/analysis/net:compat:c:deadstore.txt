@@ -1,0 +1,22 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/compat.c#L271
+Code:
+	int err = 0, i;
+
+	if (fdnum < fdmax)
+		fdmax = fdnum;
+
+	for (i = 0, cmfptr = (int __user *) CMSG_COMPAT_DATA(cm); i < fdmax; i++, cmfptr++) {
+		int new_fd;
+		err = security_file_receive(fp[i]);
+		if (err)
+			break;
+		err = get_unused_fd_flags(MSG_CMSG_CLOEXEC & kmsg->msg_flags
+					  ? O_CLOEXEC : 0);
+		if (err < 0)
+			break;
+		new_fd = err;
+Commit ID: TODO
+Category: FP
+Explanation: err is storing the error code return from different functions
+Patch: No

@@ -1,0 +1,33 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/gpu/drm/drm_pci.c#L293
+Code:
+	struct pci_dev *pdev = NULL;
+	const struct pci_device_id *pid;
+	int i;
+
+	DRM_DEBUG("\n");
+
+	if (WARN_ON(!(driver->driver_features & DRIVER_LEGACY)))
+		return -EINVAL;
+
+	/* If not using KMS, fall back to stealth mode manual scanning. */
+	INIT_LIST_HEAD(&driver->legacy_dev_list);
+	for (i = 0; pdriver->id_table[i].vendor != 0; i++) {
+		pid = &pdriver->id_table[i];
+
+		/* Loop around setting up a DRM device for each PCI device
+		 * matching our ID and device class.  If we had the internal
+		 * function that pci_get_subsys and pci_get_class used, we'd
+		 * be able to just pass pid in instead of doing a two-stage
+		 * thing.
+		 */
+		pdev = NULL;
+		while ((pdev =
+			pci_get_subsys(pid->vendor, pid->device, pid->subvendor,
+				       pid->subdevice, pdev)) != NULL) {
+			if ((pdev->class & pid->class_mask) != pid->class)
+
+Commit ID: TODO
+Category: FP
+Explanation: pdev is used to iterate over the list
+Patch: No

@@ -1,0 +1,14 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/char/agp/isoch.c#L337
+Code:
+	/* Extract some power-on defaults from the target */
+	pci_read_config_dword(td, bridge->capndx+AGPSTAT, &tstatus);
+	isoch     = (tstatus >> 17) & 0x1;
+	if (isoch == 0)	/* isoch xfers not available, bail out. */
+		return -ENODEV;
+
+	arqsz     = (tstatus >> 13) & 0x7;
+Commit ID: TODO
+Category: BUG
+Explanation:  arqsz is local variable and isn't being referenced after this initialisation
+Patch: In Process

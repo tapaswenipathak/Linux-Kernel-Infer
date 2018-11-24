@@ -1,0 +1,22 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/security/selinux/hooks.c#L221
+Code:
+static void cred_init_security(void)
+{
+	struct cred *cred = (struct cred *) current->real_cred;
+	struct task_security_struct *tsec;
+
+	tsec = kzalloc(sizeof(struct task_security_struct), GFP_KERNEL);
+	if (!tsec)
+		panic("SELinux:  Failed to initialize initial task.\n");
+
+	tsec->osid = tsec->sid = SECINITSID_KERNEL;
+	cred->security = tsec;
+}
+
+panic: https://elixir.bootlin.com/linux/v5.0-rc8/source/kernel/panic.c#L161
+
+Commit ID: TODO
+Category: FP
+Explanation: panic is being called after initialising tsec before dereferencing.
+Patch: No

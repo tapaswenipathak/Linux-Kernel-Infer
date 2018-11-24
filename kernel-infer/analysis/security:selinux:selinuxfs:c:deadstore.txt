@@ -1,0 +1,27 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/security/selinux/selinuxfs.c#L141
+Code:
+char *page = NULL;
+	page = memdup_user_nul(buf, count);
+	if (IS_ERR(page))
+		return PTR_ERR(page);
+
+	length = -EINVAL;
+	if (sscanf(page, "%d", &new_value) != 1)
+		goto out;
+
+	new_value = !!new_value;
+
+	old_value = enforcing_enabled(state);
+	if (new_value != old_value) {
+		length = avc_has_perm(&selinux_state,
+				      current_sid(), SECINITSID_SECURITY,
+				      SECCLASS_SECURITY, SECURITY__SETENFORCE,
+				      NULL);
+		if (length)
+			goto out;
+		audit_log(audit_context(), GFP_KERNEL, AUDIT_MAC_STATUS,
+Commit ID: TODO
+Category: FP
+Explanation: page is holding the memory allocated using the memdup_user_null kapi.
+Patch: No

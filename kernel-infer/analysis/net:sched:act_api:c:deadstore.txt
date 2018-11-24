@@ -1,0 +1,18 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/sched/act_api.c#L201
+Code:
+	unsigned long id = 1;
+
+	mutex_lock(&idrinfo->lock);
+
+	s_i = cb->args[0];
+
+	idr_for_each_entry_ul(idr, p, id) {
+		index++;
+		if (index < s_i)
+			continue;
+
+Commit ID: TODO
+Category: FP
+Explanation: id is parameter requiref for idr_for_each_entry_ul kapi.
+Patch: No

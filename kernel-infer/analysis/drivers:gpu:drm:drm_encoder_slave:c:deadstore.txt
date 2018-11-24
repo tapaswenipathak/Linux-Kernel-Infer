@@ -1,0 +1,25 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/gpu/drm/drm_encoder_slave.c#L60
+Code:
+int err = 0;
+
+client = i2c_new_device(adap, info);
+	if (!client) {
+		err = -ENOMEM;
+		goto fail;
+	}
+
+	if (!client->dev.driver) {
+		err = -ENODEV;
+		goto fail_unregister;
+	}
+
+	module = client->dev.driver->owner;
+	if (!try_module_get(module)) {
+		err = -ENODEV;
+		goto fail_unregister;
+	}
+Commit ID: TODO
+Category: FP
+Explanation: err is holding the error codes. 
+Patch: No

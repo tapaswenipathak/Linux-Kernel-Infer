@@ -1,0 +1,22 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/ipv6/inet6_hashtables.c#L258
+Code:
+	const int sdif = l3mdev_master_ifindex_by_index(net, dif);
+	const __portpair ports = INET_COMBINED_PORTS(inet->inet_dport, lport);
+	const unsigned int hash = inet6_ehashfn(net, daddr, lport, saddr,
+						inet->inet_dport);
+	struct inet_ehash_bucket *head = inet_ehash_bucket(hinfo, hash);
+	spinlock_t *lock = inet_ehash_lockp(hinfo, hash);
+	struct sock *sk2;
+	const struct hlist_nulls_node *node;
+	struct inet_timewait_sock *tw = NULL;
+ 	spin_lock(lock);
+ 	sk_nulls_for_each(sk2, node, &head->chain) {
+		if (sk2->sk_hash != hash)
+			continue;
+ 		if (likely(INET6_MATCH(sk2, net, saddr, daddr, ports,
+				       dif, sdif))) {
+Commit ID: TODO
+Category: FP
+Explanation: sdif sholding the read count.
+Patch: No

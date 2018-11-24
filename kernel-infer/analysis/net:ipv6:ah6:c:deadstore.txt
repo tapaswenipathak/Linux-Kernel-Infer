@@ -1,0 +1,20 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/ipv6/ah6.c#L122
+Code:
+int optlen = 0;
+
+			optlen = opt[off+1]+2;
+			if (len < optlen)
+				goto bad;
+			if (opt[off] & 0x20)
+				memset(&opt[off+2], 0, opt[off+1]);
+			break;
+		}
+
+		off += optlen;
+		len -= optlen;
+Commit ID: TODO
+Category: FP
+Explanation: well, this is optlen can't be a dead store.
+Patch to kernel: No
+Patch to infer: Yes

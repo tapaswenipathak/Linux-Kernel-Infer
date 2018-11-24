@@ -1,0 +1,22 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/usb/host/pci-quirks.c#L150
+Code:
+	u8 rev = 0;
+	pinfo->sb_type.gen = AMD_CHIPSET_UNKNOWN;
+
+	pinfo->smbus_dev = pci_get_device(PCI_VENDOR_ID_ATI,
+			PCI_DEVICE_ID_ATI_SBX00_SMBUS, NULL);
+	if (pinfo->smbus_dev) {
+		rev = pinfo->smbus_dev->revision;
+		if (rev >= 0x10 && rev <= 0x1f)
+			pinfo->sb_type.gen = AMD_CHIPSET_SB600;
+		else if (rev >= 0x30 && rev <= 0x3f)
+			pinfo->sb_type.gen = AMD_CHIPSET_SB700;
+		else if (rev >= 0x40 && rev <= 0x4f)
+			pinfo->sb_type.gen = AMD_CHIPSET_SB800;
+
+Commit ID: TODO
+Category: FP
+Explanation: not sure why infer would give this error
+Patch to kernel: No
+Patch to infer: Yes

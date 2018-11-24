@@ -1,0 +1,16 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/leds/led-triggers.c#L109
+Code:
+char *event = NULL;
+	if (event) {
+		envp[0] = event;
+		envp[1] = NULL;
+		if (kobject_uevent_env(&led_cdev->dev->kobj, KOBJ_CHANGE, envp))
+			dev_err(led_cdev->dev,
+				"%s: Error sending uevent\n", __func__);
+		kfree(event);
+	}
+Commit ID: TODO
+Category: FP
+Explanation: event if assigning value is used in sending the event.
+Patch: No

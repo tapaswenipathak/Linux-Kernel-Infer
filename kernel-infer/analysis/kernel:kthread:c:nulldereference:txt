@@ -1,0 +1,19 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/kernel/kthread.c#L227
+Code:
+	done = xchg(&create->done, NULL);
+	if (!done) {
+		kfree(create);
+		do_exit(-EINTR);
+	}
+
+	if (!self) {
+		create->result = ERR_PTR(-ENOMEM);
+		complete(done);
+		do_exit(-ENOMEM);
+	}
+
+Commit ID: TODO
+Category: FP
+Explanation: done is being null checked and -EINTR returned if done is null
+Patch: No

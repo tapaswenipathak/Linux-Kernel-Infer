@@ -1,0 +1,7 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/cpuidle/governors/menu.c
+Code: 5.0-rc8
+Commit ID:
+Category:
+Explanation:
+Patch:

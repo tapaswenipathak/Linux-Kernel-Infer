@@ -1,0 +1,74 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/ipv6/inet6_hashtables.c#L215
+Code:
+const __portpair ports = INET_COMBINED_PORTS(inet->inet_dport, lport);
+	const unsigned int hash = inet6_ehashfn(net, daddr, lport, saddr,
+						inet->inet_dport);
+	struct inet_ehash_bucket *head = inet_ehash_bucket(hinfo, hash);
+	spinlock_t *lock = inet_ehash_lockp(hinfo, hash);
+	struct sock *sk2;
+	const struct hlist_nulls_node *node;
+	struct inet_timewait_sock *tw = NULL;
+
+	spin_lock(lock);
+
+	sk_nulls_for_each(sk2, node, &head->chain) {
+		if (sk2->sk_hash != hash)
+			continue;
+
+		if (likely(INET6_MATCH(sk2, net, saddr, daddr, ports,
+				       dif, sdif))) {
+			if (sk2->sk_state == TCP_TIME_WAIT) {
+Commit ID: TODO
+Category: FP
+Explanation: ports variable is being passed to function inside if.
+Patch: NA
+
+
+
+-------------------------------------------------------------------------------------
+
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/ipv6/inet6_hashtables.c#L214
+Code:
+	const int sdif = l3mdev_master_ifindex_by_index(net, dif);
+	const __portpair ports = INET_COMBINED_PORTS(inet->inet_dport, lport);
+	const unsigned int hash = inet6_ehashfn(net, daddr, lport, saddr,
+						inet->inet_dport);
+	struct inet_ehash_bucket *head = inet_ehash_bucket(hinfo, hash);
+	spinlock_t *lock = inet_ehash_lockp(hinfo, hash);
+	struct sock *sk2;
+	const struct hlist_nulls_node *node;
+	struct inet_timewait_sock *tw = NULL;
+
+	spin_lock(lock);
+
+	sk_nulls_for_each(sk2, node, &head->chain) {
+		if (sk2->sk_hash != hash)
+			continue;
+
+		if (likely(INET6_MATCH(sk2, net, saddr, daddr, ports,
+				       dif, sdif))) {
+			if (sk2->sk_state == TCP_TIME_WAIT) {
+				tw = inet_twsk(sk2);
+				if (twsk_unique(sk, sk2, twp))
+					break;
+			}
+			goto not_unique;
+		}
+	}
+
+	/* Must record num and sport now. Otherwise we will see
+	 * in hash table socket with a funny identity.
+	 */
+	inet->inet_num = lport;
+	inet->inet_sport = htons(lport);
+	sk->sk_hash = hash;
+	WARN_ON(!sk_unhashed(sk));
+	__sk_nulls_add_node_rcu(sk, &head->chain);
+	if (tw) {
+		sk_nulls_del_node_init_rcu((struct sock *)tw);
+Commit ID: TODO
+Category: FP
+Explanation: sdif is being passed to function call inside if later
+Patch: No

@@ -1,0 +1,41 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/irq/irqdesc.c#L150
+Code:
+	struct irq_desc *desc = container_of(kobj, struct irq_desc, kobj);
+	int cpu, irq = desc->irq_data.irq;
+	ssize_t ret = 0;
+	char *p = "";
+ 	for_each_possible_cpu(cpu) {
+		unsigned int c = kstat_irqs_cpu(irq, cpu);
+ 		ret += scnprintf(buf + ret, PAGE_SIZE - ret, "%s%u", p, c);
+		p = ",";
+	}
+ 	ret += scnprintf(buf + ret, PAGE_SIZE - ret, "\n");
+	return ret;
+Commit ID: TODO
+Category: FP
+Explanation: holds the scnprintf return value.
+Patch: No
+
+-------------------
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/irq/irqdesc.c#L150
+Code:
+	struct irq_desc *desc = container_of(kobj, struct irq_desc, kobj);
+	int cpu, irq = desc->irq_data.irq;
+	ssize_t ret = 0;
+	char *p = "";
+
+	for_each_possible_cpu(cpu) {
+		unsigned int c = kstat_irqs_cpu(irq, cpu);
+
+		ret += scnprintf(buf + ret, PAGE_SIZE - ret, "%s%u", p, c);
+		p = ",";
+	}
+
+	ret += scnprintf(buf + ret, PAGE_SIZE - ret, "\n");
+	return ret;
+Commit ID: TODO
+Category: FP
+Explanation: ret holds scnprintf character count
+Patch: No

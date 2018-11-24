@@ -1,0 +1,27 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/dma-buf/dma-fence-array.c#L61
+Code:
+	struct dma_fence_array *array = to_dma_fence_array(fence);
+	unsigned i;
+
+	for (i = 0; i < array->num_fences; ++i)
+		dma_fence_put(array->fences[i]);
+
+	kfree(array->fences);
+	dma_fence_free(fence);
+
+to_dma_fence_array definition:
+
+static inline struct dma_fence_array *
+to_dma_fence_array(struct dma_fence *fence)
+{
+	if (fence->ops != &dma_fence_array_ops)
+		return NULL;
+
+	return container_of(fence, struct dma_fence_array, base);
+}
+Commit ID: TODO
+Category: FP
+Explanation: to_dma_fence_array can return null, there should be a null check before
+dereferencing the variable.
+Patch: In process

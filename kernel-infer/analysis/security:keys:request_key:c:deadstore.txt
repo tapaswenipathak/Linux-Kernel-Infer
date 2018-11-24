@@ -1,0 +1,30 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/security/keys/request_key.c#L99
+Code:
+	const struct cred *cred = current_cred();
+
+	const struct cred *cred = current_cred();
+	key_serial_t prkey, sskey;
+	struct key *key = cons->key, *authkey = cons->authkey, *keyring,
+		*session;
+	char *argv[9], *envp[3], uid_str[12], gid_str[12];
+	char key_str[12], keyring_str[3][12];
+	char desc[20];
+	int ret, i;
+
+	kenter("{%d},{%d},%s", key->serial, authkey->serial, op);
+
+	ret = install_user_keyrings();
+	if (ret < 0)
+		goto error_alloc;
+
+	/* allocate a new session keyring */
+	sprintf(desc, "_req.%u", key->serial);
+
+	cred = get_current_cred();
+Commit ID: TODO
+Category: Bug
+Explanation: Well, this call to current_cred can be removed and assigned a null. This
+will save a function call as in next few lines cred is being assigned  value from
+get_current_cred();
+Patch: In process

@@ -1,0 +1,14 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/hid/hid-ntrig.c#L162
+Code:
+	if (ret == 8) {
+		ret = ntrig_version_string(&data[2], buf);
+
+		hid_info(hdev, "Firmware version: %s (%02x%02x %02x%02x)\n",
+			 buf, data[2], data[3], data[4], data[5]);
+	}
+Commit ID: TODO
+Category: Bug
+Explanation: ret storing the value of ntrig_version_string is not used further so need
+not store the return value of ntrig_version_string.
+Patch: In process

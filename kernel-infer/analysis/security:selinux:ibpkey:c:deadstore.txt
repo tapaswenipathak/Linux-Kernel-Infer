@@ -1,0 +1,24 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/security/selinux/ibpkey.c#L144
+Code:
+nt ret;
+	struct sel_ib_pkey *pkey;
+	struct sel_ib_pkey *new = NULL;
+	unsigned long flags;
+
+	spin_lock_irqsave(&sel_ib_pkey_lock, flags);
+	pkey = sel_ib_pkey_find(subnet_prefix, pkey_num);
+	if (pkey) {
+		*sid = pkey->psec.sid;
+		spin_unlock_irqrestore(&sel_ib_pkey_lock, flags);
+		return 0;
+	}
+
+	ret = security_ib_pkey_sid(&selinux_state, subnet_prefix, pkey_num,
+				   sid);
+	if (ret)
+		goto out;
+Commit ID: TODO
+Category: FP
+Explanation: new is storing the new node allocated memory using kzalloc.
+Patch: No

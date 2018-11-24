@@ -1,0 +1,24 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/ipv6/netfilter/nf_defrag_ipv6_hooks.c#L108
+Code:
+	int ret = 0;
+
+	ret = nf_ct_frag6_init();
+	if (ret < 0) {
+		pr_err("nf_defrag_ipv6: can't initialize frag6.\n");
+		return ret;
+	}
+	ret = register_pernet_subsys(&defrag6_net_ops);
+	if (ret < 0) {
+		pr_err("nf_defrag_ipv6: can't register pernet ops\n");
+		goto cleanup_frag6;
+	}
+	return ret;
+
+cleanup_frag6:
+	nf_ct_frag6_cleanup();
+	return ret;
+Commit ID: TODO
+Category: FP
+Explanation: ret holds the error codes for this function.
+Patch: No

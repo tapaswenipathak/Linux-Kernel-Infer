@@ -1,0 +1,18 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/crypto/crypto_null.c#L194
+Code:
+	int ret = 0;
+
+	ret = crypto_register_algs(null_algs, ARRAY_SIZE(null_algs));
+	if (ret < 0)
+		goto out;
+
+	ret = crypto_register_shash(&digest_null);
+	if (ret < 0)
+		goto out_unregister_algs;
+
+	return 0;
+Commit ID: TODO
+Category: FP
+Explanation: ret is holding the error codes and return value of this function.
+Patch: No

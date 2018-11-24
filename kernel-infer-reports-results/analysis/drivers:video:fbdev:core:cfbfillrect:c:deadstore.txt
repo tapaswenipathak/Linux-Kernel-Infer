@@ -1,0 +1,29 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/video/fbdev/core/cfbfillrect.c#L333
+Code:
+		int right, r;
+		void (*fill_op)(struct fb_info *p, unsigned long __iomem *dst,
+				int dst_idx, unsigned long pat, int left,
+				int right, unsigned n, int bits) = NULL;
+#ifdef __LITTLE_ENDIAN
+		right = left;
+		left = bpp - right;
+#else
+		right = bpp - left;
+#endif
+		switch (rect->rop) {
+		case ROP_XOR:
+			fill_op = bitfill_unaligned_rev;
+			break;
+		case ROP_COPY:
+			fill_op = bitfill_unaligned;
+			break;
+		default:
+			printk(KERN_ERR "cfb_fillrect(): unknown rop, defaulting to ROP_COPY\n");
+			fill_op = bitfill_unaligned;
+			break;
+		}
+Commit ID: TODO
+Category: FP
+Explanation: fill_op is of function pointer type, [pattenr for infer fp]
+Patch: No

@@ -1,0 +1,32 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/pps/kapi.c#L82
+Code:
+drivers/pps/kapi.c:88: error: DEAD_STORE
+  The value written to &err is never used.
+  86.   		pr_err("%s: unsupported default parameters\n",
+  87.   					info->name);
+  88. > 		err = -EINVAL;
+  89.   		goto pps_register_source_exit;
+  90.   	}
+
+drivers/pps/kapi.c:94: error: DEAD_STORE
+  The value written to &err is never used.
+  92.   		pr_err("%s: unspecified time format\n",
+  93.   					info->name);
+  94. > 		err = -EINVAL;
+  95.   		goto pps_register_source_exit;
+  96.   	}
+
+drivers/pps/kapi.c:101: error: DEAD_STORE
+  The value written to &err is never used.
+  99.   	pps = kzalloc(sizeof(struct pps_device), GFP_KERNEL);
+  100.   	if (pps == NULL) {
+  101. > 		err = -ENOMEM;
+  102.   		goto pps_register_source_exit;
+  103.   	}
+
+
+Commit ID: TODO
+Category: FP
+Explanation: computationg is being performed based on err codes.
+Patch: No

@@ -1,0 +1,23 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/gpu/drm/i915/intel_i2c.c#L324
+Code:
+
+	add_wait_queue(&dev_priv->gmbus_wait_queue, &wait);
+	I915_WRITE_FW(GMBUS4, irq_en);
+
+	status |= GMBUS_SATOER;
+	ret = wait_for_us((gmbus2 = I915_READ_FW(GMBUS2)) & status, 2);
+	if (ret)
+		ret = wait_for((gmbus2 = I915_READ_FW(GMBUS2)) & status, 50);
+
+	I915_WRITE_FW(GMBUS4, 0);
+	remove_wait_queue(&dev_priv->gmbus_wait_queue, &wait);
+
+	if (gmbus2 & GMBUS_SATOER)
+		return -ENXIO;
+
+Commit ID: TODO
+Category: FP
+Explanation: this can be a nice pattern to observe as there no timeout variable
+here
+Patch: No

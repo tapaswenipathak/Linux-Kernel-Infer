@@ -1,0 +1,71 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/sched/cpuacct.c#L91
+Code:
+static void cpuacct_css_free(struct cgroup_subsys_state *css)
+{
+	struct cpuacct *ca = css_ca(css);
+
+	free_percpu(ca->cpustat);
+	free_percpu(ca->cpuusage);
+	kfree(ca);
+}
+
+css_ca definition:
+static inline struct cpuacct *css_ca(struct cgroup_subsys_state *css)
+{
+	return css ? container_of(css, struct cpuacct, css) : NULL;
+}
+Commit ID: TODO
+Category: Bug
+Explanation: css_ca can definitely return null and should be having a null check before
+being dereferenced.
+Patch: In process
+
+----------------------
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/sched/cpuacct.c#L158
+Code:
+	struct cpuacct *ca = css_ca(css);
+	u64 totalcpuusage = 0;
+	int i;
+
+	for_each_possible_cpu(i)
+		totalcpuusage += cpuacct_cpuusage_read(ca, i, index);
+
+	return totalcpuusage;
+
+
+css_ca function definition:
+static inline struct cpuacct *css_ca(struct cgroup_subsys_state *css)
+{
+	return css ? container_of(css, struct cpuacct, css) : NULL;
+}
+Commit ID: TODO
+Category: Bug
+Explanation: css_ca can return null so ca should be null checked before passing to cpuacct_cpuusage_read
+as
+cpuacct_cpuusage_read is dereferencing it without null check like below
+
+static u64 cpuacct_cpuusage_read(struct cpuacct *ca, int cpu,
+				 enum cpuacct_stat_index index)
+{
+	struct cpuacct_usage *cpuusage = per_cpu_ptr(ca->cpuusage, cpu);
+	u64 data;
+
+	/*
+	 * We allow index == CPUACCT_STAT_NSTATS here to read
+	 * the sum of suages.
+	 */
+	BUG_ON(index > CPUACCT_STAT_NSTATS);
+Patch: In process
+
+--------------------
+ Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/sched/cpuacct.c#L136
+Code:
+	struct cpuacct_usage *cpuusage = per_cpu_ptr(ca->cpuusage, cpu);
+	int i;
+Commit ID: TODO
+Category: Bug
+Explanation: per_cpu_ptr can return null, should be null checked before dereferencing
+Patch: In process

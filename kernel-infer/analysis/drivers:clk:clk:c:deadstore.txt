@@ -1,0 +1,42 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/clk/clk.c#L210
+Code:
+	bool ret = false;
+	if (!core->ops->is_enabled)
+		return core->enable_count;
+	if (core->dev) {
+		pm_runtime_get_noresume(core->dev);
+		if (!pm_runtime_active(core->dev)) {
+			ret = false;
+			goto done;
+		}
+	}
+ 	ret = core->ops->is_enabled(core->hw);
+done:
+	if (core->dev)
+		pm_runtime_put(core->dev);
+ 	return ret;
+Commit ID: TODO
+Category: FP
+Explanation: ret holds true false based on if core is enabled or not
+Patch: No
+
+-----------------------
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/clk/clk.c#L98
+Code:
+static int clk_pm_runtime_get(struct clk_core *core)
+{
+	int ret = 0;
+
+	if (!core->dev)
+		return 0;
+
+	ret = pm_runtime_get_sync(core->dev);
+	return ret < 0 ? ret : 0;
+}
+Commit ID: TODO
+Category: FP
+Explanation: ret is storing the return value from the function.
+Patch to kernel: No
+Patch to infer: Yes

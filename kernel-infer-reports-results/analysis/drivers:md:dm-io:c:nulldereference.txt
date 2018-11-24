@@ -1,0 +1,37 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/md/dm-io.c#L315
+Code:
+	struct request_queue *q = bdev_get_queue(where->bdev);
+	unsigned short logical_block_size = queue_logical_block_size(q);
+	sector_t num_sectors;
+	unsigned int uninitialized_var(special_cmd_max_sectors);
+
+	/*
+	 * Reject unsupported discard and write same requests.
+	 */
+	if (op == REQ_OP_DISCARD)
+		special_cmd_max_sectors = q->limits.max_discard_sectors;
+	else if (op == REQ_OP_WRITE_ZEROES)
+		special_cmd_max_sectors = q->limits.max_write_zeroes_sectors;
+	else if (op == REQ_OP_WRITE_SAME)
+		special_cmd_max_sectors = q->limits.max_write_same_sectors;
+	if ((op == REQ_OP_DISCARD || op == REQ_OP_WRITE_ZEROES ||
+	     op == REQ_OP_WRITE_SAME) && special_cmd_max_sectors == 0) {
+		atomic_inc(&io->count);
+		dec_count(io, region, BLK_STS_NOTSUPP);
+		return;
+	}
+
+
+static inline struct request_queue *bdev_get_queue(struct block_device *bdev)
+{
+	return bdev->bd_disk->queue;	/* this is never NULL */
+}
+
+Commit ID: TODO
+Category: FP
+Explanation: op is storing limits of the queue being assgined from bdev_get_queue
+bdev_get_queue can never return null as per the function definition comment
+Patch: NO
+
+There are multiple reports of this type

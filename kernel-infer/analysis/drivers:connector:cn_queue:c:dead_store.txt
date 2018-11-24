@@ -1,0 +1,24 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/connector/cn_queue.c#L160
+Code:
+	struct cn_callback_entry *cbq, *n;
+
+	spin_lock_bh(&dev->queue_lock);
+	list_for_each_entry_safe(cbq, n, &dev->queue_list, callback_entry)
+		list_del(&cbq->callback_entry);
+	spin_unlock_bh(&dev->queue_lock);
+
+	while (atomic_read(&dev->refcnt)) {
+		pr_info("Waiting for %s to become free: refcnt=%d.\n",
+		       dev->name, atomic_read(&dev->refcnt));
+		msleep(1000);
+	}
+
+	kfree(dev);
+	dev = NULL;
+Commit ID: TODO
+Category: Bug
+Explanation: dev isn't allocated by kmalloc in any of the calls of cn_queue_free_dev,
+so ideally dev shouldn't be freeed using kfree may be that's why it is been assigned
+NULL.
+Patch: In process

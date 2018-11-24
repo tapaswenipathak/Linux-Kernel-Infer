@@ -1,0 +1,20 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/ipv6/xfrm6_input.c#L89
+Code:
+	int i = 0;
+
+	if (secpath_set(skb)) {
+		XFRM_INC_STATS(net, LINUX_MIB_XFRMINERROR);
+		goto drop;
+	}
+
+	if (1 + skb->sp->len == XFRM_MAX_DEPTH) {
+		XFRM_INC_STATS(net, LINUX_MIB_XFRMINBUFFERERROR);
+		goto drop;
+	}
+
+	for (i = 0; i < 3; i++) {
+Commit ID: TODO
+Category: FP
+Explanation: i is variable later used in for loop.
+Patch: No

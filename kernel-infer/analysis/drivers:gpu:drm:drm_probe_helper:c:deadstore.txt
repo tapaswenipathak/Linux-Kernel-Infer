@@ -1,0 +1,22 @@
+
+Patch: Node:	Code:
+	enum drm_mode_status ret = MODE_OK;	enum drm_mode_status ret = MODE_OK;
+ 	ret = drm_connector_mode_valid(connector, mode);
+	if (ret != MODE_OK)
+		return ret;
+ 	/* Step 2: Validate against encoders and crtcs */
+	drm_connector_for_each_possible_encoder(connector, encoder, i) {
+		struct drm_crtc *crtc;
+ 		ret = drm_encoder_mode_valid(encoder, mode);
+		if (ret != MODE_OK) {
+			/* No point in continuing for crtc check as this encoder
+			 * will not accept the mode anyway. If all encoders
+			 * reject the mode then, at exit, ret will not be
+			 * MODE_OK. */
+			continue;
+		}
+ Commit ID: TODO	Commit ID: TODO
+Category: FP	Category: FP
+Explanation: ret is holding the mode basically error codes, if erroneous the function	Explanation: ret is holding the error codes and if successful for this method.
+will return with ret.
+Patch: No

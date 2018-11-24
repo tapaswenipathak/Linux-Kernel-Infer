@@ -1,0 +1,38 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/gpu/drm/i915/intel_dp_aux_backlight.c#L84
+Code:
+	struct intel_dp *intel_dp = enc_to_intel_dp(&connector->encoder->base);
+	u8 vals[2] = { 0x0 };
+
+	vals[0] = level;
+
+	/* Write the MSB and/or LSB */
+	if (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_BYTE_COUNT) {
+		vals[0] = (level & 0xFF00) >> 8;
+		vals[1] = (level & 0xFF);
+	}
+
+intel_dp function definition:
+
+static inline struct intel_dp *enc_to_intel_dp(struct drm_encoder *encoder)
+{
+	return &enc_to_dig_port(encoder)->dp;
+}
+
+enc_to_dig_port definition:
+static inline struct intel_digital_port *
+enc_to_dig_port(struct drm_encoder *encoder)
+{
+	struct intel_encoder *intel_encoder = to_intel_encoder(encoder);
+
+	if (intel_encoder_is_dig_port(intel_encoder))
+		return container_of(encoder, struct intel_digital_port,
+				    base.base);
+	else
+		return NULL;
+}
+Commit ID: TODO
+Category: Bug
+Explanation: enc_to_dig_port is the last method called which can return null so there
+should be a null check before dereferencing intel_dp variable.
+Patch: In process

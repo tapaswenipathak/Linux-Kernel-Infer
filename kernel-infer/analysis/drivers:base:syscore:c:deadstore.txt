@@ -1,0 +1,46 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/base/syscore.c#L50
+Code:
+int syscore_suspend(void)
+{
+	struct syscore_ops *ops;
+	int ret = 0;
+
+	trace_suspend_resume(TPS("syscore_suspend"), 0, true);
+	pr_debug("Checking wakeup interrupts\n");
+
+	/* Return error code if there are any wakeup interrupts pending. */
+	if (pm_wakeup_pending())
+		return -EBUSY;
+
+	WARN_ONCE(!irqs_disabled(),
+		"Interrupts enabled before system core suspend.\n");
+
+	list_for_each_entry_reverse(ops, &syscore_ops_list, node)
+		if (ops->suspend) {
+			if (initcall_debug)
+				pr_info("PM: Calling %pF\n", ops->suspend);
+			ret = ops->suspend();
+			if (ret)
+				goto err_out;
+			WARN_ONCE(!irqs_disabled(),
+				"Interrupts enabled after %pF\n", ops->suspend);
+		}
+
+	trace_suspend_resume(TPS("syscore_suspend"), 0, false);
+	return 0;
+
+ err_out:
+	pr_err("PM: System core suspend callback %pF failed.\n", ops->suspend);
+
+	list_for_each_entry_continue(ops, &syscore_ops_list, node)
+		if (ops->resume)
+			ops->resume();
+
+	return ret;
+}
+Commit ID: TODO
+Category: FP
+Explanation: ret stores the value returned if error occurred while suspending the system
+and only printed in goto err_out is called.
+Patch: No

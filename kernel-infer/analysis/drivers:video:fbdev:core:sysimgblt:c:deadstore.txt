@@ -1,0 +1,49 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/video/fbdev/core/sysimgblt.c#L194
+Code:
+	const int *tab = NULL;
+	int i, j, k;
+ 	switch (bpp) {
+	case 8:
+		tab = fb_be_math(p) ? cfb_tab8_be : cfb_tab8_le;
+		break;
+Commit ID: TODO
+Category: FP
+Explanation: tab is holding the valye from fb_be_math endianess check.
+Patch: No
+-----------------
+
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/video/fbdev/core/sysimgblt.c#L57
+Code:
+	u32 color = 0, val, shift;
+	int i, n, bpp = p->var.bits_per_pixel;
+	u32 null_bits = 32 - bpp;
+	u32 *palette = (u32 *) p->pseudo_palette;
+	const u8 *src = image->data;
+
+	dst2 = dst1;
+	for (i = image->height; i--; ) {
+		n = image->width;
+		dst = dst1;
+		shift = 0;
+		val = 0;
+
+		if (start_index) {
+			u32 start_mask = ~(FB_SHIFT_HIGH(p, ~(u32)0,
+							 start_index));
+			val = *dst & start_mask;
+			shift = start_index;
+		}
+		while (n--) {
+			if (p->fix.visual == FB_VISUAL_TRUECOLOR ||
+			    p->fix.visual == FB_VISUAL_DIRECTCOLOR )
+				color = palette[*src];
+			else
+				color = *src;
+			color <<= FB_LEFT_POS(p, bpp);
+
+Commit ID: TODO
+Category: FP
+Explanation: color is the keeping the palette value stored at different indexes.
+Patch: No

@@ -1,0 +1,21 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/netlabel/netlabel_calipso.c#L88
+Code:
+	int ret_val;
+	struct calipso_doi *doi_def = NULL;
+
+	doi_def = kmalloc(sizeof(*doi_def), GFP_KERNEL);
+	if (!doi_def)
+		return -ENOMEM;
+	doi_def->type = CALIPSO_MAP_PASS;
+	doi_def->doi = nla_get_u32(info->attrs[NLBL_CALIPSO_A_DOI]);
+	ret_val = calipso_doi_add(doi_def, audit_info);
+	if (ret_val != 0)
+		calipso_doi_free(doi_def);
+
+	return ret_val;
+Commit ID: TODO
+Category: FP
+Explanation: doi_def is pointer of type struct calipso_doi and is further allocated memory
+using kmalloc and also checked for null check before derefrencing.
+Patch: No

@@ -1,0 +1,32 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/i2c/algos/i2c-algo-bit.c#L94
+Code:
+	unsigned long start;
+
+	setscl(adap, 1);
+
+	/* Not all adapters have scl sense line... */
+	if (!adap->getscl)
+		goto done;
+
+	start = jiffies;
+	while (!getscl(adap)) {
+		/* This hw knows how to read the clock line, so we wait
+		 * until it actually gets high.  This is safer as some
+		 * chips may hold it low ("clock stretching") while they
+		 * are processing data internally.
+		 */
+		if (time_after(jiffies, start + adap->timeout)) {
+			/* Test one last time, as we may have been preempted
+			 * between last check and timeout test.
+			 */
+			if (getscl(adap))
+				break;
+			return -ETIMEDOUT;
+		}
+		cpu_relax();
+Commit ID: TODO
+Category: FP
+Explanation: the value stored in start is being used timeout inside if of time_after
+calculation.
+Patch: No

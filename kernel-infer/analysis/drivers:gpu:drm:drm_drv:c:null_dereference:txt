@@ -1,0 +1,24 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/gpu/drm/drm_drv.c#L161
+Code:
+	struct drm_minor **slot, *minor;
+	unsigned long flags;
+
+	slot = drm_minor_get_slot(dev, type);
+	minor = *slot;
+	if (!minor)
+		return;
+
+	put_device(minor->kdev);
+
+	spin_lock_irqsave(&drm_minor_lock, flags);
+	idr_remove(&drm_minors_idr, minor->index);
+	spin_unlock_irqrestore(&drm_minor_lock, flags);
+
+	kfree(minor);
+	*slot = NULL;
+Commit ID: TODO
+Category: Possibly FP
+Explanation: seems fine as after dereferencing the address the variable is being
+checked and return if null 
+Patch: In Process

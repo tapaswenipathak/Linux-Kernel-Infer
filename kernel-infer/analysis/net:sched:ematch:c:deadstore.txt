@@ -1,0 +1,21 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/sched/ematch.c#L98
+Code:
+truct tcf_ematch_ops *e = NULL;
+
+	read_lock(&ematch_mod_lock);
+	list_for_each_entry(e, &ematch_ops, link) {
+		if (kind == e->kind) {
+			if (!try_module_get(e->owner))
+				e = NULL;
+			read_unlock(&ematch_mod_lock);
+			return e;
+		}
+	}
+	read_unlock(&ematch_mod_lock);
+
+	return NULL;
+Commit ID: TODO
+Category: FP
+Explanation: e is being used as of variable of tcf_ematch_ops struct type.
+Patch: No

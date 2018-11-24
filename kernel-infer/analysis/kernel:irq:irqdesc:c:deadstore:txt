@@ -1,0 +1,19 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/kernel/irq/irqdesc.c#L168
+Code:
+
+	struct irq_desc *desc = container_of(kobj, struct irq_desc, kobj);
+	ssize_t ret = 0;
+
+	raw_spin_lock_irq(&desc->lock);
+	if (desc->irq_data.chip && desc->irq_data.chip->name) {
+		ret = scnprintf(buf, PAGE_SIZE, "%s\n",
+				desc->irq_data.chip->name);
+	}
+	raw_spin_unlock_irq(&desc->lock);
+
+	return ret;
+Commit ID: TODO
+Category: FP
+Explanation: ret is the return value of the function.
+Patch: No

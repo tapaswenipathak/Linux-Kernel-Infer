@@ -1,0 +1,32 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/lib/ioremap.c#L170
+Code:
+	pgd_t *pgd;
+	unsigned long start;
+	unsigned long next;
+	int err;
+
+	might_sleep();
+	BUG_ON(addr >= end);
+
+	start = addr;
+	phys_addr -= addr;
+	pgd = pgd_offset_k(addr);
+	do {
+		next = pgd_addr_end(addr, end);
+		err = ioremap_p4d_range(pgd, addr, next, phys_addr+addr, prot);
+		if (err)
+			break;
+	} while (pgd++, addr = next, addr != end);
+
+	flush_cache_vmap(start, end);
+
+flush_cache_vmap definition:
+#define flush_cache_vmap(start, end)		do { } while (0)
+
+Commit ID: TODO
+Category: FP
+Explanation: flush_cache_vmap defintions
+https://elixir.bootlin.com/linux/v4.20-rc3/ident/flush_cache_vmap
+it iterates from start to end variable value.
+Patch: No

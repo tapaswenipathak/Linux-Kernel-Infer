@@ -1,0 +1,33 @@
+Type: NULL_DREFERENCE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/cgroup/freezer.c#L108
+Code:
+	struct freezer *freezer = css_freezer(css);
+	struct freezer *parent = parent_freezer(freezer);
+
+	mutex_lock(&freezer_mutex);
+
+	freezer->state |= CGROUP_FREEZER_ONLINE;
+
+	if (parent && (parent->state & CGROUP_FREEZING)) {
+		freezer->state |= CGROUP_FREEZING_PARENT | CGROUP_FROZEN;
+		atomic_inc(&system_freezing_cnt);
+	}
+
+	mutex_unlock(&freezer_mutex);
+
+freezer defintion:
+static struct freezer *parent_freezer(struct freezer *freezer)
+{
+	return css_freezer(freezer->css.parent);
+}
+
+css_freezer definition:
+static inline struct freezer *css_freezer(struct cgroup_subsys_state *css)
+{
+	return css ? container_of(css, struct freezer, css) : NULL;
+}
+Commit ID: TODO
+Category: Bug
+Explanation: css_freezer can definitely return null so there should be a null check
+before dereferencing freezer.
+Patch: In process

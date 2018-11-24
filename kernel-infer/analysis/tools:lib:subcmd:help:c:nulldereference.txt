@@ -1,4 +1,23 @@
 Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/tools/lib/subcmd/help.c#L209
+Code:
+		path = paths = strdup(env_path);
+		while (1) {
+			if ((colon = strchr(path, ':')))
+				*colon = 0;
+			if (!exec_path || strcmp(path, exec_path))
+				list_commands_in_dir(other_cmds, path, prefix);
+ 			if (!colon)
+				break;
+			path = colon + 1;
+		}
+Commit ID: TODO
+Category: Bug
+Explanation: strdup may not create a string and can return null.
+Patch: In process
+ ---------------------
+
+Type: NULL_DEREFERENCE
 Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/tools/lib/subcmd/help.c#L20
 Code:
 ent->len = len;

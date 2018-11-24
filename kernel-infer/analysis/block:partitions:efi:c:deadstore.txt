@@ -1,0 +1,67 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/block/partitions/efi.c#L307
+Code:
+	if (read_lba(state, le64_to_cpu(gpt->partition_entry_lba),
+			(u8 *) pte, count) < count) {
+		kfree(pte);
+                pte=NULL;
+		return NULL;
+	}
+	return pte;
+}
+Commit ID: TODO
+Category: FP
+Explanation: pte is the return value of the function
+Patch: No
+-------------------------------------------------------------------------------------
+
+Type: DEAD_STORE
+Where:https://elixir.bootlin.com/linux/v5.0-rc8/source/block/partitions/efi.c#L190
+Code:
+	uint32_t sz = 0;
+	int i, part = 0, ret = 0; /* invalid by default */
+
+	if (!mbr || le16_to_cpu(mbr->signature) != MSDOS_MBR_SIGNATURE)
+		goto done;
+
+	for (i = 0; i < 4; i++) {
+		ret = pmbr_part_valid(&mbr->partition_record[i]);
+		if (ret == GPT_MBR_PROTECTIVE) {
+			part = i;
+			/*
+			 * Ok, we at least know that there's a protective MBR,
+			 * now check if there are other partition types for
+			 * hybrid MBR.
+			 */
+			goto check_hybrid;
+
+Commit ID: TODO
+Category: FP
+Explanation: check_hybrid is using sz
+Patch: No
+
+
+-------------------------------------------------------------------------------------
+
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/block/partitions/efi.c#L334
+Code:
+	gpt_header *gpt;
+	unsigned ssz = bdev_logical_block_size(state->bdev);
+
+	gpt = kmalloc(ssz, GFP_KERNEL);
+	if (!gpt)
+		return NULL;
+
+	if (read_lba(state, lba, (u8 *) gpt, ssz) < ssz) {
+		kfree(gpt);
+                gpt=NULL;
+		return NULL;
+	}
+
+	return gpt;
+Commit ID: TODO
+Category: FP
+Explanation: gpt is being allocated memory using kmalloc and types to ut8 and passed
+in function
+Patch: No

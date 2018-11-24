@@ -1,0 +1,28 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/gpu/drm/i915/intel_dp_mst.c#L119
+Code:
+	old_conn_state = drm_atomic_get_old_connector_state(state, connector);
+	old_crtc = old_conn_state->crtc;
+	if (!old_crtc)
+		return ret;
+
+
+drm_atomic_get_old_connector_state definition:
+
+static inline struct drm_connector_state *
+drm_atomic_get_old_connector_state(struct drm_atomic_state *state,
+				   struct drm_connector *connector)
+{
+	int index = drm_connector_index(connector);
+
+	if (index >= state->num_connector)
+		return NULL;
+
+	return state->connectors[index].old_state;
+}
+
+Commit ID: TODO
+Category: FP
+Explanation: drm_atomic_get_old_connector_state can clearly return null so variable
+should have a null check before dereferencing.
+Patch: In process

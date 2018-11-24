@@ -1,0 +1,18 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/lib/kobject_uevent.c#L117
+Code:
+	struct kobj_uevent_env *env = NULL;
+	const char *next, *buf_end, *key;
+	int key_len;
+	int r = -EINVAL;
+
+	if (count && (buf[count - 1] == '\n' || buf[count - 1] == '\0'))
+		count--;
+
+	if (!count)
+		return -EINVAL;
+Commit ID: TODO
+Category: FP
+Explanation: again holds the error values for the function
+Patch to kernel: No
+Patch to infer: Yes

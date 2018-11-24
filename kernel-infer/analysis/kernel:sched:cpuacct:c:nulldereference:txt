@@ -1,0 +1,21 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/kernel/sched/cpuacct.c#L198
+Code:
+	struct cpuacct *ca = css_ca(css);
+	int cpu;
+
+	/*
+	 * Only allow '0' here to do a reset.
+	 */
+	if (val)
+		return -EINVAL;
+
+	for_each_possible_cpu(cpu)
+		cpuacct_cpuusage_write(ca, cpu, 0);
+
+	return 0;
+Commit ID: TODO
+Category: Bug
+Explanation: css_ca can return null check definition, ca should be null checked
+before dereferencing.
+Patch: In process

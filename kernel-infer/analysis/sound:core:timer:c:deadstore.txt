@@ -1,0 +1,19 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/sound/core/timer.c#L137
+Code:
+	struct snd_timer *timer = NULL;
+
+	list_for_each_entry(timer, &snd_timer_list, device_list) {
+		if (timer->tmr_class != tid->dev_class)
+			continue;
+		if ((timer->tmr_class == SNDRV_TIMER_CLASS_CARD ||
+		     timer->tmr_class == SNDRV_TIMER_CLASS_PCM) &&
+		    (timer->card == NULL ||
+		     timer->card->number != tid->card))
+			continue;
+		if (timer->tmr_device != tid->device)
+
+Commit ID: TODO
+Category: FP
+Explanation: timer of type snd_timer is required in list_for_each_entry.
+Patch: No

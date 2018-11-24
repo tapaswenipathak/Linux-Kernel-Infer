@@ -1,0 +1,34 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/net/ethernet/intel/e1000e/phy.c#L62
+Code:
+	struct e1000_phy_info *phy = &hw->phy;
+	s32 ret_val = 0;
+	u16 phy_id;
+	u16 retry_count = 0;
+
+	if (!phy->ops.read_reg)
+		return 0;
+
+	while (retry_count < 2) {
+		ret_val = e1e_rphy(hw, MII_PHYSID1, &phy_id);
+		if (ret_val)
+			return ret_val;
+
+		phy->id = (u32)(phy_id << 16);
+		usleep_range(20, 40);
+		ret_val = e1e_rphy(hw, MII_PHYSID2, &phy_id);
+		if (ret_val)
+			return ret_val;
+
+		phy->id |= (u32)(phy_id & PHY_REVISION_MASK);
+		phy->revision = (u32)(phy_id & ~PHY_REVISION_MASK);
+
+		if (phy->id != 0 && phy->id != PHY_REVISION_MASK)
+			return 0;
+
+		retry_count++;
+	}
+Commit ID: TODO
+Category: FP
+Explanation: ret_val is storing the error codes.
+Patch: No

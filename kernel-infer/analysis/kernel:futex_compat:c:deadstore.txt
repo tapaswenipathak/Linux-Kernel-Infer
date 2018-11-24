@@ -1,0 +1,11 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/futex_compat.c#L103
+Code:
+if (rc)
+	return;
+uentry = next_uentry;
+entry = next_entry;
+Commit ID: TODO
+Category: Bug
+Explanation: uentry is not used per assignment in the above line, can be dropped.
+Patch: In process

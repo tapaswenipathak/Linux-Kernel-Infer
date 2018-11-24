@@ -1,0 +1,9 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/gpu/drm/drm_modes.c#L252
+Code:
+		vback_porch = vsyncandback_porch - vsync;
+Commit ID: TODO
+Category: Bug
+Explanation: vback_porch uses numbers of lines in back porch and the variable is not
+used futher.
+Patch: In process
