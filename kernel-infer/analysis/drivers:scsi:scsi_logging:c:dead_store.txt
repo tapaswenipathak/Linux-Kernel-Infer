@@ -1,0 +1,27 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/scsi/scsi_logging.c
+Code:
+	struct scsi_log_buf *buf;
+	unsigned long map_bits = sizeof(buf->buffer) / SCSI_LOG_BUFSIZE;
+	unsigned long idx = 0;
+
+	preempt_disable();
+	buf = this_cpu_ptr(&scsi_format_log);
+	idx = find_first_zero_bit(&buf->map, map_bits);
+	if (likely(idx < map_bits)) {
+		while (test_and_set_bit(idx, &buf->map)) {
+			idx = find_next_zero_bit(&buf->map, map_bits, idx);
+			if (idx >= map_bits)
+				break;
+		}
+	}
+	if (WARN_ON(idx >= map_bits)) {
+		preempt_enable();
+		return NULL;
+	}
+	*len = SCSI_LOG_BUFSIZE;
+	return buf->buffer + idx * SCSI_LOG_BUFSIZE;
+Commit ID: TODO
+Category: FP
+Explanation: idx value is used in next if while calculating bugger size.
+Patch: No

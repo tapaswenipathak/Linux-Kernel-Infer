@@ -1,0 +1,11 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/block/blk-merge.c#L114
+Code:
+tmp = bio->bi_iter.bi_sector + split_sectors - alignment;
+tmp = sector_div(tmp, granularity);
+if (split_sectors > tmp)
+	split_sectors -= tmp;
+Commit ID: TODO
+Category: FP
+Explanation: split_sectors is being calculated based on tmp value.
+Patch: No

@@ -1,0 +1,14 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/latest/source/tools/include/asm-generic/bitops/fls.h#L36
+Explanation: x <<= 1 is not being used in next lines.
+Code:
+if (!(x & 0x80000000u)) {
+	x <<= 1;
+	r -= 1;
+}
+
+Commit ID: TODO
+Category: Bug
+x assigned at this point is not used further so can be dropped. r is returned in the
+method so this if will work with only r -= 1.
+Patch: In-Process

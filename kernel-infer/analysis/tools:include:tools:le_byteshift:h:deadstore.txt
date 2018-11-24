@@ -1,0 +1,11 @@
+Type: DEAD_STORE
+Where:https://elixir.bootlin.com/linux/v4.20-rc3/source/tools/include/tools/be_byteshift.h#L25
+Code:
+*p++ = val >> 8;
+*p++ = val;
+Commit ID: TODO
+Category: FP
+Explanation: Post increment has higher precendence over derefrence operator. p is
+incrementing pointing to next memory location and then val is assigned  which is valid.
+Patch to kernel: No
+Patch to infer: yes

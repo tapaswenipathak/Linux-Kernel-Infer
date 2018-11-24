@@ -1,0 +1,12 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/ipv4/tcp_ulp.c#L34
+Code:
+	const struct tcp_ulp_ops *ulp = NULL;
+
+	rcu_read_lock();
+	ulp = tcp_ulp_find(name);
+Commit ID: TODO
+Category: FP
+Explanation: url is assigned null at the time of declaration and definition and later
+used inside an #ifdef.
+Patch: No

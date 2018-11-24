@@ -1,0 +1,16 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/tools/objtool/warn.h#L48
+Code:
+	str = malloc(strlen(name) + 20);
+
+	if (func)
+		sprintf(str, "%s()+0x%lx", name, name_off);
+	else
+		sprintf(str, "%s+0x%lx", name, name_off);
+
+	return str;
+Commit ID: TODO
+Category: Bug
+Explanation: str is being allocated by a malloc call. sprintf is filling str with the
+string and output defined, good to have a null check still.
+Patch: No

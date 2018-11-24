@@ -1,0 +1,35 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/security/selinux/ss/status.c#L48
+Code:
+	struct selinux_kernel_status   *status;
+	struct page		       *result = NULL;
+
+	mutex_lock(&state->ss->status_lock);
+	if (!state->ss->status_page) {
+		state->ss->status_page = alloc_page(GFP_KERNEL|__GFP_ZERO);
+
+		if (state->ss->status_page) {
+			status = page_address(state->ss->status_page);
+
+			status->version = SELINUX_KERNEL_STATUS_VERSION;
+			status->sequence = 0;
+			status->enforcing = enforcing_enabled(state);
+			/*
+			 * NOTE: the next policyload event shall set
+			 * a positive value on the status->policyload,
+			 * although it may not be 1, but never zero.
+			 * So, application can know it was updated.
+			 */
+			status->policyload = 0;
+			status->deny_unknown =
+				!security_get_allow_unknown(state);
+		}
+	}
+	result = state->ss->status_page;
+	mutex_unlock(&state->ss->status_lock);
+
+Commit ID: TODO
+Category: FP
+Explanation: result is of type page, it is the return value of the selinux_status_page
+function call.
+Patch: No

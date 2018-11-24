@@ -1,0 +1,28 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/lib/assoc_array.c#L101
+Code:
+finished_node:
+	/* Move up to the parent (may need to skip back over a shortcut) */
+	parent = READ_ONCE(node->back_pointer); /* Address dependency. */
+	slot = node->parent_slot;
+	if (parent == stop)
+		return 0;
+
+	if (assoc_array_ptr_is_shortcut(parent)) {
+		shortcut = assoc_array_ptr_to_shortcut(parent);
+		cursor = parent;
+		parent = READ_ONCE(shortcut->back_pointer); /* Address dependency. */
+		slot = shortcut->parent_slot;
+		if (parent == stop)
+			return 0;
+	}
+
+	/* Ascend to next slot in parent node */
+	cursor = parent;
+	slot++;
+	goto continue_node;
+}
+Commit ID: TODO
+Category: FP
+Explanation: There is a goto to continue_node where cursor is used.
+Patch: No

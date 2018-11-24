@@ -1,0 +1,16 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/block/partitions/amiga.c#L36
+Code:
+	struct RigidDiskBlock *rdb;
+	struct PartitionBlock *pb;
+	int start_sect, nr_sects, blk, part, res = 0;
+	int blksize = 1;	/* Multiplier for disk block size */
+	int slot = 1;
+	char b[BDEVNAME_SIZE];
+
+Commit ID: TODO
+Category: FP
+Explanation: For sure used at later point, important variable, multiplier for disk
+block size.
+Patch to kernel: No
+Patch to infer: Maybe

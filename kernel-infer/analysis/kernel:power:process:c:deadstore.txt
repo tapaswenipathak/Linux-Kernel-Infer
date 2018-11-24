@@ -1,0 +1,20 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/power/process.c#L44
+Code:
+end_time:
+
+end_time = jiffies + msecs_to_jiffies(freeze_timeout_msecs);
+
+if (!todo || time_after(jiffies, end_time))
+	break;
+
+sleep_usecs:
+int sleep_usecs = USEC_PER_MSEC;
+if (sleep_usecs < 8 * USEC_PER_MSEC)
+sleep_usecs *= 2;
+
+Commit ID: TODO
+Category: FP
+Explanation: end_time is used in time_after
+Patch to kernel: No
+Patch to infer: Maybe

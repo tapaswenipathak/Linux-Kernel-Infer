@@ -1,0 +1,8 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/base/module.c#L62
+Code: no_warn = sysfs_create_link(&drv->p->kobj, &mk->kobj, "module");
+
+Commit ID: TODO
+Category: Bug
+Explanation: value assigned to no_warn is not being used.
+Patch: In Process

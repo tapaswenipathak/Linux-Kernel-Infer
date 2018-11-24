@@ -1,0 +1,18 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/ras/ras.c#L31
+Code:
+static int __init ras_init(void)
+{
+	int rc = 0;
+
+	ras_debugfs_init();
+	rc = ras_add_daemon_trace();
+
+	return rc;
+}
+Commit ID: TODO
+Category: FP
+Explanation: A variable should be assigned a value 0, rc is also the return value of
+this function.
+Patch to kernel: No
+Patch to infer: Yes

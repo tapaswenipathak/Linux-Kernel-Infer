@@ -1,0 +1,16 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/clk/clk-fractional-divider.c#L23
+Code:
+struct clk_fractional_divider *fd = to_clk_fd(hw);
+unsigned long flags = 0;
+unsigned long m, n;
+u32 val;
+u64 ret;
+if (fd->lock)
+	spin_lock_irqsave(fd->lock, flags);
+else
+	__acquire(fd->lock);
+Commit ID: TODO
+Category: FP
+Explanation: Flag is being passed to function calls spin_lock_irqsave and spin_unlock_irqrestore.
+Patch: No

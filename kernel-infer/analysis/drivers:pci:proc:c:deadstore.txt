@@ -1,0 +1,17 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/pci/proc.c#L100
+Code:
+if (cnt) {
+	unsigned char val;
+	pci_user_read_config_byte(dev, pos, &val);
+	__put_user(val, buf);
+	buf++;
+	pos++;
+	cnt--;
+}
+Commit ID: TODO
+Category: Possibly a bug
+Explanation: buf is not passed as pointer to pointer to memory address and be a bug
+when the value update is not shown in the caller. It is better to pass this as pointer
+to pointer address.
+Patch to kernel: In process.

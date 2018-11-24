@@ -1,0 +1,21 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/scsi/scsi_trace.c#L33
+Code:
+	const char *ret = trace_seq_buffer_ptr(p);
+	sector_t lba = 0, txlen = 0;
+
+	lba |= ((cdb[1] & 0x1F) << 16);
+	lba |=  (cdb[2] << 8);
+	lba |=   cdb[3];
+	txlen = cdb[4];
+
+	trace_seq_printf(p, "lba=%llu txlen=%llu",
+			 (unsigned long long)lba, (unsigned long long)txlen);
+	trace_seq_putc(p, 0);
+
+	return ret;
+Commit ID: TODO
+Category: FP
+Explanation: txlen is being printed.
+Patch to kernel: No
+Patch to infer: Yes

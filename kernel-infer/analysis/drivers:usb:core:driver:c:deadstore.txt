@@ -1,0 +1,23 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/usb/core/driver.c#L52
+Code:
+drivers/usb/core/driver.c:52: error: DEAD_STORE
+  The value written to &fields is never used.
+  50.   	unsigned int bInterfaceClass = 0;
+  51.   	u32 refVendor, refProduct;
+  52. > 	int fields = 0;
+  53.   	int retval = 0;
+  54.   
+
+drivers/usb/core/driver.c:53: error: DEAD_STORE
+  The value written to &retval is never used.
+  51.   	u32 refVendor, refProduct;
+  52.   	int fields = 0;
+  53. > 	int retval = 0;
+  54.   
+  55.   	fields = sscanf(buf, "%x %x %x %x %x", &idVendor, &idProduct,
+
+Category: FP
+Explanation: fields and retval are used for error codes in the complete function.
+Patch to kernel: No
+Patch to infer: Yes

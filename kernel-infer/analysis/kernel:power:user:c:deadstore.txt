@@ -1,0 +1,17 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/power/user.c#L77
+Code:
+	if ((filp->f_flags & O_ACCMODE) == O_RDONLY) {
+		/* Hibernating.  The image device should be accessible. */
+		data->swap = swsusp_resume_device ?
+			swap_type_of(swsusp_resume_device, 0, NULL) : -1;
+		data->mode = O_RDONLY;
+		data->free_bitmaps = false;
+		error = __pm_notifier_call_chain(PM_HIBERNATION_PREPARE, -1, &nr_calls);
+		if (error)
+			__pm_notifier_call_chain(PM_POST_HIBERNATION, --nr_calls, NULL);
+	} else {
+Commit ID: TODO
+Category: FP
+Explanation: nr_calls used in __pm_notifier_call_chain as number of notifier functions to be called. Don't care value of this parameter is -1.
+Patch: No

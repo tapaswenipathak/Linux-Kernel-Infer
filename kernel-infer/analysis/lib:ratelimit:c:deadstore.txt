@@ -1,0 +1,10 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/lib/ratelimit.c#L42
+Code:
+if (!raw_spin_trylock_irqsave(&rs->lock, flags))
+	return 0;
+Commit ID: TODO
+Category: FP
+Explanation: To keep a generic definition of raw_spin_trylock_irqsave flag is defined,
+at this place it is passed as empty but cannot be removed.
+Patch to kernel: In process

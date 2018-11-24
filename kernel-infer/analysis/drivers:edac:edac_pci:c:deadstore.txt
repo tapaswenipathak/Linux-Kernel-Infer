@@ -1,0 +1,17 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/edac/edac_pci.c#L40
+Code:
+	pci = edac_align_ptr(&p, sizeof(*pci), 1);
+	pvt = edac_align_ptr(&p, 1, sz_pvt);
+	size = ((unsigned long)pvt) + sz_pvt;
+
+	/* Alloc the needed control struct memory */
+	pci = kzalloc(size, GFP_KERNEL);
+	if (pci  == NULL)
+		return NULL;
+
+Commit ID: TODO
+Category: FP
+Explanation: edac_align_ptr prepares the pointer offsets for a single-shot allocation. pci is then allocated memory with kzalloc which is valid.
+Patch to kernel: No
+Patch to infer: Yes

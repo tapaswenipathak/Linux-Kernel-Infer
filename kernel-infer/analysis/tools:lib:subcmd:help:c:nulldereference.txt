@@ -1,15 +1,11 @@
 Type: NULL_DEREFERENCE
-Where: https://elixir.bootlin.com/linux/latest/source/tools/lib/subcmd/help.c#L18
-Explanation: Pointer ent is assigned allocated memory using malloc and is dereferenced
-immediately without null check.
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/tools/lib/subcmd/help.c#L20
 Code:
-struct cmdname *ent = malloc(sizeof(*ent) + len + 1);
-
-	ent->len = len;
-	memcpy(ent->name, name, len);
-	ent->name[len] = 0;
-
+ent->len = len;
+memcpy(ent->name, name, len);
+ent->name[len] = 0;
 Commit ID: TODO
-Patch: In process
-Category: Bug
-Call to malloc can fail and can cause a segmentation error while dereferencing.
+Category: BUG
+Explanation: ent is assigned memory using malloc, should be check for null before
+dereferencing.
+Patch: In-Process

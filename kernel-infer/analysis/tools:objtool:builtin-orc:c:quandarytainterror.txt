@@ -1,0 +1,7 @@
+Type:
+WHERE:
+Code:
+Commit ID:
+Category:
+EXPLANATION:
+Patch:

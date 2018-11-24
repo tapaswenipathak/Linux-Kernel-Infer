@@ -1,0 +1,14 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/lib/mpi/mpicoder.c#L41
+Code:
+	MPI val = NULL;
+
+	while (nbytes > 0 && buffer[0] == 0) {
+		buffer++;
+		nbytes--;
+	}
+Commit ID: TODO
+Category: FP
+Explanation: val is the return value of the function.
+Patch to kernel: No
+Patch to infer: Yes

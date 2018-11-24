@@ -1,0 +1,29 @@
+Type: DEAD_STORE
+Where:https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/video/backlight/backlight.c#L46
+Code:
+	int fb_blank = 0;
+
+	/* If we aren't interested in this event, skip it immediately ... */
+	if (event != FB_EVENT_BLANK && event != FB_EVENT_CONBLANK)
+		return 0;
+
+	bd = container_of(self, struct backlight_device, fb_notif);
+	mutex_lock(&bd->ops_lock);
+	if (bd->ops)
+		if (!bd->ops->check_fb ||
+		    bd->ops->check_fb(bd, evdata->info)) {
+			fb_blank = *(int *)evdata->data;
+			if (fb_blank == FB_BLANK_UNBLANK &&
+			    !bd->fb_bl_on[node]) {
+				bd->fb_bl_on[node] = true;
+				if (!bd->use_count++) {
+					bd->props.state &= ~BL_CORE_FBBLANK;
+					bd->props.fb_blank = FB_BLANK_UNBLANK;
+					backlight_update_status(bd);
+				}
+			} else if (fb_blank != FB_BLANK_UNBLANK &&
+
+Category: FP
+Explanation: fb_blank is being used to calculate.
+Patch to kernel: No
+Patch to infer: Yes

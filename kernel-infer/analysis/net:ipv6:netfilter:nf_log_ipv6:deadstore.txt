@@ -1,0 +1,5 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/ipv6/netfilter/nf_log_ipv6.c#L49
+Category: FP
+Explanation: hdrlen is important variable used in switch case.
+Patch: No

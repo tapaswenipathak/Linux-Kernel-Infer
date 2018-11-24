@@ -1,0 +1,26 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/clk/clk-gate.c#L46
+Code:
+	unsigned long uninitialized_var(flags);
+	u32 reg;
+
+	set ^= enable;
+
+	if (gate->lock)
+		spin_lock_irqsave(gate->lock, flags);
+	else
+		__acquire(gate->lock);
+
+	if (gate->flags & CLK_GATE_HIWORD_MASK) {
+		reg = BIT(gate->bit_idx + 16);
+		if (set)
+			reg |= BIT(gate->bit_idx);
+	} else {
+		reg = clk_readl(gate->reg);
+
+		if (set)
+
+Category: FP
+Explanation: Variable flags is required for the spin_lock_irqsave and spin_unlock_irqrestore.
+Patch to kernel: No
+Patch to infer: Yes

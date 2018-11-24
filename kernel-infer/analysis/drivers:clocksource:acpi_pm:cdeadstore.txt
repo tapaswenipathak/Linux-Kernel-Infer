@@ -1,0 +1,23 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/clocksource/acpi_pm.c#L43
+Code:
+	u32 v1 = 0, v2 = 0, v3 = 0;
+
+	/*
+	 * It has been reported that because of various broken
+	 * chipsets (ICH4, PIIX4 and PIIX4E) where the ACPI PM clock
+	 * source is not latched, you must read it multiple
+	 * times to ensure a safe value is read:
+	 */
+	do {
+		v1 = read_pmtmr();
+		v2 = read_pmtmr();
+		v3 = read_pmtmr();
+	} while (unlikely((v1 > v2 && v1 < v3) || (v2 > v3 && v2 < v1)
+			  || (v3 > v1 && v3 < v2)));
+
+	return v2;
+Category: FP
+Explanation: Variables are used in while.
+Patch to kernel: No
+Patch to Infer: Yes
