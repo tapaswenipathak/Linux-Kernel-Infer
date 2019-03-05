@@ -133,10 +133,7 @@ folder. Running the command takes a lot of time and need huge computing power.
 There are few code changes in the `./configure` script in Infer to use `pkg-config`,
 apply [this]() patch to setup.
 
-Other
+## Patches
 
-
-### Errors I got and fixes
-
-### TODOs
-
+You can find the patches applied on current version on the tree. Patches (Sent, Applied,
+Acked, Appoved) are present in kernel-infer-patches dir.
