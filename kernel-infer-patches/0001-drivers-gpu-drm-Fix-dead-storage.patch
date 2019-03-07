@@ -1,0 +1,27 @@
+From beac51f84bbb35d4618f6687e7f7251fc2886765 Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Wed, 6 Mar 2019 23:29:37 +0530
+Subject: [PATCH] drivers: gpu: drm: Fix dead storage
+
+vback_porch is a local variable uses numbers of lines in back porch and the
+variable is not used futher.
+
+---
+ drivers/gpu/drm/drm_modes.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+index f91e02c..8c01c8f 100644
+--- a/drivers/gpu/drm/drm_modes.c
++++ b/drivers/gpu/drm/drm_modes.c
+@@ -249,7 +249,6 @@ struct drm_display_mode *drm_cvt_mode(struct drm_device *dev, int hdisplay,
+ 		else
+ 			vsyncandback_porch = tmp1;
+ 		/* 10. Find number of lines in back porch */
+-		vback_porch = vsyncandback_porch - vsync;
+ 		drm_mode->vtotal = vdisplay_rnd + 2 * vmargin +
+ 				vsyncandback_porch + CVT_MIN_V_PORCH;
+ 		/* 5) Definition of Horizontal blanking time limitation */
+-- 
+2.10.0
+

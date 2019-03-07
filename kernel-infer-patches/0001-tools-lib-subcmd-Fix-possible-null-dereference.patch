@@ -1,0 +1,40 @@
+From 619b03c26fef40357dd87803cd61c4eeb6acd68d Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Thu, 7 Mar 2019 05:59:29 +0530
+Subject: [PATCH] tools: lib: subcmd: Fix possible null dereference
+
+strdup may return null not creating a string and can return null. ent is
+assigned memory using malloc, should be check for null before
+dereferencing.
+---
+ tools/lib/subcmd/help.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/tools/lib/subcmd/help.c b/tools/lib/subcmd/help.c
+index 2859f10..a1b3861 100644
+--- a/tools/lib/subcmd/help.c
++++ b/tools/lib/subcmd/help.c
+@@ -17,6 +17,9 @@ void add_cmdname(struct cmdnames *cmds, const char *name, size_t len)
+ {
+ 	struct cmdname *ent = malloc(sizeof(*ent) + len + 1);
+ 
++	if (!ent)
++		return -ENOMEM;
++
+ 	ent->len = len;
+ 	memcpy(ent->name, name, len);
+ 	ent->name[len] = 0;
+@@ -206,6 +209,10 @@ void load_command_list(const char *prefix,
+ 	if (env_path) {
+ 		char *paths, *path, *colon;
+ 		path = paths = strdup(env_path);
++
++		if (!paths || !path)
++			return -ENOMEM;
++
+ 		while (1) {
+ 			if ((colon = strchr(path, ':')))
+ 				*colon = 0;
+-- 
+2.10.0
+

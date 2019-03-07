@@ -1,0 +1,27 @@
+From 3ed2d4c9bc875c1bce2073f2c1d5b23609793402 Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Wed, 6 Mar 2019 23:15:13 +0530
+Subject: [PATCH] drivers: connector: Delete call to kfree
+
+dev isn't allocated by kmalloc in any of the calls of cn_queue_free_dev,
+so dev shouldn't be freeed using kfree may be that's why it is been assigned
+NULL.
+
+---
+ drivers/connector/cn_queue.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/connector/cn_queue.c b/drivers/connector/cn_queue.c
+index 9c54fdf..833eba5 100644
+--- a/drivers/connector/cn_queue.c
++++ b/drivers/connector/cn_queue.c
+@@ -156,6 +156,5 @@ void cn_queue_free_dev(struct cn_queue_dev *dev)
+ 		msleep(1000);
+ 	}
+ 
+-	kfree(dev);
+ 	dev = NULL;
+ }
+-- 
+2.10.0
+

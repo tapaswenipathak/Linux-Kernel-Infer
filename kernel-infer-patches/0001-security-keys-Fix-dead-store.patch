@@ -1,0 +1,26 @@
+From c313f540f9041842bceed51bdaf09365a5121884 Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Thu, 7 Mar 2019 05:56:12 +0530
+Subject: [PATCH] security: keys: Fix dead store
+
+x assigned at this point is not used further so can be dropped. r is
+returned in the method so this if will work with only r -= 1.
+---
+ security/keys/request_key.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/security/keys/request_key.c b/security/keys/request_key.c
+index 7a0c6b6..e924065 100644
+--- a/security/keys/request_key.c
++++ b/security/keys/request_key.c
+@@ -95,6 +95,7 @@ static int call_sbin_request_key(struct key *authkey, void *aux)
+ 	static char const request_key[] = "/sbin/request-key";
+ 	struct request_key_auth *rka = get_request_key_auth(authkey);
+ 	const struct cred *cred = current_cred();
++  
+ 	key_serial_t prkey, sskey;
+ 	struct key *key = rka->target_key, *keyring, *session;
+ 	char *argv[9], *envp[3], uid_str[12], gid_str[12];
+-- 
+2.10.0
+

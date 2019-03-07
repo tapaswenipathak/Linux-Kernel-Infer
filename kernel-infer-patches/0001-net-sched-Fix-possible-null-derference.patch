@@ -1,0 +1,28 @@
+From ecb094da48a5af1f5761319a91002d17c12bd8c4 Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Thu, 7 Mar 2019 05:47:51 +0530
+Subject: [PATCH] net: sched: Fix possible null derference
+
+mq_queue_get can return null, dev_queue needs to be null checked before
+dereferencing.
+---
+ net/sched/sch_mq.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/net/sched/sch_mq.c b/net/sched/sch_mq.c
+index 203659b..fa1ff87 100644
+--- a/net/sched/sch_mq.c
++++ b/net/sched/sch_mq.c
+@@ -218,7 +218,8 @@ static int mq_graft(struct Qdisc *sch, unsigned long cl, struct Qdisc *new,
+ static struct Qdisc *mq_leaf(struct Qdisc *sch, unsigned long cl)
+ {
+ 	struct netdev_queue *dev_queue = mq_queue_get(sch, cl);
+-
++	if (!dev_queue)
++		return -ENOMEM;
+ 	return dev_queue->qdisc_sleeping;
+ }
+ 
+-- 
+2.10.0
+

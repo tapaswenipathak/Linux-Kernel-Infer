@@ -1,0 +1,34 @@
+From 99c9c53a2472cbdff73a6c5d7090252cb63c7b50 Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Thu, 7 Mar 2019 00:52:25 +0530
+Subject: [PATCH] drivers: usb: core: fix dead store
+
+status is of type acpi_status has the return value from
+acpi_evaluate_object and is not being used futher for error check or return value.
+---
+ drivers/usb/core/usb-acpi.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/usb/core/usb-acpi.c b/drivers/usb/core/usb-acpi.c
+index e221861..64179da 100644
+--- a/drivers/usb/core/usb-acpi.c
++++ b/drivers/usb/core/usb-acpi.c
+@@ -87,7 +87,6 @@ static enum usb_port_connect_type usb_acpi_get_connect_type(acpi_handle handle,
+ 	enum usb_port_connect_type connect_type = USB_PORT_CONNECT_TYPE_UNKNOWN;
+ 	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+ 	union acpi_object *upc;
+-	acpi_status status;
+ 
+ 	/*
+ 	 * According to 9.14 in ACPI Spec 6.2. _PLD indicates whether usb port
+@@ -97,7 +96,6 @@ static enum usb_port_connect_type usb_acpi_get_connect_type(acpi_handle handle,
+ 	 * a usb device is directly hard-wired to the port. If no visible and
+ 	 * no connectable, the port would be not used.
+ 	 */
+-	status = acpi_evaluate_object(handle, "_UPC", NULL, &buffer);
+ 	upc = buffer.pointer;
+ 	if (!upc || (upc->type != ACPI_TYPE_PACKAGE)
+ 		|| upc->package.count != 4) {
+-- 
+2.10.0
+

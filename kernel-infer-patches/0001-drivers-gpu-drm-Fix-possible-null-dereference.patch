@@ -1,0 +1,32 @@
+From 0a921a7bdb4e511d4b55c33d97164de708b420b0 Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Wed, 6 Mar 2019 23:02:42 +0530
+Subject: [PATCH] drivers: gpu: drm: Fix possible null dereference
+
+drm_get_format_info can return null per pixel format. info
+variable being assigned from drm_get_format_info should be checked for
+null, debugged and returned -EINVAL if null.
+
+---
+ drivers/gpu/drm/drm_framebuffer.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+index fcaea8f..c479d6d 100644
+--- a/drivers/gpu/drm/drm_framebuffer.c
++++ b/drivers/gpu/drm/drm_framebuffer.c
+@@ -182,6 +182,11 @@ static int framebuffer_check(struct drm_device *dev,
+ 	/* now let the driver pick its own format info */
+ 	info = drm_get_format_info(dev, r);
+ 
++  if (!info) {
++    DRM_DEBUG_KMS("bad pixel format %s\n", drm_get_format_name( info->pixel_format,
++					&format_name));
++    return -EINVAL;
++  }
+ 	if (r->width == 0) {
+ 		DRM_DEBUG_KMS("bad framebuffer width %u\n", r->width);
+ 		return -EINVAL;
+-- 
+2.10.0
+

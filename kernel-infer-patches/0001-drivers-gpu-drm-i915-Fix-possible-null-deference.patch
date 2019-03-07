@@ -1,0 +1,28 @@
+From 057679ea7611c96aa8459871d719c41ddd14b8f7 Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Wed, 6 Mar 2019 23:49:27 +0530
+Subject: [PATCH] drivers: gpu: drm: i915: Fix possible null deference
+
+variable can clearly return null so variable
+should have a null check before dereferencing.
+
+---
+ drivers/gpu/drm/i915/intel_dp_mst.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/intel_dp_mst.c b/drivers/gpu/drm/i915/intel_dp_mst.c
+index 2c96e23..19da2a2 100644
+--- a/drivers/gpu/drm/i915/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/intel_dp_mst.c
+@@ -117,6 +117,8 @@ static int intel_dp_mst_atomic_check(struct drm_connector *connector,
+ 	int slots, ret = 0;
+ 
+ 	old_conn_state = drm_atomic_get_old_connector_state(state, connector);
++  if (!old_conn_state)
++    return ret;
+ 	old_crtc = old_conn_state->crtc;
+ 	if (!old_crtc)
+ 		return ret;
+-- 
+2.10.0
+

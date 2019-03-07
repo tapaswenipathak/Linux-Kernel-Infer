@@ -1,0 +1,29 @@
+From 0a9191f954c84370af4a14a95892b5f01e5c1acf Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Wed, 6 Mar 2019 23:24:24 +0530
+Subject: [PATCH] drivers: dma-buf: Add null check before dereference
+
+to_seqno_fence can return null, before dereferencing f there should be a
+null check.
+
+---
+ drivers/dma-buf/seqno-fence.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/dma-buf/seqno-fence.c b/drivers/dma-buf/seqno-fence.c
+index f47112a..a4e783a 100644
+--- a/drivers/dma-buf/seqno-fence.c
++++ b/drivers/dma-buf/seqno-fence.c
+@@ -53,7 +53,8 @@ static void seqno_release(struct dma_fence *fence)
+ {
+ 	struct seqno_fence *f = to_seqno_fence(fence);
+ 
+-	dma_buf_put(f->sync_buf);
++	if (f)
++	  dma_buf_put(f->sync_buf);
+ 	if (f->ops->release)
+ 		f->ops->release(fence);
+ 	else
+-- 
+2.10.0
+

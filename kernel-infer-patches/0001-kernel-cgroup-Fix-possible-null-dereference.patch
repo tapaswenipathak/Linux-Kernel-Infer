@@ -1,0 +1,29 @@
+From ed7b6fad825458763823919b37661685908da998 Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Thu, 7 Mar 2019 00:56:37 +0530
+Subject: [PATCH] kernel: cgroup: Fix possible null dereference
+
+css_freezer can definitely return null as (return css ?
+container_of(css, struct freezer, css) : NULL;) so there should be a null check
+before dereferencing freezer.
+---
+ kernel/cgroup/freezer.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/kernel/cgroup/freezer.c b/kernel/cgroup/freezer.c
+index 0823679..835e77db 100644
+--- a/kernel/cgroup/freezer.c
++++ b/kernel/cgroup/freezer.c
+@@ -109,7 +109,8 @@ static int freezer_css_online(struct cgroup_subsys_state *css)
+ 
+ 	mutex_lock(&freezer_mutex);
+ 
+-	freezer->state |= CGROUP_FREEZER_ONLINE;
++	if (freezer)
++    freezer->state |= CGROUP_FREEZER_ONLINE;
+ 
+ 	if (parent && (parent->state & CGROUP_FREEZING)) {
+ 		freezer->state |= CGROUP_FREEZING_PARENT | CGROUP_FROZEN;
+-- 
+2.10.0
+

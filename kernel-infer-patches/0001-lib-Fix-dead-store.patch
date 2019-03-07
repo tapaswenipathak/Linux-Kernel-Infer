@@ -1,0 +1,25 @@
+From bcdf92150f7ec9511120c7c8607e4e268e0dbac5 Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Thu, 7 Mar 2019 06:07:32 +0530
+Subject: [PATCH] lib: Fix dead store
+
+r is unused variable.
+---
+ lib/decompress_unlzo.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/lib/decompress_unlzo.c b/lib/decompress_unlzo.c
+index f4c158e..3e38fc5 100644
+--- a/lib/decompress_unlzo.c
++++ b/lib/decompress_unlzo.c
+@@ -115,7 +115,6 @@ STATIC int INIT unlzo(u8 *input, long in_len,
+ 				u8 *output, long *posp,
+ 				void (*error) (char *x))
+ {
+-	u8 r = 0;
+ 	long skip = 0;
+ 	u32 src_len, dst_len;
+ 	size_t tmp;
+-- 
+2.10.0
+
