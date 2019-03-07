@@ -1,0 +1,32 @@
+From c589e2c0efe3314143ed76f667f797a1a705c6a8 Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Wed, 6 Mar 2019 23:06:41 +0530
+Subject: [PATCH] drivers: base: Fix dead storage
+
+no_warn variable is a local variable of a function being assigned from
+sysfs_create_link and not being used.
+
+---
+ drivers/base/module.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/base/module.c b/drivers/base/module.c
+index 46ad4d6..b3af1d4 100644
+--- a/drivers/base/module.c
++++ b/drivers/base/module.c
+@@ -59,12 +59,9 @@ void module_add_driver(struct module *mod, struct device_driver *drv)
+ 		return;
+ 
+ 	/* Don't check return codes; these calls are idempotent */
+-	no_warn = sysfs_create_link(&drv->p->kobj, &mk->kobj, "module");
+ 	driver_name = make_driver_name(drv);
+ 	if (driver_name) {
+ 		module_create_drivers_dir(mk);
+-		no_warn = sysfs_create_link(mk->drivers_dir, &drv->p->kobj,
+-					    driver_name);
+ 		kfree(driver_name);
+ 	}
+ }
+-- 
+2.10.0
+

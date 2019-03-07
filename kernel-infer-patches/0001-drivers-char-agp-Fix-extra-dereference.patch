@@ -1,0 +1,28 @@
+From 85faff35ae6a1dbe3b2b69ebfacce844f2cc2113 Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Wed, 6 Mar 2019 23:09:09 +0530
+Subject: [PATCH] drivers: char: agp: Fix extra dereference
+
+num_segments has the value from client->num_segements. num_segements
+can further be used in for loop without dereferencing client.
+
+---
+ drivers/char/agp/frontend.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/char/agp/frontend.c b/drivers/char/agp/frontend.c
+index f695588..7947ed8 100644
+--- a/drivers/char/agp/frontend.c
++++ b/drivers/char/agp/frontend.c
+@@ -111,7 +111,7 @@ agp_segment_priv *agp_find_seg_in_client(const struct agp_client *client,
+ 	seg = *(client->segments);
+ 	num_segments = client->num_segments;
+ 
+-	for (i = 0; i < client->num_segments; i++) {
++	for (i = 0; i < num_segments; i++) {
+ 		if ((seg[i].pg_start == pg_start) &&
+ 		    (seg[i].pg_count == pg_count) &&
+ 		    (pgprot_val(seg[i].prot) == pgprot_val(page_prot))) {
+-- 
+2.10.0
+

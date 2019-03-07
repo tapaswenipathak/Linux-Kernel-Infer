@@ -1,0 +1,28 @@
+From 38f470b5ab3cd5b13d7fe94695013f596aafab94 Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Wed, 6 Mar 2019 23:20:45 +0530
+Subject: [PATCH] drivers: dma-buf: Add null check before dereferencing
+
+to_dma_fence_array can return null, there should be a null check before
+dereferencing the variable.
+
+---
+ drivers/dma-buf/dma-fence-array.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+index a8c2544..f25a5c92 100644
+--- a/drivers/dma-buf/dma-fence-array.c
++++ b/drivers/dma-buf/dma-fence-array.c
+@@ -58,7 +58,7 @@ static bool dma_fence_array_enable_signaling(struct dma_fence *fence)
+ 	struct dma_fence_array_cb *cb = (void *)(&array[1]);
+ 	unsigned i;
+ 
+-	for (i = 0; i < array->num_fences; ++i) {
++	for (i = 0; array && i < array->num_fences; ++i) {
+ 		cb[i].array = array;
+ 		/*
+ 		 * As we may report that the fence is signaled before all
+-- 
+2.10.0
+

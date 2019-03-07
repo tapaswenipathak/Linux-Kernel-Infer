@@ -1,0 +1,38 @@
+From d47b010bbcd0a73a328a236425939332d0c82cf1 Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Thu, 7 Mar 2019 05:52:57 +0530
+Subject: [PATCH] net: sched: Fix null dereference
+
+mq_queue_get can return null if ntx is greater than number of tx queues,
+dev_queue should be checked for null before dereferencing.
+---
+ net/sched/sch_mq.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/net/sched/sch_mq.c b/net/sched/sch_mq.c
+index fa1ff87..3c094d5 100644
+--- a/net/sched/sch_mq.c
++++ b/net/sched/sch_mq.c
+@@ -237,6 +237,9 @@ static int mq_dump_class(struct Qdisc *sch, unsigned long cl,
+ {
+ 	struct netdev_queue *dev_queue = mq_queue_get(sch, cl);
+ 
++	if (!dev_queue)
++		return -ENOMEM;
++
+ 	tcm->tcm_parent = TC_H_ROOT;
+ 	tcm->tcm_handle |= TC_H_MIN(cl);
+ 	tcm->tcm_info = dev_queue->qdisc_sleeping->handle;
+@@ -248,6 +251,9 @@ static int mq_dump_class_stats(struct Qdisc *sch, unsigned long cl,
+ {
+ 	struct netdev_queue *dev_queue = mq_queue_get(sch, cl);
+ 
++	if (!dev_queue)
++		return -1;
++
+ 	sch = dev_queue->qdisc_sleeping;
+ 	if (gnet_stats_copy_basic(&sch->running, d, NULL, &sch->bstats) < 0 ||
+ 	    gnet_stats_copy_queue(d, NULL, &sch->qstats, sch->q.qlen) < 0)
+-- 
+2.10.0
+

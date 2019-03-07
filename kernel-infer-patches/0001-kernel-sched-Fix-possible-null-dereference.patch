@@ -1,0 +1,38 @@
+From 2b5d039f95c009aff1b66a1b1ae6486e423a17cb Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Thu, 7 Mar 2019 06:05:49 +0530
+Subject: [PATCH] kernel: sched: Fix possible null dereference
+
+css_ca can definitely return null and should be having a null check
+before being dereferenced.
+---
+ kernel/sched/cpuacct.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/kernel/sched/cpuacct.c b/kernel/sched/cpuacct.c
+index 9fbb103..70f2419 100644
+--- a/kernel/sched/cpuacct.c
++++ b/kernel/sched/cpuacct.c
+@@ -90,6 +90,9 @@ static void cpuacct_css_free(struct cgroup_subsys_state *css)
+ {
+ 	struct cpuacct *ca = css_ca(css);
+ 
++	if (!ca)
++		return -ENOMEM;
++
+ 	free_percpu(ca->cpustat);
+ 	free_percpu(ca->cpuusage);
+ 	kfree(ca);
+@@ -159,6 +162,9 @@ static u64 __cpuusage_read(struct cgroup_subsys_state *css,
+ 	u64 totalcpuusage = 0;
+ 	int i;
+ 
++	if (!ca)
++		return -ENOMEM;
++
+ 	for_each_possible_cpu(i)
+ 		totalcpuusage += cpuacct_cpuusage_read(ca, i, index);
+ 
+-- 
+2.10.0
+

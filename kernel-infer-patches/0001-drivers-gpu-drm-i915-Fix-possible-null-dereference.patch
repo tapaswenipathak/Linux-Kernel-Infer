@@ -1,0 +1,30 @@
+From 8bfe68f1726da0bda5c84692604b34fbdc05b9f2 Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Wed, 6 Mar 2019 23:40:41 +0530
+Subject: [PATCH] drivers: gpu: drm: i915: Fix possible null dereference
+
+intel_dp is being initialized from enc_to_intel_dp, enc_to_dig_port is
+the method called later which can return null so there
+should be a null check before dereferencing intel_dp variable.
+
+---
+ drivers/gpu/drm/i915/intel_dp_aux_backlight.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/intel_dp_aux_backlight.c
+index 357136f..8ca1e46 100644
+--- a/drivers/gpu/drm/i915/intel_dp_aux_backlight.c
++++ b/drivers/gpu/drm/i915/intel_dp_aux_backlight.c
+@@ -82,6 +82,9 @@ intel_dp_aux_set_backlight(const struct drm_connector_state *conn_state, u32 lev
+ {
+ 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
+ 	struct intel_dp *intel_dp = enc_to_intel_dp(&connector->encoder->base);
++
++  if (!intel_dp)
++    return;
+ 	u8 vals[2] = { 0x0 };
+ 
+ 	vals[0] = level;
+-- 
+2.10.0
+

@@ -1,0 +1,30 @@
+From 1f6439652467313f6fd803598e6a7056b1ff8ab9 Mon Sep 17 00:00:00 2001
+From: Tapasweni Pathak <tapaswenipathak@gmail.com>
+Date: Thu, 7 Mar 2019 06:12:11 +0530
+Subject: [PATCH] net: core: Fix dead store and possible null dereference
+
+container_of can return null value and no need to assign dst as this is
+a local variable and not being used later.
+---
+ net/core/dst.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/net/core/dst.c b/net/core/dst.c
+index 81ccf20..293f437 100644
+--- a/net/core/dst.c
++++ b/net/core/dst.c
+@@ -151,7 +151,10 @@ static void dst_destroy_rcu(struct rcu_head *head)
+ {
+ 	struct dst_entry *dst = container_of(head, struct dst_entry, rcu_head);
+ 
+-	dst = dst_destroy(dst);
++	if (!dst)
++		return NULL;
++
++	dst_destroy(dst);
+ }
+ 
+ /* Operations to mark dst as DEAD and clean up the net device referenced
+-- 
+2.10.0
+
