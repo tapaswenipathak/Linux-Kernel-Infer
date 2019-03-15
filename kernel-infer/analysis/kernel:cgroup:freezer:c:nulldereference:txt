@@ -1,0 +1,28 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/kernel/cgroup/freezer.c#L220
+Code:
+	if (task_css_is_root(task, freezer_cgrp_id))
+		return;
+
+	mutex_lock(&freezer_mutex);
+	rcu_read_lock();
+
+	freezer = task_freezer(task);
+	if (freezer->state & CGROUP_FREEZING)
+		freeze_task(task);
+
+	rcu_read_unlock();
+	mutex_unlock(&freezer_mutex);
+}
+
+calls
+
+static inline struct freezer *css_freezer(struct cgroup_subsys_state *css)
+{
+	return css ? container_of(css, struct freezer, css) : NULL;
+}
+Commit ID: TODO
+Category: Bug
+Explanation: css_freezer can return null, freezer should be null checked before
+dereferencing
+Patch: No

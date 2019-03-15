@@ -1,0 +1,61 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/netlabel/netlabel_cipso_v4.c#L138
+Code:
+	struct cipso_v4_doi *doi_def = NULL;
+	struct nlattr *nla_a;
+	struct nlattr *nla_b;
+	int nla_a_rem;
+	int nla_b_rem;
+	u32 iter;
+
+	if (!info->attrs[NLBL_CIPSOV4_A_TAGLST] ||
+	    !info->attrs[NLBL_CIPSOV4_A_MLSLVLLST])
+		return -EINVAL;
+
+	if (nla_validate_nested(info->attrs[NLBL_CIPSOV4_A_MLSLVLLST],
+				NLBL_CIPSOV4_A_MAX,
+				netlbl_cipsov4_genl_policy, NULL) != 0)
+		return -EINVAL;
+
+	doi_def = kmalloc(sizeof(*doi_def), GFP_KERNEL);
+	if (doi_def == NULL)
+		return -ENOMEM;
+	doi_def->map.std = kzalloc(sizeof(*doi_def->map.std), GFP_KERNEL);
+	if (doi_def->map.std == NULL) {
+		ret_val = -ENOMEM;
+		goto add_std_failure;
+	}
+Commit ID: TODO
+Category: FP
+Explanation: doi_def is of type cipso v4 doi and holds corresponding values.
+Patch: No
+
+-------------------------------------------------------------------------------------
+
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/netlabel/netlabel_cipso_v4.c#L138
+Code:
+	int ret_val = -EINVAL;
+	struct cipso_v4_doi *doi_def = NULL;
+	struct nlattr *nla_a;
+	struct nlattr *nla_b;
+	int nla_a_rem;
+	int nla_b_rem;
+	u32 iter;
+
+	if (!info->attrs[NLBL_CIPSOV4_A_TAGLST] ||
+	    !info->attrs[NLBL_CIPSOV4_A_MLSLVLLST])
+		return -EINVAL;
+
+	if (nla_validate_nested(info->attrs[NLBL_CIPSOV4_A_MLSLVLLST],
+				NLBL_CIPSOV4_A_MAX,
+				netlbl_cipsov4_genl_policy, NULL) != 0)
+		return -EINVAL;
+
+	doi_def = kmalloc(sizeof(*doi_def), GFP_KERNEL);
+	if (doi_def == NULL)
+		return -ENOMEM;
+Commit ID: TODO
+Category: FP
+Explanation: doi_def is being used to store the error code and being kmalloced later
+Patch: No

@@ -1,0 +1,27 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/pcmcia/pcmcia_resource.c#L168
+Code:
+	int ret = 0;
+
+	s = p_dev->socket;
+
+	mutex_lock(&s->ops_mutex);
+	c = p_dev->function_config;
+
+	if (!(c->state & CONFIG_LOCKED)) {
+		dev_dbg(&p_dev->dev, "Configuration isn't locked\n");
+		mutex_unlock(&s->ops_mutex);
+		return -EACCES;
+	}
+
+	addr = (p_dev->config_base + where) >> 1;
+
+	ret = accessf(s, 1, addr, 1, val);
+
+	mutex_unlock(&s->ops_mutex);
+
+	return ret;
+Commit ID:
+Category: 
+Explanation: 
+Patch:

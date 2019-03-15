@@ -1,0 +1,10 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/firmware/efi/vars.c#L101
+Code:
+int i, desclength = 0, namelen;
+
+desclength = ucs2_strsize((efi_char16_t *)(buffer + 6), len - 6) + 2;
+Commit ID: TODO
+Category: FP
+Explanation: decslength has the ucs2_strsize
+Patch: No

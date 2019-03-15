@@ -1,0 +1,44 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/ipv6/addrlabel.c#L206
+Code:
+	struct ip6addrlbl_entry *last = NULL, *p = NULL;
+	struct hlist_node *n;
+	int ret = 0;
+
+	ADDRLABEL(KERN_DEBUG "%s(newp=%p, replace=%d)\n", __func__, newp,
+		  replace);
+
+	hlist_for_each_entry_safe(p, n,	&net->ipv6.ip6addrlbl_table.head, list) {
+Commit ID: TODO
+Category: FP
+Explanation: holds the last node
+Patch: No
+
+-------------------------------------------------------------------------------------
+
+
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/ipv6/addrlabel.c#L269
+Code:
+	struct ip6addrlbl_entry *p = NULL;
+	struct hlist_node *n;
+	int ret = -ESRCH;
+
+	ADDRLABEL(KERN_DEBUG "%s(prefix=%pI6, prefixlen=%d, ifindex=%d)\n",
+		  __func__, prefix, prefixlen, ifindex);
+
+	hlist_for_each_entry_safe(p, n, &net->ipv6.ip6addrlbl_table.head, list) {
+		if (p->prefixlen == prefixlen &&
+		    p->ifindex == ifindex &&
+		    ipv6_addr_equal(&p->prefix, prefix)) {
+			hlist_del_rcu(&p->list);
+			kfree_rcu(p, rcu);
+			ret = 0;
+			break;
+		}
+	}
+	return ret;
+Commit ID: TODO
+Category: FP
+Explanation: p is iterating the list data structure
+Patch: No

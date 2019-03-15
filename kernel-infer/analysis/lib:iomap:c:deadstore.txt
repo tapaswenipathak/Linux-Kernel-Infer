@@ -1,0 +1,11 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/lib/iomap.c#L248
+Code:
+void pci_iounmap(struct pci_dev *dev, void __iomem * addr)
+{
+	IO_COND(addr, /* nothing */, iounmap(addr));
+}
+Commit ID: TODO
+Category: FP
+Explanation: curious why would infer report this, there is no port
+Patch: No

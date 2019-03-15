@@ -1,0 +1,30 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/ipv4/raw.c#L234
+Code:
+	int err = 0;
+	int harderr = 0;
+
+	if (type == ICMP_DEST_UNREACH && code == ICMP_FRAG_NEEDED)
+		ipv4_sk_update_pmtu(skb, sk, info);
+	else if (type == ICMP_REDIRECT) {
+		ipv4_sk_redirect(skb, sk);
+		return;
+	}
+
+	/* Report error on raw socket, if:
+	   1. User requested ip_recverr.
+	   2. Socket is connected (otherwise the error indication
+	      is useless without ip_recverr and error is hard.
+	 */
+	if (!inet->recverr && sk->sk_state != TCP_ESTABLISHED)
+		return;
+
+	switch (type) {
+	default:
+	case ICMP_TIME_EXCEEDED:
+		err = EHOSTUNREACH;
+		break;
+Commit ID: TODO
+Category: FP
+Explanation: err is used storing the return value
+Patch: No

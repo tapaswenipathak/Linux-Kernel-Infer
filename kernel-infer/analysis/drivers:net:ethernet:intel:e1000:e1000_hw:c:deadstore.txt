@@ -1,0 +1,10 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/net/ethernet/intel/e1000/e1000_hw.c#L141
+Code:
+		ret_val = e1000_read_phy_reg(hw, 0x2F5B, &phy_saved_data);
+
+Commit ID: TODO
+Category: Bug
+Explanation: ret_val here stores the return value from read a phy register, can be
+dropped as ret_val is not being used in next lines of code.
+Patch: In process

@@ -1,0 +1,15 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/tty/n_tty.c#L225
+Code:
+	struct n_tty_data *ldata = tty->disc_data;
+	ssize_t n = 0;
+
+	if (!ldata->icanon)
+		n = ldata->commit_head - ldata->read_tail;
+	else
+		n = ldata->canon_head - ldata->read_tail;
+	return n;
+Commit ID: TODO
+Category: FP
+Explanation: n is used in the if and is the return value of the function
+Patch: No

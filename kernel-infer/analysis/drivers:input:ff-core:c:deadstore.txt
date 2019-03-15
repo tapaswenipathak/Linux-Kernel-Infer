@@ -1,0 +1,30 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/input/ff-core.c#L109
+Code:
+
+	struct ff_device *ff = dev->ff;
+	struct ff_effect *old;
+	int ret = 0;
+	int id;
+
+	if (!test_bit(EV_FF, dev->evbit))
+		return -ENOSYS;
+
+	if (effect->type < FF_EFFECT_MIN || effect->type > FF_EFFECT_MAX ||
+	    !test_bit(effect->type, dev->ffbit)) {
+		dev_dbg(&dev->dev, "invalid or not supported effect type in upload\n");
+		return -EINVAL;
+	}
+
+	if (effect->type == FF_PERIODIC &&
+	    (effect->u.periodic.waveform < FF_WAVEFORM_MIN ||
+	     effect->u.periodic.waveform > FF_WAVEFORM_MAX ||
+	     !test_bit(effect->u.periodic.waveform, dev->ffbit))) {
+		dev_dbg(&dev->dev, "invalid or not supported wave form in upload\n");
+		return -EINVAL;
+	}
+Commit ID: TODO
+Category: FP
+Explanation: ret is having the error coders -ENOSYS, -EINVAL e.t.c and is also the
+variable returning the function value.
+Patch: No

@@ -1,0 +1,20 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/security/keys/request_key_auth.c#L156
+Code:
+	struct key *authkey = NULL;
+	authkey = key_alloc(&key_type_request_key_auth, desc,
+			    cred->fsuid, cred->fsgid, cred,
+			    KEY_POS_VIEW | KEY_POS_READ | KEY_POS_SEARCH |
+			    KEY_USR_VIEW, KEY_ALLOC_NOT_IN_QUOTA, NULL);
+	if (IS_ERR(authkey)) {
+		ret = PTR_ERR(authkey);
+		goto error_free_rka;
+	}
+
+	/* construct the auth key */
+	ret = key_instantiate_and_link(authkey, rka, 0, NULL, NULL);
+Commit ID: TODO
+Category: FP
+Explanation: authkey is storing the key alloced to create an authorisation token for
+/sbin/request-key to caller.
+Patch: No

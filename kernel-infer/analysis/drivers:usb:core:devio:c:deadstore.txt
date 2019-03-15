@@ -1,0 +1,24 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/usb/core/devio.c#L208
+Code:
+	struct usb_memory *usbm = NULL;
+	struct usb_dev_state *ps = file->private_data;
+	size_t size = vma->vm_end - vma->vm_start;
+	void *mem;
+	unsigned long flags;
+	dma_addr_t dma_handle;
+	int ret;
+
+	ret = usbfs_increase_memory_usage(size + sizeof(struct usb_memory));
+	if (ret)
+		goto error;
+
+	usbm = kzalloc(sizeof(struct usb_memory), GFP_KERNEL);
+	if (!usbm) {
+		ret = -ENOMEM;
+		goto error_decrease_mem;
+	}
+Commit ID: TODO
+Category: FP
+Explanation: usbm has been allocated memory using kzalloc
+Patch: No

@@ -1,0 +1,23 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/net/phy/mdio_bus.c#L328
+Code:
+	int ret = 0;
+
+	mdiodev = mdio_device_create(bus, bi->mdio_addr);
+	if (IS_ERR(mdiodev))
+		return -ENODEV;
+
+	strncpy(mdiodev->modalias, bi->modalias,
+		sizeof(mdiodev->modalias));
+	mdiodev->bus_match = mdio_device_bus_match;
+	mdiodev->dev.platform_data = (void *)bi->platform_data;
+
+	ret = mdio_device_register(mdiodev);
+	if (ret)
+		mdio_device_free(mdiodev);
+
+	return ret;
+Commit ID: TODO
+Category: FP
+Explanation: ret is the return value of the function
+Patch: No

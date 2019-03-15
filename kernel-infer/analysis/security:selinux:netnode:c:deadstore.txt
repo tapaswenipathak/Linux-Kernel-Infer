@@ -1,0 +1,19 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/security/selinux/netnode.c#L204
+Code:
+	struct sel_netnode *new = NULL;
+
+	spin_lock_bh(&sel_netnode_lock);
+	node = sel_netnode_find(addr, family);
+	if (node != NULL) {
+		*sid = node->nsec.sid;
+		spin_unlock_bh(&sel_netnode_lock);
+		return 0;
+	}
+	new = kzalloc(sizeof(*new), GFP_ATOMIC);
+	if (new == NULL)
+		goto out;
+Commit ID: TODO
+Category: FP
+Explanation: new is being allocated memory from kzalloc
+Patch: No

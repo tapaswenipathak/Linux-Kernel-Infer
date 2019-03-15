@@ -1,0 +1,10 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/char/hpet.c#L167
+Code:
+m = read_counter(&devp->hd_timer->hpet_compare);
+		mc = read_counter(&hpet->hpet_mc);
+Commit ID: TODO
+Category: Bug
+Explanation: m is storing the return value from read_counter and is not further used
+so can be dropped.
+Patch: In process

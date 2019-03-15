@@ -1,0 +1,11 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/video/fbdev/core/sysfillrect.c#L296
+Code:
+		int right, r;
+		void (*fill_op)(struct fb_info *p, unsigned long *dst,
+				int dst_idx, unsigned long pat, int left,
+				int right, unsigned n, int bits) = NULL;
+Commit ID: fill_op is function pointer
+Category: FP 
+Explanation: fill_op is being used later
+Patch: No

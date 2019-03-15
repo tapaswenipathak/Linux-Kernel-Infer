@@ -1,0 +1,23 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/hid/hid-lg4ff.c#L311
+Code:
+	struct lg4ff_device_entry *entry = drv_data->device_props;
+	s32 new_value = 0;
+
+	if (!entry) {
+		hid_err(hid, "Device properties not found");
+		return 0;
+	}
+
+	switch (entry->wdata.product_id) {
+	case USB_DEVICE_ID_LOGITECH_DFP_WHEEL:
+		switch (usage->code) {
+		case ABS_X:
+			new_value = lg4ff_adjust_dfp_x_axis(value, entry->wdata.range);
+			input_event(field->hidinput->input, usage->type, usage->code, new_value);
+			return 1;
+		default:
+Commit ID: TODO
+Category: FP
+Explanation: new_value is storing x axis calculated value
+Patch: No

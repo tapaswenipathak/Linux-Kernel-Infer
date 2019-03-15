@@ -1,0 +1,31 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/crypto/rsa.c#L91
+Code:
+	struct crypto_akcipher *tfm = crypto_akcipher_reqtfm(req);
+	const struct rsa_mpi_key *pkey = rsa_get_key(tfm);
+	MPI m, c = mpi_alloc(0);
+	int ret = 0;
+	int sign;
+
+
+if (unlikely(!pkey->n || !pkey->e)) {
+		ret = -EINVAL;
+		goto err_free_c;
+	}
+
+	ret = -ENOMEM;
+	m = mpi_read_raw_from_sgl(req->src, req->src_len);
+	if (!m)
+		goto err_free_c;
+
+	ret = _rsa_enc(pkey, c, m);
+	if (ret)
+		goto err_free_m;
+
+	ret = mpi_write_to_sgl(c, req->dst, req->dst_len, &sign);
+	if (ret)
+		goto err_free_m;
+Commit ID: TODO
+Category: FP
+Explanation: ret is having the return value for the function
+Patch: No

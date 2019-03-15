@@ -1,0 +1,28 @@
+Type: DEAD_STORE
+Where:  https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/cpufreq/acpi-cpufreq.c#L280
+Code:
+static u32 cpu_freq_read_amd(struct acpi_pct_register *not_used)
+{
+	u32 val, dummy;
+
+	rdmsr(MSR_AMD_PERF_CTL, val, dummy);
+	return val;
+}
+
+/*
+ * Access to machine-specific registers (available on 586 and better only)
+ * Note: the rd* operations modify the parameters directly (without using
+ * pointer indirection), this allows gcc to optimize better
+ */
+
+#define rdmsr(msr, low, high)					\
+do {								\
+	u64 __val = native_read_msr((msr));			\
+	(void)((low) = (u32)__val);				\
+	(void)((high) = (u32)(__val >> 32));			\
+} while (0)
+
+Commit ID: TODO
+Category: FP
+Explanation: the variable is doing the conversion in machine specific registers
+Patch: No

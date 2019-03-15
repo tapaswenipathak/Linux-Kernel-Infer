@@ -1,0 +1,22 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/base/cpu.c#L245
+Code:
+	int n = 0, len = PAGE_SIZE-2;
+	cpumask_var_t offline;
+
+	/* display offline cpus < nr_cpu_ids */
+	if (!alloc_cpumask_var(&offline, GFP_KERNEL))
+		return -ENOMEM;
+	cpumask_andnot(offline, cpu_possible_mask, cpu_online_mask);
+	n = scnprintf(buf, len, "%*pbl", cpumask_pr_args(offline));
+	free_cpumask_var(offline);
+
+	/* display offline cpus >= nr_cpu_ids */
+	if (total_cpus && nr_cpu_ids < total_cpus) {
+		if (n && n < len)
+			buf[n++] = ',';
+
+Commit ID: TODO
+Category: FP
+Explanation: n is used at many places for the array counter
+Patch: No

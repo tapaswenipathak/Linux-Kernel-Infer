@@ -1,0 +1,22 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/ptp/ptp_clock.c#L210
+Code:
+	int err = 0, index, major = MAJOR(ptp_devt);
+
+	if (info->n_alarm > PTP_MAX_ALARMS)
+		return ERR_PTR(-EINVAL);
+
+	/* Initialize a clock structure. */
+	err = -ENOMEM;
+	ptp = kzalloc(sizeof(struct ptp_clock), GFP_KERNEL);
+	if (ptp == NULL)
+		goto no_memory;
+
+	index = ida_simple_get(&ptp_clocks_map, 0, MINORMASK + 1, GFP_KERNEL);
+	if (index < 0) {
+		err = index;
+		goto no_slot;
+Commit ID: TODO
+Category: FP
+Explanation: err is the return value of the function
+Patch: No

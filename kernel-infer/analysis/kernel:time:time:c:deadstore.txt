@@ -1,0 +1,22 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/time/time.c#L175
+Code:
+	static int firsttime = 1;
+	int error = 0;
+
+	if (tv && !timespec64_valid(tv))
+		return -EINVAL;
+
+	error = security_settime64(tv, tz);
+	if (error)
+		return error;
+
+	if (tz) {
+		/* Verify we're witin the +-15 hrs range */
+		if (tz->tz_minuteswest > 15*60 || tz->tz_minuteswest < -15*60)
+			return -EINVAL;
+
+Commit ID: TODO
+Category: FP
+Explanation: error holds the error code for the function.
+Patch: No

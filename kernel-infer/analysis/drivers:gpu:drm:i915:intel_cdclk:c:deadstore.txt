@@ -1,0 +1,32 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/gpu/drm/i915/intel_cdclk.c#L221
+Code:
+	const unsigned int *vco_table;
+	unsigned int vco;
+	uint8_t tmp = 0;
+
+	/* FIXME other chipsets? */
+	if (IS_GM45(dev_priv))
+		vco_table = ctg_vco;
+	else if (IS_G45(dev_priv))
+		vco_table = elk_vco;
+	else if (IS_I965GM(dev_priv))
+		vco_table = cl_vco;
+	else if (IS_PINEVIEW(dev_priv))
+		vco_table = pnv_vco;
+	else if (IS_G33(dev_priv))
+		vco_table = blb_vco;
+	else
+		return 0;
+
+	tmp = I915_READ(IS_MOBILE(dev_priv) ? HPLLVCO_MOBILE : HPLLVCO);
+
+	vco = vco_table[tmp & 0x7];
+	if (vco == 0)
+		DRM_ERROR("Bad HPLL VCO (HPLLVCO=0x%02x)\n", tmp);
+	else
+		DRM_DEBUG_KMS("HPLL VCO %u kHz\n", vco);
+Commit ID: TODO
+Category: FP
+Explanation: tmp is used while printing DRM_ERROR reading from I915_READ.
+Patch: NA

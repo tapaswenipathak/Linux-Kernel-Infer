@@ -1,0 +1,52 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/kernel/reboot.c#L316
+Code:
+	if (!ns_capable(pid_ns->user_ns, CAP_SYS_BOOT))
+		return -EPERM;
+
+	/* For safety, we require "magic" arguments. */
+	if (magic1 != LINUX_REBOOT_MAGIC1 ||
+			(magic2 != LINUX_REBOOT_MAGIC2 &&
+			magic2 != LINUX_REBOOT_MAGIC2A &&
+			magic2 != LINUX_REBOOT_MAGIC2B &&
+			magic2 != LINUX_REBOOT_MAGIC2C))
+		return -EINVAL;
+
+	/*
+	 * If pid namespaces are enabled and the current task is in a child
+	 * pid_namespace, the command is handled by reboot_pid_ns() which will
+	 * call do_exit().
+	 */
+	ret = reboot_pid_ns(pid_ns, cmd);
+Commit ID: TODO
+Category: FP
+Explanation: ret is storing the value from reboot_pid_ns
+Patch: No
+
+-------------------------------------------------------------------------------------
+
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/kernel/reboot.c#L316
+Code:
+	struct pid_namespace *pid_ns = task_active_pid_ns(current);
+	char buffer[256];
+	int ret = 0;
+
+	/* We only trust the superuser with rebooting the system. */
+	if (!ns_capable(pid_ns->user_ns, CAP_SYS_BOOT))
+		return -EPERM;
+
+
+static inline struct pid_namespace *ns_of_pid(struct pid *pid)
+{
+	struct pid_namespace *ns = NULL;
+	if (pid)
+		ns = pid->numbers[pid->level].ns;
+	return ns;
+}
+
+Commit ID: TODO
+Category: Bug
+Explanation: In turn it can happen that null is returned so the variable should be
+null checked before dereferencing
+Patch: In Proces

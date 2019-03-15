@@ -1,0 +1,35 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/block/scsi_ioctl.c#L296
+Code:
+	ssize_t ret = 0;
+	int writing = 0;
+	int at_head = 0;
+	struct request *rq;
+	struct scsi_request *req;
+	struct bio *bio;
+
+	if (hdr->interface_id != 'S')
+		return -EINVAL;
+
+	if (hdr->dxfer_len > (queue_max_hw_sectors(q) << 9))
+		return -EIO;
+
+	if (hdr->dxfer_len)
+		switch (hdr->dxfer_direction) {
+		default:
+			return -EINVAL;
+		case SG_DXFER_TO_DEV:
+			writing = 1;
+			break;
+		case SG_DXFER_TO_FROM_DEV:
+		case SG_DXFER_FROM_DEV:
+			break;
+		}
+	if (hdr->flags & SG_FLAG_Q_AT_HEAD)
+		at_head = 1;
+
+	ret = -ENOMEM;
+Commit ID:  TODO
+Category: FP
+Explanation: ret is storing the error code
+Patch: No

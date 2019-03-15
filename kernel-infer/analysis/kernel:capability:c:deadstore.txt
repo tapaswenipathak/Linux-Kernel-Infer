@@ -1,0 +1,17 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/capability.c#L152
+Code:
+	int ret = 0;
+	pid_t pid;
+	unsigned tocopy;
+	kernel_cap_t pE, pI, pP;
+
+	ret = cap_validate_magic(header, &tocopy);
+	if ((dataptr == NULL) || (ret != 0))
+		return ((dataptr == NULL) && (ret == -EINVAL)) ? 0 : ret;
+
+Commit ID: TODO
+Category: FP
+Explanation: ret is holding the return value and error codes.
+Patch to kernel: No
+Patch to inder: Yes

@@ -1,0 +1,36 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/sunrpc/svcsock.c#L197
+Code:
+	int		slen;
+	int		len = 0;
+ 	slen = xdr->len;
+ 	/* send head */
+	if (slen == xdr->head[0].iov_len)
+		flags = 0;
+	len = kernel_sendpage(sock, headpage, headoffset,
+				  xdr->head[0].iov_len, flags);
+	if (len != xdr->head[0].iov_len)
+		goto out;
+	slen -= xdr->head[0].iov_len;
+Commit ID: TODO
+Category: FP
+Explanation: len is holding the channel length
+Patch: No
+
+--------------------
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/sunrpc/svcsock.c#L197
+Code:
+	int		len = 0;
+
+	slen = xdr->len;
+
+	/* send head */
+	if (slen == xdr->head[0].iov_len)
+		flags = 0;
+	len = kernel_sendpage(sock, headpage, headoffset,
+				  xdr->head[0].iov_len, flags);
+Commit ID: TODO
+Category: FP
+Explanation: holds the page length
+Patch: No

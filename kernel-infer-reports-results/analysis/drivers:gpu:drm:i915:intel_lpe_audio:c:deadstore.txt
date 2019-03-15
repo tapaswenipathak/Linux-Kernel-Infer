@@ -1,0 +1,21 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/gpu/drm/i915/intel_lpe_audio.c#L295
+Code:
+	struct irq_desc *desc;
+
+	if (!HAS_LPE_AUDIO(dev_priv))
+		return;
+
+	desc = irq_to_desc(dev_priv->lpe_audio.irq);
+
+	lpe_audio_platdev_destroy(dev_priv);
+
+	irq_free_desc(dev_priv->lpe_audio.irq);
+
+	dev_priv->lpe_audio.irq = -1;
+	dev_priv->lpe_audio.platdev = NULL;
+Commit ID: TODO
+Category: Bug
+Explanation: desc is local pointer variable if irq_desc type and is not being used
+after storing lpe_audio.irq
+Patch: In Process

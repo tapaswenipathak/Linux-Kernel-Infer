@@ -1,0 +1,55 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/video/fbdev/core/fbmem.c#L290
+Code:
+	int i, j, k;
+	const u8 *src = logo->data;
+	u8 xor = (info->fix.visual == FB_VISUAL_MONO01) ? 0xff : 0;
+	u8 fg = 1, d;
+
+	switch (fb_get_color_depth(&info->var, &info->fix)) {
+	case 1:
+		fg = 1;
+		break;
+	case 2:
+		fg = 3;
+		break;
+	default:
+		fg = 7;
+		break;
+	}
+
+	if (info->fix.visual == FB_VISUAL_MONO01 ||
+	    info->fix.visual == FB_VISUAL_MONO10)
+		fg = ~((u8) (0xfff << info->var.green.length));
+
+Commit ID: TODO
+Category: FP
+Explanation: fb is storing the value to set the logo palette
+Patch: No
+
+-------------------------------------------------------------------------------------
+
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/video/fbdev/core/fbmem.c#L98
+Code:
+	int depth = 0;
+
+	if (fix->visual == FB_VISUAL_MONO01 ||
+	    fix->visual == FB_VISUAL_MONO10)
+		depth = 1;
+	else {
+		if (var->green.length == var->blue.length &&
+		    var->green.length == var->red.length &&
+		    var->green.offset == var->blue.offset &&
+		    var->green.offset == var->red.offset)
+			depth = var->green.length;
+		else
+			depth = var->green.length + var->red.length +
+				var->blue.length;
+	}
+
+	return depth;
+Commit ID: TODO
+Category: FP
+Explanation: depth is the return value of the methof holding the fb_color_depth.
+Patch: No

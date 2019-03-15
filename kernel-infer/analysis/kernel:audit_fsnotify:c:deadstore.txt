@@ -1,0 +1,21 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/audit_fsnotify.c#L174
+Code:
+	const struct inode *inode = NULL;
+
+	audit_mark = container_of(inode_mark, struct audit_fsnotify_mark, mark);
+
+	BUG_ON(group != audit_fsnotify_group);
+
+	switch (data_type) {
+	case (FSNOTIFY_EVENT_PATH):
+		inode = ((const struct path *)data)->dentry->d_inode;
+		break;
+	case (FSNOTIFY_EVENT_INODE):
+		inode = (const struct inode *)data;
+		break;
+	default:
+Commit ID: TODO
+Category: FP
+Explanation: inode is holding the inode number
+Patch: No

@@ -1,0 +1,17 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/video/fbdev/core/cfbimgblt.c#L143
+Code:
+	u32 shift, color = 0, bpp = p->var.bits_per_pixel;
+	u32 __iomem *dst, *dst2;
+	u32 val, pitch = p->fix.line_length;
+	u32 null_bits = 32 - bpp;
+	u32 spitch = (image->width+7)/8;
+	const u8 *src = image->data, *s;
+	u32 i, j, l;
+
+
+Commit ID: TODO
+Category: FP
+Explanation: color variable is used to compute foreground or background color and further
+in shifting.
+Patch: No

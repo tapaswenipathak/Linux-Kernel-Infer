@@ -1,0 +1,14 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/sched/cpuacct.c#L117
+Code:
+	if (index == CPUACCT_STAT_NSTATS) {
+		int i = 0;
+
+		data = 0;
+		for (i = 0; i < CPUACCT_STAT_NSTATS; i++)
+			data += cpuusage->usages[i];
+Commit ID: TODO
+Category: FP
+Explanation: i is variable declared and defined for the for loop.
+Patch to kernel: No
+Patch to infer: Yes

@@ -1,0 +1,25 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/netfilter/core.c#L168
+Code:
+#ifdef CONFIG_DEBUG_KERNEL
+	struct nf_hook_ops **orig_ops;
+	int prio = INT_MIN;
+	size_t i = 0;
+
+	orig_ops = nf_hook_entries_get_hook_ops(hooks);
+
+	for (i = 0; i < hooks->num_hook_entries; i++) {
+		if (orig_ops[i] == &dummy_ops)
+			continue;
+
+		WARN_ON(orig_ops[i]->priority < prio);
+
+		if (orig_ops[i]->priority > prio)
+			prio = orig_ops[i]->priority;
+	}
+#endif
+Commit ID: TODO
+Category: FP
+Explanation: i is loop counter.
+Patch to kernel: No
+Patch to infer: Yes

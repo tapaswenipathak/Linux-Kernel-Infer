@@ -1,0 +1,19 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/firmware/efi/esrt.c#L177
+Code:
+	if (esrt->fw_resource_version == 1) {
+		int rc = 0;
+
+		entry->esre.esre1 = esre;
+		rc = kobject_init_and_add(&entry->kobj, &esre1_ktype, NULL,
+					  "entry%d", entry_num);
+		if (rc) {
+			kfree(entry);
+			return rc;
+		}
+Commit ID: TODO
+Category: FP
+Explanation: kobject_init_and_add initializes a kobject structure and add it to the
+kobject hierarchy, further looking into function definitions shows rc stores number
+of variable number of arguments added.
+Patch: No

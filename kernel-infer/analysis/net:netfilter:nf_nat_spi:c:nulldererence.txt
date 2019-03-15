@@ -1,0 +1,52 @@
+Type: NULL_DEREFERENCE
+Where:
+https://elixir.bootlin.com/linux/v4.20-rc3/source/net/netfilter/nf_nat_sip.c#L99
+https://elixir.bootlin.com/linux/v4.20-rc3/source/net/netfilter/nf_nat_sip.c#L112
+Code:
+
+struct nf_ct_sip_master *ct_sip_info = nfct_help_data(ct);
+
+
+	if (nf_inet_addr_cmp(&ct->tuplehash[dir].tuple.src.u3, addr) &&
+	    ct->tuplehash[dir].tuple.src.u.udp.port == port) {
+		newaddr = ct->tuplehash[!dir].tuple.dst.u3;
+		newport = ct->tuplehash[!dir].tuple.dst.u.udp.port;
+	} else if (nf_inet_addr_cmp(&ct->tuplehash[dir].tuple.dst.u3, addr) &&
+		   ct->tuplehash[dir].tuple.dst.u.udp.port == port) {
+		newaddr = ct->tuplehash[!dir].tuple.src.u3;
+		newport = ct_sip_info->forced_dport ? :
+			  ct->tuplehash[!dir].tuple.src.u.udp.port;
+	} else
+
+
+nfct_help_data definition:
+
+static inline void *nfct_help_data(const struct nf_conn *ct)
+{
+	struct nf_conn_help *help;
+
+	help = nf_ct_ext_find(ct, NF_CT_EXT_HELPER);
+
+	return (void *)help->data;
+}
+
+nf_ct_ext_find macro definition:
+#define nf_ct_ext_find(ext, id)	\
+	((id##_TYPE *)__nf_ct_ext_find((ext), (id)))
+
+
+__nf_ct_ext_find macro definition:
+
+static inline void *__nf_ct_ext_find(const struct nf_conn *ct, u8 id)
+{
+	if (!nf_ct_ext_exist(ct, id))
+		return NULL;
+
+	return (void *)ct->ext + ct->ext->offset[id];
+}
+
+Commit ID: TODO
+Category: FP
+Explanation: Looking at the definition of __nf_ct_ext_find can return null as it is the
+last function call, ct_sip_info should have a null check before derefrencing it.
+Patch: In process

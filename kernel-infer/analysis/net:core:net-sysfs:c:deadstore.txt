@@ -1,0 +1,28 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/core/net-sysfs.c#L88
+Code:
+	int ret = -EINVAL;
+
+	if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
+		return -EPERM;
+
+	ret = kstrtoul(buf, 0, &new);
+	if (ret)
+		goto err;
+
+	if (!rtnl_trylock())
+		return restart_syscall();
+
+	if (dev_isalive(netdev)) {
+		ret = (*set)(netdev, new);
+		if (ret == 0)
+			ret = len;
+	}
+	rtnl_unlock();
+ err:
+	return ret;
+Commit ID: TODO
+Category: FP
+Explanation: ret is initially holding a -EINVAL and is further used to hold error codes
+returned from kstrtoul and return value from the function.
+Patch: No

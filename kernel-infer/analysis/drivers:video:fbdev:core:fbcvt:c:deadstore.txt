@@ -1,0 +1,36 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/video/fbdev/core/fbcvt.c#L192
+Code:
+int aspect = -1
+Commit ID: TODO
+Category: FP
+Explanation: aspect is the return value of the function calculated based on xres and yres
+Patch: No
+----------------------
+
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/video/fbdev/core/fbcvt.c#L103
+Code:
+	u32 hblank = 0;
+
+	if (cvt->flags & FB_CVT_FLAG_REDUCED_BLANK)
+		hblank = FB_CVT_RB_HBLANK;
+	else {
+		u32 ideal_duty_cycle = fb_cvt_ideal_duty_cycle(cvt);
+		u32 active_pixels = cvt->active_pixels;
+
+		if (ideal_duty_cycle < 20000)
+			hblank = (active_pixels * 20000)/
+				(100000 - 20000);
+		else {
+			hblank = (active_pixels * ideal_duty_cycle)/
+				(100000 - ideal_duty_cycle);
+		}
+	}
+
+	hblank &= ~((2 * FB_CVT_CELLSIZE) - 1);
+
+Commit ID: TODO
+Category: FP
+Explanation: hblank is used for the bitwise operationg complement of left shift FB_CVT_CELLIZE subtracted by 1.
+Patch: No

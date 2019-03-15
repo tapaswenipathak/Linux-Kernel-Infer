@@ -1,0 +1,22 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/lib/zlib_inflate/inffast.c#L214
+Code:
+if (write == 0) {           /* very common case */
+	from += wsize - op;
+    if (op < len) {         /* some from window */
+        len -= op;
+		do {
+            PUP(out) = PUP(from);
+        } while (--op);
+        from = out - dist;  /* rest from output */
+    }
+}
+
+PUP definition:
+
+#  define PUP(a) *(a)++
+
+Commit ID: TODO
+Category: FP
+Explanation: the value out and from is used futher in ifs.
+Patch: No

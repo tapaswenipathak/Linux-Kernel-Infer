@@ -1,0 +1,7 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/net/ethernet/intel/e1000e/ich8lan.c
+Code:	int mac_reg = 0;
+Commit ID: TODO
+Category: FP
+Explanation: mac_reg holds smbus mode in mac
+Patch: No

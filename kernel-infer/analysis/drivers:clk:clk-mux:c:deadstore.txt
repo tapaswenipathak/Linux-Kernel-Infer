@@ -1,0 +1,18 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/clk/clk-mux.c#L144
+Code:
+u8 width = 0;
+
+
+	if (clk_mux_flags & CLK_MUX_HIWORD_MASK) {
+		width = fls(mask) - ffs(mask) + 1;
+		if (width + shift > 16) {
+			pr_err("mux value exceeds LOWORD field\n");
+			return ERR_PTR(-EINVAL);
+		}
+	}
+
+Commit ID: TODO
+Category: FP
+Explanation: width is used to calculate the word len
+Patch: No

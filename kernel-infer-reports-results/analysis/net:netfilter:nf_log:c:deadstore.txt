@@ -1,0 +1,33 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/netfilter/nf_log.c#L327
+Code:
+	struct net *net = seq_file_net(seq);
+
+	mutex_lock(&nf_log_mutex);
+
+	if (*pos >= ARRAY_SIZE(net->nf.nf_loggers))
+		return NULL;
+
+	return pos;
+Commit ID: TODO
+Category: FP
+Explanation: net is storing the array size
+Patch: No
+
+-------------------------------------------------------------------------------------
+
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/netfilter/nf_log.c#L339
+Code:
+	struct net *net = seq_file_net(s);
+
+	(*pos)++;
+
+	if (*pos >= ARRAY_SIZE(net->nf.nf_loggers))
+		return NULL;
+
+	return pos;
+Commit ID: TODO
+Category: FP
+Explanation: net is being passed to array size
+Patch: No

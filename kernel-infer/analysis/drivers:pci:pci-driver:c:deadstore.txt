@@ -1,0 +1,40 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/pci/pci-driver.c#L106
+Code:
+		subdevice = PCI_ANY_ID, class = 0, class_mask = 0;
+	unsigned long driver_data = 0;
+	int fields = 0;
+	int retval = 0;
+
+	fields = sscanf(buf, "%x %x %x %x %x %x %lx",
+			&vendor, &device, &subvendor, &subdevice,
+			&class, &class_mask, &driver_data);
+	if (fields < 2)
+		return -EINVAL;
+Commit ID: TODO
+Category: FP
+Explanation: fields is holding the number of variables successfully scaned from using
+sscanf.
+Patch: No
+
+---------------------
+
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/pci/pci-driver.c#L106
+Code:
+	int fields = 0;
+	int retval = 0;
+
+	fields = sscanf(buf, "%x %x %x %x %x %x %lx",
+			&vendor, &device, &subvendor, &subdevice,
+			&class, &class_mask, &driver_data);
+	if (fields < 2)
+		return -EINVAL;
+
+	if (fields != 7) {
+		struct pci_dev *pdev = kzalloc(sizeof(*pdev), GFP_KERNEL);
+		if (!pdev)
+Commit ID: TODO
+Category: FP
+Explanation: fields is storing the number of variables successfully scanned.
+Patch: No

@@ -1,0 +1,17 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/kthread.c#L227
+Code:
+	done = xchg(&create->done, NULL);
+	if (!done) {
+		kfree(create);
+		do_exit(-EINTR);
+	}
+ 	if (!self) {
+		create->result = ERR_PTR(-ENOMEM);
+		complete(done);
+		do_exit(-ENOMEM);
+	}
+ Commit ID: TODO
+Category: FP
+Explanation: done is null checked before dereferencing and -EINT if null.
+Patch: No

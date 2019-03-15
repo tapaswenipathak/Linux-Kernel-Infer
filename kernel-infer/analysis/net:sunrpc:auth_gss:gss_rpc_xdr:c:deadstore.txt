@@ -1,0 +1,39 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/sunrpc/auth_gss/gss_rpc_xdr.c#L158
+Code:
+	p = xdr_inline_decode(xdr, 4);
+	if (unlikely(p == NULL))
+		return -ENOSPC;
+	count = be32_to_cpup(p++);
+	memset(&dummy, 0, sizeof(dummy));
+	for (i = 0; i < count; i++) {
+		gssx_dec_option(xdr, &dummy);
+	}
+Commit ID: TODO
+Category: FP
+Explanation: p is storing the return value after xdr decode which is later used with
+be32_to_cpup after incrementing to store it in count and for loop iterate.
+Patch: No
+
+-------------------------------------------------------------------------------------
+
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/sunrpc/auth_gss/gss_rpc_xdr.c#L316
+Code:
+	p = xdr_decode_hyper(p, &status->major_status);
+
+	/* status->mech */
+	err = gssx_dec_buffer(xdr, &status->mech);
+	if (err)
+		return err;
+
+	/* status->minor_status */
+	p = xdr_inline_decode(xdr, 8);
+	if (unlikely(p == NULL))
+		return -ENOSPC;
+	p = xdr_decode_hyper(p, &status->minor_status);
+
+Commit ID: TODO
+Category: FP
+Explanation: p is being used at many places storing the status
+Patch: No

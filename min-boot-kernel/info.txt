@@ -1,7 +1,0 @@
-* /etc/<initscript>: initialization script run by start.c
-* /bin/<start.c>: init process.
-* /bin/<shutdown.c>: shutdown utility.
-* minimal-kernel.py: Script to generate minimal config kernel depending on the version of
-linux kernel specified.
-* /bin/opera: to provide user interface and web browser functionality.
-* usbgrub: Grub Legacy configuration for booting from a USB device.

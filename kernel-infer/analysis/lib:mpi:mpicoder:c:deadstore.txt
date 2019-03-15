@@ -12,3 +12,35 @@ Category: FP
 Explanation: val is the return value of the function.
 Patch to kernel: No
 Patch to infer: Yes
+
+-------------------------------------------------------------------------------------
+
+
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/lib/mpi/mpicoder.c#L41
+Code:
+	int i, j;
+	unsigned nbits, nlimbs;
+	mpi_limb_t a;
+	MPI val = NULL;
+
+	while (nbytes > 0 && buffer[0] == 0) {
+		buffer++;
+		nbytes--;
+	}
+
+	nbits = nbytes * 8;
+	if (nbits > MAX_EXTERN_MPI_BITS) {
+		pr_info("MPI: mpi too large (%u bits)\n", nbits);
+		return NULL;
+	}
+	if (nbytes > 0)
+		nbits -= count_leading_zeros(buffer[0]) - (BITS_PER_LONG - 8);
+
+	nlimbs = DIV_ROUND_UP(nbytes, BYTES_PER_MPI_LIMB);
+	val = mpi_alloc(nlimbs);
+	if (!val)
+Commit ID: TODO
+Category: FP
+Explanation: val is storing the mpi_alloced n limbs
+Patch: No

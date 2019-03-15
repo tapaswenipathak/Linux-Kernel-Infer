@@ -1,0 +1,63 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/ipv4/netfilter/nf_reject_ipv4.c#L128
+Code:
+	struct sk_buff *nskb;
+	struct iphdr *niph;
+	const struct tcphdr *oth;
+	struct tcphdr _oth;
+
+	oth = nf_reject_ip_tcphdr_get(oldskb, &_oth, hook);
+	if (!oth)
+		return;
+
+	if (skb_rtable(oldskb)->rt_flags & (RTCF_BROADCAST | RTCF_MULTICAST))
+		return;
+
+	nskb = alloc_skb(sizeof(struct iphdr) + sizeof(struct tcphdr) +
+			 LL_MAX_HEADER, GFP_ATOMIC);
+	if (!nskb)
+		return;
+
+	/* ip_route_me_harder expects skb->dst to be set */
+	skb_dst_set_noref(nskb, skb_dst(oldskb));
+
+	nskb->mark = IP4_REPLY_MARK(net, oldskb->mark);
+
+	skb_reserve(nskb, LL_MAX_HEADER);
+	niph = nf_reject_iphdr_put(nskb, oldskb, IPPROTO_TCP,
+				   ip4_dst_hoplimit(skb_dst(nskb)));
+	nf_reject_ip_tcphdr_put(nskb, oldskb, oth);
+
+	if (ip_route_me_harder(net, nskb, RTN_UNSPEC))
+		goto free_nskb;
+
+	niph = ip_hdr(nskb);
+
+	/* "Never happens" */
+	if (nskb->len > dst_mtu(skb_dst(nskb)))
+		goto free_nskb;
+
+	nf_ct_attach(nskb, oldskb);
+
+#if IS_ENABLED(CONFIG_BRIDGE_NETFILTER)
+	/* If we use ip_local_out for bridged traffic, the MAC source on
+	 * the RST will be ours, instead of the destination's.  This confuses
+	 * some routers/firewalls, and they drop the packet.  So we need to
+	 * build the eth header using the original destination's MAC as the
+	 * source, and send the RST packet directly.
+	 */
+	if (oldskb->nf_bridge) {
+		struct ethhdr *oeth = eth_hdr(oldskb);
+
+		nskb->dev = nf_bridge_get_physindev(oldskb);
+		niph->tot_len = htons(nskb->len);
+		ip_send_check(niph);
+		if (dev_hard_header(nskb, nskb->dev, ntohs(nskb->protocol),
+				    oeth->h_source, oeth->h_dest, nskb->len) < 0)
+			goto free_nskb;
+		dev_queue_xmit(nskb);
+	} else
+Commit ID: TODO
+Category: FP
+Explanation: niph  is of iphdr type and is used insie a ifdef.
+Patch: No

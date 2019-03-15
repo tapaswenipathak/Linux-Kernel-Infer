@@ -1,0 +1,14 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/ata/libata-scsi.c#L198
+Code:
+	link = dev->link;
+	now = jiffies;
+	if (ap->pflags & ATA_PFLAG_EH_IN_PROGRESS &&
+	    link->eh_context.unloaded_mask & (1 << dev->devno) &&
+	    time_after(dev->unpark_deadline, now))
+		msecs = jiffies_to_msecs(dev->unpark_deadline - now);
+	else
+Commit ID: TODO
+Category: FP
+Explanation: now has the jiffie count and required in time_after.
+Patch: No

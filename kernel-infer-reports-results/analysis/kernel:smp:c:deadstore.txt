@@ -1,0 +1,22 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/kernel/smp.c#L328
+Code:
+	int err = 0;
+
+	preempt_disable();
+
+	/* We could deadlock if we have to wait here with interrupts disabled! */
+	if (WARN_ON_ONCE(csd->flags & CSD_FLAG_LOCK))
+		csd_lock_wait(csd);
+
+	csd->flags = CSD_FLAG_LOCK;
+	smp_wmb();
+
+	err = generic_exec_single(cpu, csd, csd->func, csd->info);
+	preempt_enable();
+
+	return err;
+Commit ID: TODO
+Category: FP
+Explanation: err is storing the return value
+Patch: No

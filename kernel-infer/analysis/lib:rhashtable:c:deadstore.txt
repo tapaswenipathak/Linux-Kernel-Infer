@@ -1,0 +1,36 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/lib/rhashtable.c#L171
+Code:
+	struct bucket_table *tbl = NULL;
+	size_t size, max_locks;
+	int i;
+
+	size = sizeof(*tbl) + nbuckets * sizeof(tbl->buckets[0]);
+	tbl = kvzalloc(size, gfp);
+
+Commit ID: TODO
+Category: FP
+Explanation: tbl is ds allocated using kvzalloc holding buckets
+Patch: No
+
+-------------------------------------------------------------------------------------
+
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/lib/rhashtable.c#L256
+Code:
+	new_bucket_lock = rht_bucket_lock(new_tbl, new_hash);
+
+	spin_lock_nested(new_bucket_lock, SINGLE_DEPTH_NESTING);
+	head = rht_dereference_bucket(new_tbl->buckets[new_hash],
+				      new_tbl, new_hash);
+
+	RCU_INIT_POINTER(entry->next, head);
+
+	rcu_assign_pointer(new_tbl->buckets[new_hash], entry);
+	spin_unlock(new_bucket_lock);
+
+	rcu_assign_pointer(*pprev, next);
+Commit ID: TODO
+Category: FP
+Explanation: RCU_INIT_POINTER is used head iterating list ds
+Patch: No

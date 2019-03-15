@@ -1,0 +1,25 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/sound/core/sound.c#L153
+Code:
+	unsigned int minor = iminor(inode);
+	struct snd_minor *mptr = NULL;
+	const struct file_operations *new_fops;
+	int err = 0;
+
+	if (minor >= ARRAY_SIZE(snd_minors))
+		return -ENODEV;
+	mutex_lock(&sound_mutex);
+	mptr = snd_minors[minor];
+	if (mptr == NULL) {
+		mptr = autoload_device(minor);
+		if (!mptr) {
+			mutex_unlock(&sound_mutex);
+			return -ENODEV;
+		}
+	}
+
+Commit ID: TODO
+Category: FP
+Explanation: mptr is of snd device type and holding values like type, card, device,
+file operations e.t.c. 
+Patch: No

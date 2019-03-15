@@ -1,0 +1,13 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/input/ff-memless.c#L127
+Code:
+unsigned long now = jiffies;
+		if (time_before_eq(now, next_at) &&
+		    (++events == 1 || time_before(next_at, earliest)))
+			earliest = next_at;
+	}
+
+Commit ID: TODO
+Category: FP
+Explanation: now is storing the jiffies which is required in time_before_eq.
+Patch: No

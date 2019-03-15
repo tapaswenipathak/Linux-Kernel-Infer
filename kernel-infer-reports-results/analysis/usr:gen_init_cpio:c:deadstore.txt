@@ -1,0 +1,16 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/usr/gen_init_cpio.c#L303
+Code:
+	int file = -1;
+	int retval;
+	int rc = -1;
+	int namesize;
+	unsigned int i;
+
+	mode |= S_IFREG;
+
+	file = open (location, O_RDONLY);
+Commit ID: TODO
+Category: FP
+Explanation: file is storing the location pointer of when opening the file
+Patch: No

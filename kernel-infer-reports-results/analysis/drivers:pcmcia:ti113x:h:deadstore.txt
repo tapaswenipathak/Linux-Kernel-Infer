@@ -1,0 +1,20 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/pcmcia/ti113x.h#L323
+Code:
+	int isa_irq = -1;
+	u8 intctl;
+	u32 isa_irq_mask = 0;
+
+	if (!isa_probe)
+		return;
+
+	/* get a free isa int */
+	isa_irq_mask = yenta_probe_irq(socket, isa_interrupts);
+	if (!isa_irq_mask)
+		return; /* no useable isa irq found */
+
+	/* choose highest available */
+Commit ID: TODO
+Category: FP
+Explanation: isa_irq_mask is storing the isa interrupt
+Patch: No

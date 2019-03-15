@@ -1,0 +1,28 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/kernel/kallsyms.c#L201
+Code:
+{
+	unsigned long symbol_start = 0, symbol_end = 0;
+	unsigned long i, low, high, mid;
+
+	/* This kernel should never had been booted. */
+	if (!IS_ENABLED(CONFIG_KALLSYMS_BASE_RELATIVE))
+		BUG_ON(!kallsyms_addresses);
+	else
+		BUG_ON(!kallsyms_offsets);
+
+	/* Do a binary search on the sorted kallsyms_addresses array. */
+	low = 0;
+	high = kallsyms_num_syms;
+
+	while (high - low > 1) {
+		mid = low + (high - low) / 2;
+		if (kallsyms_sym_address(mid) <= addr)
+			low = mid;
+		else
+			high = mid;
+	}
+Commit ID: TODO
+Category: FP
+Explanation: symbol_start stores the value from kallsyms_sym_address
+Patch: No

@@ -1,0 +1,20 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/edac/edac_device.c#L77
+Code:
+dev_ctl = edac_align_ptr(&p, sizeof(*dev_ctl), 1);
+
+dev_ctl = kzalloc(total_size, GFP_KERNEL);
+if (dev_ctl == NULL)
+	return NULL;
+
+dev_ctl->dev_idx = device_index;
+dev_ctl->nr_instances = nr_instances;
+dev_ctl->instances = dev_inst;
+dev_ctl->pvt_info = pvt;
+
+Commit ID: TODO
+Category: FP
+Explanation: first aligned using edac_align_ptr, allocated memeory for the set of control
+structures using kzalloc, checked for null, has device_index, nr_instances, device isntructions and logging info for CEs and UEs; important variable.
+Patch to kernel: No
+Patch to infer: Yes

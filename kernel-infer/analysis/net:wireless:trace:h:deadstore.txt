@@ -1,0 +1,14 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/wireless/trace.h#L281
+Code: doesn't exist in 5.0-rc8
+
+-------------------------------------------------------------------------------------
+
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/wireless/trace.h#L217
+Code: doesn't exist in 5.0-rc8
+TODO: update txt
+Commit ID:
+Category:
+Explanation:
+Patch:

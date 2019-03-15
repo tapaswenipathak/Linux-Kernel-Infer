@@ -1,0 +1,22 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/netlabel/netlabel_mgmt.c#L297
+Code:
+	int ret_val = 0;
+	struct nlattr *nla_a;
+	struct nlattr *nla_b;
+	struct netlbl_af4list *iter4;
+#if IS_ENABLED(CONFIG_IPV6)
+	struct netlbl_af6list *iter6;
+#endif
+
+	if (entry->domain != NULL) {
+		ret_val = nla_put_string(skb,
+					 NLBL_MGMT_A_DOMAIN, entry->domain);
+		if (ret_val != 0)
+			return ret_val;
+	}
+
+Commit ID: TODO
+Category: FP
+Explanation: ret val is storing the return value of the many function calls
+Patch: No

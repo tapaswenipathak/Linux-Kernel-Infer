@@ -1,0 +1,25 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/ipv6/addrlabel.c#L206
+Code:
+	struct ip6addrlbl_entry *last = NULL, *p = NULL;
+	struct hlist_node *n;
+	int ret = 0;
+
+	ADDRLABEL(KERN_DEBUG "%s(newp=%p, replace=%d)\n", __func__, newp,
+		  replace);
+
+	hlist_for_each_entry_safe(p, n,	&net->ipv6.ip6addrlbl_table.head, list) {
+		if (p->prefixlen == newp->prefixlen &&
+		    p->ifindex == newp->ifindex &&
+		    ipv6_addr_equal(&p->prefix, &newp->prefix)) {
+			if (!replace) {
+				ret = -EEXIST;
+				goto out;
+			}
+			hlist_replace_rcu(&p->list, &newp->list);
+			kfree_rcu(p, rcu);
+			goto out;
+Commit ID: TODO
+Category: FP
+Explanation: p is used many places as shown above
+Patch: No

@@ -1,0 +1,21 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/kernel/cgroup/freezer.c#L253
+Code:
+	lockdep_assert_held(&freezer_mutex);
+
+	if (!(freezer->state & CGROUP_FREEZING) ||
+	    (freezer->state & CGROUP_FROZEN))
+		return;
+
+	/* are all (live) children frozen? */
+	rcu_read_lock();
+	css_for_each_child(pos, css) {
+		struct freezer *child = css_freezer(pos);
+
+		if ((child->state & CGROUP_FREEZER_ONLINE) &&
+		    !(child->state & CGROUP_FROZEN)) {
+			rcu_read_unlock();
+Commit ID: TODO
+Category: FP
+Explanation: freezer is being used calculating determining the action on the task
+Patch: No

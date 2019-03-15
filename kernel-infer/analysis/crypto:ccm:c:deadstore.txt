@@ -1,0 +1,56 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/crypto/ccm.c#L99
+Code:
+	struct crypto_skcipher *ctr = ctx->ctr;
+	struct crypto_ahash *mac = ctx->mac;
+	int err = 0;
+
+	crypto_skcipher_clear_flags(ctr, CRYPTO_TFM_REQ_MASK);
+	crypto_skcipher_set_flags(ctr, crypto_aead_get_flags(aead) &
+				       CRYPTO_TFM_REQ_MASK);
+	err = crypto_skcipher_setkey(ctr, key, keylen);
+	crypto_aead_set_flags(aead, crypto_skcipher_get_flags(ctr) &
+			      CRYPTO_TFM_RES_MASK);
+	if (err)
+		goto out;
+
+	crypto_ahash_clear_flags(mac, CRYPTO_TFM_REQ_MASK);
+	crypto_ahash_set_flags(mac, crypto_aead_get_flags(aead) &
+				    CRYPTO_TFM_REQ_MASK);
+	err = crypto_ahash_setkey(mac, key, keylen);
+	crypto_aead_set_flags(aead, crypto_ahash_get_flags(mac) &
+			      CRYPTO_TFM_RES_MASK);
+
+out:
+	return err;
+Commit ID: TODO
+Category: FP
+Explanation: The funcion is setting crypto ccm, err is having the error values for
+the function and is also a return value for the function.
+Patch: No
+
+
+--------------
+
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/crypto/ccm.c#L164
+Code:
+	int len = 0;
+
+	/* add control info for associated data
+	 * RFC 3610 and NIST Special Publication 800-38C
+	 */
+	if (a < 65280) {
+		*(__be16 *)adata = cpu_to_be16(a);
+		len = 2;
+	} else  {
+		*(__be16 *)adata = cpu_to_be16(0xfffe);
+		*(__be32 *)&adata[2] = cpu_to_be32(a);
+		len = 6;
+	}
+
+	return len;
+Commit ID: TODO
+Category: FP
+Explanation: returns the len based on the control info for associated data.
+Patch: No

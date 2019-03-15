@@ -1,0 +1,42 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/kernel/cgroup/rstat.c#L106
+Code:
+while (true) {
+	rstatc = cgroup_rstat_cpu(pos, cpu);
+	if (rstatc->updated_children == pos)
+		break;
+	pos = rstatc->updated_children;
+}
+
+cgroup_rstat_cpu definition:
+
+static struct cgroup_rstat_cpu *cgroup_rstat_cpu(struct cgroup *cgrp, int cpu)
+{
+	return per_cpu_ptr(cgrp->rstat_cpu, cpu);
+}
+
+per_cpu_ptr macro definition:
+#define per_cpu_ptr(ptr, cpu)						\
+({									\
+	__verify_pcpu_ptr(ptr);						\
+	SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));			\
+})
+
+
+__verify_pcpy_ptr macro definition:
+#define __verify_pcpu_ptr(ptr)						\
+do {									\
+	const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;	\
+	(void)__vpp_verify;						\
+} while (0)
+
+SHIFT_PERCPU_PTR macro definition:
+#define SHIFT_PERCPU_PTR(__p, __offset)					\
+	RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
+
+_
+Commit ID: TODO
+Category: Bug
+Explanation: The end macros can return null, so there should be a null check before
+dereferencing the variable.
+Patch: In process

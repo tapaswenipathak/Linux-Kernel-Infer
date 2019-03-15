@@ -1,0 +1,26 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/netfilter/nfnetlink.c#L367
+Code:
+
+		memset(&extack, 0, sizeof(extack));
+		nlh = nlmsg_hdr(skb);
+		err = 0;
+
+		if (nlh->nlmsg_len < NLMSG_HDRLEN ||
+		    skb->len < nlh->nlmsg_len ||
+		    nlmsg_len(nlh) < sizeof(struct nfgenmsg)) {
+			nfnl_err_reset(&err_list);
+			status |= NFNL_BATCH_FAILURE;
+			goto done;
+		}
+
+		/* Only requests are handled by the kernel */
+		if (!(nlh->nlmsg_flags & NLM_F_REQUEST)) {
+			err = -EINVAL;
+			goto ack;
+		}
+
+Commit ID: TODO
+Category: FP
+Explanation: err is storing value and return value of the function
+Patch: No

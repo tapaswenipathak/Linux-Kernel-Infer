@@ -1,0 +1,13 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/scsi/scsi_logging.c#L115
+Code:
+	if (!WARN_ON(off >= logbuf_len)) {
+		va_start(args, fmt);
+		off += vscnprintf(logbuf + off, logbuf_len - off, fmt, args);
+		va_end(args);
+	}
+Commit ID: TODO
+Category: Bug
+Explanation: The value written to off at this point is not used further so cthis can
+be only computation.
+Patch: In process

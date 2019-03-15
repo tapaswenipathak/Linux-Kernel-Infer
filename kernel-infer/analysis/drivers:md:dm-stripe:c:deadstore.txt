@@ -1,0 +1,20 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/md/dm-stripe.c#L249
+Code:
+	stripe_map_sector(sc, sector, &stripe, result);
+	if (stripe == target_stripe)
+		return;
+
+	/* round down */
+	sector = *result;
+	if (sc->chunk_size_shift < 0)
+		*result -= sector_div(sector, sc->chunk_size);
+	else
+		*result = sector & ~(sector_t)(sc->chunk_size - 1);
+
+	if (target_stripe < stripe)
+		*result += sc->chunk_size;		/* next chunk */
+Commit ID: TODO
+Category: FP
+Explanation sector is being used to caculate allocated chunk size
+Patch: No

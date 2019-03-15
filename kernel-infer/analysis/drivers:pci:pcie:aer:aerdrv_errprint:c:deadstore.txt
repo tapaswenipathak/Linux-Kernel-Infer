@@ -1,0 +1,24 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/pci/pcie/aer.c#L721
+Code:
+	const char *errmsg = NULL;
+	status = (info->status & ~info->mask);
+
+	for (i = 0; i < 32; i++) {
+		if (!(status & (1 << i)))
+			continue;
+
+		if (info->severity == AER_CORRECTABLE)
+			errmsg = i < ARRAY_SIZE(aer_correctable_error_string) ?
+				aer_correctable_error_string[i] : NULL;
+		else
+			errmsg = i < ARRAY_SIZE(aer_uncorrectable_error_string) ?
+				aer_uncorrectable_error_string[i] : NULL;
+
+		if (errmsg)
+			pci_err(dev, "   [%2d] %-22s%s\n", i, errmsg,
+				info->first_error == i ? " (First)" : "");
+Commit ID: TODO
+Category: FP
+Explanation: pci_err prints the error message.
+Patch: No

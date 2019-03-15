@@ -1,0 +1,21 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/ipv6/mcast_snoop.c#L143
+Code:
+	struct sk_buff *skb_chk = NULL;
+	unsigned int transport_len;
+	unsigned int len = skb_transport_offset(skb) + sizeof(struct mld_msg);
+	int ret = -EINVAL;
+
+	transport_len = ntohs(ipv6_hdr(skb)->payload_len);
+	transport_len -= skb_transport_offset(skb) - sizeof(struct ipv6hdr);
+
+	skb_chk = skb_checksum_trimmed(skb, transport_len,
+				       ipv6_mc_validate_checksum);
+	if (!skb_chk)
+		goto err;
+
+
+Commit ID: TODO
+Category: FP
+Explanation: skb_chk stores skb_checksum_trimmed return value which could be an errorenous value.
+Patch: No

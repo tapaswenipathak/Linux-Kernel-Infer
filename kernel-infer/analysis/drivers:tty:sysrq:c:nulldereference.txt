@@ -1,0 +1,22 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/tty/sysrq.c#L147
+Code:
+static void sysrq_handle_crash(int key)
+{
+	char *killer = NULL;
+
+	/* we need to release the RCU read lock here,
+	 * otherwise we get an annoying
+	 * 'BUG: sleeping function called from invalid context'
+	 * complaint from the kernel before the panic.
+	 */
+	rcu_read_unlock();
+	panic_on_oops = 1;	/* force panic */
+	wmb();
+	*killer = 1;
+}
+Commit ID: TODO
+Category: FP
+Explanation: variable shouldn't be dereferenced if it is pointing to null but not sure
+if this is intentional in this function.
+Patch: In process

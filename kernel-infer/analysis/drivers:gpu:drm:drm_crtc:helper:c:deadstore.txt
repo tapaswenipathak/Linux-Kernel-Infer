@@ -1,0 +1,50 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/gpu/drm/drm_crtc_helper.c#L282
+Code:
+	struct drm_encoder *encoder;
+	bool ret = true;
+
+	drm_warn_on_modeset_not_all_locked(dev);
+
+	saved_enabled = crtc->enabled;
+	crtc->enabled = drm_helper_crtc_in_use(crtc);
+	if (!crtc->enabled)
+		return true;
+
+	adjusted_mode = drm_mode_duplicate(dev, mode);
+	if (!adjusted_mode) {
+		crtc->enabled = saved_enabled;
+		return false;
+	}
+
+	saved_mode = crtc->mode;
+	saved_hwmode = crtc->hwmode;
+	saved_x = crtc->x;
+	saved_y = crtc->y;
+
+	/* Update crtc values up front so the driver can rely on them for mode
+	 * setting.
+	 */
+	crtc->mode = *mode;
+	crtc->x = x;
+	crtc->y = y;
+
+	/* Pass our mode to the connectors and the CRTC to give them a chance to
+	 * adjust it according to limitations or connector properties, and also
+	 * a chance to reject the mode entirely.
+	 */
+	drm_for_each_encoder(encoder, dev) {
+
+		if (encoder->crtc != crtc)
+			continue;
+
+		encoder_funcs = encoder->helper_private;
+		if (!encoder_funcs)
+			continue;
+
+		ret = drm_bridge_mode_fixup(encoder->bridge,
+			mode, adjusted_mode);
+Commit ID: TODO
+Category: FP
+Explanation: ret is storing the value from different functions
+Patch: No

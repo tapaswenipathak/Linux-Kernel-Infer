@@ -1,0 +1,23 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/security/keys/proc.c#L101
+Code:
+	while (n) {
+		struct key *key = rb_entry(n, struct key, serial_node);
+		if (id < key->serial) {
+			if (!minkey || minkey->serial > key->serial)
+				minkey = key;
+			n = n->rb_left;
+		} else if (id > key->serial) {
+			n = n->rb_right;
+		} else {
+			minkey = key;
+			break;
+		}
+		key = NULL;
+	}
+
+Commit ID: TODO
+Category: FP
+Explanation: key variable is inside a while loop holding the return value from rb_entry
+kapi.
+Patch: No

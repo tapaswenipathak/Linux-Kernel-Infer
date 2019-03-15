@@ -1,0 +1,39 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/crypto/asymmetric_keys/x509_public_key.c#L108
+Code:
+
+int ret = 0;
+
+			goto not_self_signed;
+
+		ret = -EKEYREJECTED;
+		if (((a && !b) || (b && !a)) &&
+		    cert->sig->auth_ids[0] && cert->sig->auth_ids[1])
+			goto out;
+	}
+
+	ret = -EKEYREJECTED;
+Commit ID: TODO
+Category: FP
+Explanation: ret is having the error codes for this function.
+Patch to kernel: No
+Patch to infer: Yes
+
+---------------------------
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/crypto/asymmetric_keys/x509_public_key.c#L167
+Code:
+	char *desc = NULL, *p;
+
+	ret = -ENOMEM;
+	desc = kmalloc(sulen + 2 + srlen * 2 + 1, GFP_KERNEL);
+	if (!desc)
+		goto error_free_cert;
+	p = memcpy(desc, cert->subject, sulen);
+	p += sulen;
+	*p++ = ':';
+	*p++ = ' ';
+Commit ID: TODO
+Category: FP
+Explanation: having the description memory allocated using kmalloc.
+Patch: No

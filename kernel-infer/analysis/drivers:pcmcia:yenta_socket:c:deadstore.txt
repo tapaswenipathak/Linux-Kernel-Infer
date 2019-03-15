@@ -1,0 +1,19 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/pcmcia/yenta_socket.c#L177
+Code:
+	struct pci_dev *dev = to_pci_dev(yentadev);
+	struct yenta_socket *socket = pci_get_drvdata(dev);
+	int offset = 0, i;
+
+	offset = snprintf(buf, PAGE_SIZE, "CB registers:");
+	for (i = 0; i < 0x24; i += 4) {
+		unsigned val;
+		if (!(i & 15))
+			offset += snprintf(buf + offset, PAGE_SIZE - offset, "\n%02x:", i);
+		val = cb_readl(socket, i);
+		offset += snprintf(buf + offset, PAGE_SIZE - offset, " %08x", val);
+	}
+Commit ID: TODO
+Category: FP
+Explanation: offset is holding the character count from snprintf.
+Patch: No

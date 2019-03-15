@@ -1,0 +1,17 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/video/fbdev/core/bitblit.c#L252
+Code:
+
+	if (softback_lines) {
+		if (y + softback_lines >= vc->vc_rows) {
+			mode = CM_ERASE;
+			ops->cursor_flash = 0;
+			return;
+		} else
+			y += softback_lines;
+	}
+
+Commit ID: TODO
+Category: FP 
+Explanation: used in state
+Patch: No

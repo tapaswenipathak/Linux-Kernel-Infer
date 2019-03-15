@@ -1,0 +1,25 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/gpu/drm/i915/intel_guc_ct.c#L411
+Code:
+#define done (READ_ONCE(desc->fence) == fence)
+	err = wait_for_us(done, 10);
+	if (err)
+		err = wait_for(done, 10);
+#undef done
+
+	if (unlikely(err)) {
+		DRM_ERROR("CT: fence %u failed; reported fence=%u\n",
+			  fence, desc->fence);
+
+		if (WARN_ON(desc->is_in_error)) {
+			/* Something went wrong with the messaging, try to reset
+			 * the buffer and hope for the best
+			 */
+			guc_ct_buffer_desc_reset(desc);
+			err = -EPROTO;
+		}
+	}
+Commit ID: TODO
+Category: FP
+Explanation: no timeout varible in this function
+Patch: No

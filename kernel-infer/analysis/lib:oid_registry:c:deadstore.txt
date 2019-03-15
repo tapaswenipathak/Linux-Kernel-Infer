@@ -1,0 +1,21 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/lib/oid_registry.c#L129
+Code:
+	while (v < end) {
+		num = 0;
+		n = *v++;
+		if (!(n & 0x80)) {
+			num = n;
+		} else {
+			num = n & 0x7f;
+			do {
+				if (v >= end)
+					goto bad;
+				n = *v++;
+				num <<= 7;
+				num |= n & 0x7f;
+			} while (n & 0x80);
+Commit ID: TODO
+Category: FP
+Explanation: Well, a lot computation.
+Patch: No

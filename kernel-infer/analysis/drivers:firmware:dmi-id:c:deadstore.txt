@@ -1,0 +1,43 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/firmware/dmi-id.c#L208
+Code:
+
+static void __init dmi_id_init_attr_table(void)
+{
+	int i;
+
+	/* Not necessarily all DMI fields are available on all
+	 * systems, hence let's built an attribute table of just
+	 * what's available */
+	i = 0;
+	ADD_DMI_ATTR(bios_vendor,       DMI_BIOS_VENDOR);
+	ADD_DMI_ATTR(bios_version,      DMI_BIOS_VERSION);
+	ADD_DMI_ATTR(bios_date,         DMI_BIOS_DATE);
+	ADD_DMI_ATTR(sys_vendor,        DMI_SYS_VENDOR);
+	ADD_DMI_ATTR(product_name,      DMI_PRODUCT_NAME);
+	ADD_DMI_ATTR(product_version,   DMI_PRODUCT_VERSION);
+	ADD_DMI_ATTR(product_serial,    DMI_PRODUCT_SERIAL);
+	ADD_DMI_ATTR(product_uuid,      DMI_PRODUCT_UUID);
+	ADD_DMI_ATTR(product_family,    DMI_PRODUCT_FAMILY);
+	ADD_DMI_ATTR(product_sku,       DMI_PRODUCT_SKU);
+	ADD_DMI_ATTR(board_vendor,      DMI_BOARD_VENDOR);
+	ADD_DMI_ATTR(board_name,        DMI_BOARD_NAME);
+	ADD_DMI_ATTR(board_version,     DMI_BOARD_VERSION);
+	ADD_DMI_ATTR(board_serial,      DMI_BOARD_SERIAL);
+	ADD_DMI_ATTR(board_asset_tag,   DMI_BOARD_ASSET_TAG);
+	ADD_DMI_ATTR(chassis_vendor,    DMI_CHASSIS_VENDOR);
+	ADD_DMI_ATTR(chassis_type,      DMI_CHASSIS_TYPE);
+	ADD_DMI_ATTR(chassis_version,   DMI_CHASSIS_VERSION);
+	ADD_DMI_ATTR(chassis_serial,    DMI_CHASSIS_SERIAL);
+	ADD_DMI_ATTR(chassis_asset_tag, DMI_CHASSIS_ASSET_TAG);
+	sys_dmi_attributes[i++] = &sys_dmi_modalias_attr.attr;
+}
+
+
+static struct attribute *sys_dmi_attributes[DMI_STRING_MAX+2];
+
+
+Commit ID: TODO
+Category: FP
+Explanation: sys_dmi_attrbitues is global array defined above the function.
+Patch: No

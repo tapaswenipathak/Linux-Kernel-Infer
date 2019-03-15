@@ -1,0 +1,22 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/sound/core/info.c#L130
+Code:
+	if (entry->c.ops->llseek) {
+		offset = entry->c.ops->llseek(entry,
+					      data->file_private_data,
+					      file, offset, orig);
+		goto out;
+	}
+
+	size = entry->size;
+	switch (orig) {
+	case SEEK_SET:
+		break;
+	case SEEK_CUR:
+		offset += file->f_pos;
+		break;
+Commit ID: TODO
+Category: FP
+Explanation: offset is file offset
+Patch to kernel: No
+Patch to infer: Maybe

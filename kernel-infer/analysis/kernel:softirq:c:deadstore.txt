@@ -1,0 +1,25 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/kernel/softirq.c#L251
+Code:
+	unsigned long end = jiffies + MAX_SOFTIRQ_TIME;
+	unsigned long old_flags = current->flags;
+	int max_restart = MAX_SOFTIRQ_RESTART;
+	struct softirq_action *h;
+	bool in_hardirq;
+	__u32 pending;
+	int softirq_bit;
+
+	/*
+Commit ID: TODO
+Category: FP
+Explanation: end variable is being used calculate time storing jiffies
+Patch: No
+
+-------------------------------------------------------------------------------------
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/kernel/softirq.c#L253
+Code: written above
+Commit ID: TODO
+Category: FP
+Explanation: max_restart is being used in calculating jiffies
+Patch: No

@@ -1,0 +1,15 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/pcmcia/ds.c#L105
+Code:
+	int fields = 0;
+	int retval = 0;
+
+	fields = sscanf(buf, "%hx %hx %hx %hhx %hhx %hhx %x %x %x %x",
+			&match_flags, &manf_id, &card_id, &func_id, &function, &device_no,
+			&prod_id_hash[0], &prod_id_hash[1], &prod_id_hash[2], &prod_id_hash[3]);
+	if (fields < 6)
+		return -EINVAL;
+Commit ID: TODO
+Category: FP
+Explanation: fields is storing the value scaned using sscanf successfully.
+Patch: No

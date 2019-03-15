@@ -1,0 +1,16 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/pci/access.c#L259
+Code:
+EXPORT_SYMBOL_GPL(pci_user_write_config_##size);
+
+PCI_USER_READ_CONFIG(byte, u8)
+PCI_USER_READ_CONFIG(word, u16)
+PCI_USER_READ_CONFIG(dword, u32)
+PCI_USER_WRITE_CONFIG(byte, u8)
+PCI_USER_WRITE_CONFIG(word, u16)
+PCI_USER_WRITE_CONFIG(dword, u32)
+
+Commit ID: TODO
+Category: FP
+Explanation: ret is storing the return value of the function
+Patch: No

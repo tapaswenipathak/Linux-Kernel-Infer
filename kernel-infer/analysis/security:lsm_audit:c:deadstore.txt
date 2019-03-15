@@ -1,0 +1,18 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/security/lsm_audit.c#L114
+Code:
+	int offset, ret = 0;
+	struct ipv6hdr *ip6;
+	u8 nexthdr;
+	__be16 frag_off;
+
+	ip6 = ipv6_hdr(skb);
+	if (ip6 == NULL)
+		return -EINVAL;
+	ad->u.net->v6info.saddr = ip6->saddr;
+	ad->u.net->v6info.daddr = ip6->daddr;
+	ret = 0;
+Commit ID: TODO
+Category: FP
+Explanation: ret holds the return error codes for the function.
+Patch: No

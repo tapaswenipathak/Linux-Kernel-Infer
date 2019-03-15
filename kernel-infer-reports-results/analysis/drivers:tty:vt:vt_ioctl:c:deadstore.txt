@@ -1,0 +1,63 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/tty/vt/vt_ioctl.c#L819
+Code:
+	 case VT_DISALLOCATE:
+		if (arg > MAX_NR_CONSOLES) {
+			ret = -ENXIO;
+			break;
+		}
+		if (arg == 0)
+			vt_disallocate_all();
+		else
+			ret = vt_disallocate(--arg);
+		break;
+
+	case VT_RESIZE:
+	{
+		struct vt_sizes __user *vtsizes = up;
+		struct vc_data *vc;
+
+		ushort ll,cc;
+		if (!perm)
+			return -EPERM;
+		if (get_user(ll, &vtsizes->v_rows) ||
+		    get_user(cc, &vtsizes->v_cols))
+			ret = -EFAULT;
+		else {
+			console_lock();
+			for (i = 0; i < MAX_NR_CONSOLES; i++) {
+				vc = vc_cons[i].d;
+
+				if (vc) {
+					vc->vc_resize_user = 1;
+					/* FIXME: review v tty lock */
+					vc_resize(vc_cons[i].d, cc, ll);
+				}
+			}
+			console_unlock();
+		}
+		break;
+	}
+
+	case VT_RESIZEX:
+	{
+		struct vt_consize v;
+		if (!perm)
+			return -EPERM;
+		if (copy_from_user(&v, up, sizeof(struct vt_consize)))
+			return -EFAULT;
+		/* FIXME: Should check the copies properly */
+		if (!v.v_vlin)
+			v.v_vlin = vc->vc_scan_lines;
+		if (v.v_clin) {
+			int rows = v.v_vlin/v.v_clin;
+			if (v.v_rows != rows) {
+				if (v.v_rows) /* Parameters don't add up */
+					return -EINVAL;
+				v.v_rows = rows;
+			}
+		}
+Commit ID: TODO
+Category: FP
+Explanation: arg is being used while vt_disallocate
+Patch: No

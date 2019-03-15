@@ -1,17 +1,27 @@
 Type: DEAD_STORE
-Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/pci/proc.c#L100
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/pci/proc.c#L137
 Code:
-if (cnt) {
-	unsigned char val;
-	pci_user_read_config_byte(dev, pos, &val);
-	__put_user(val, buf);
-	buf++;
-	pos++;
-	cnt--;
-}
+	if ((pos & 1) && cnt) {
+		unsigned char val;
+		__get_user(val, buf);
+		pci_user_write_config_byte(dev, pos, val);
+		buf++;
+		pos++;
+		cnt--;
+	}
+
+	if ((pos & 3) && cnt > 2) {
+		__le16 val;
+		__get_user(val, (__le16 __user *) buf);
+		pci_user_write_config_word(dev, pos, le16_to_cpu(val));
+		buf += 2;
+		pos += 2;
+		cnt -= 2;
+	}
+
+	while (cnt >= 4) {
 Commit ID: TODO
-Category: Possibly a bug
-Explanation: buf is not passed as pointer to pointer to memory address and be a bug
-when the value update is not shown in the caller. It is better to pass this as pointer
-to pointer address.
-Patch to kernel: In process.
+Category: FP
+Explanation: pos can have a value truing multiple ifs so buf and cnt are a kind of
+fall through variables.
+Patch: No

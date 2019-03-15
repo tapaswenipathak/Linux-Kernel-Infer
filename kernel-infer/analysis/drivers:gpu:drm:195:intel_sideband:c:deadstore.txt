@@ -1,0 +1,26 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/gpu/drm/i915/intel_sideband.c#L208
+Code:
+
+Commit ID:RN_ON(!mutex_is_locked(&dev_priv->sb_lock));
+
+	if (intel_wait_for_register(dev_priv,
+				    SBI_CTL_STAT, SBI_BUSY, 0,
+				    100)) {
+		DRM_ERROR("timeout waiting for SBI to become ready\n");
+		return 0;
+	}
+
+	I915_WRITE(SBI_ADDR, (reg << 16));
+	I915_WRITE(SBI_DATA, 0);
+
+	if (destination == SBI_ICLK)
+		value = SBI_CTL_DEST_ICLK | SBI_CTL_OP_CRRD;
+	else
+		value = SBI_CTL_DEST_MPHY | SBI_CTL_OP_IORD;
+	I915_WRITE(SBI_CTL_STAT, value | SBI_BUSY);
+
+	if (intel_wait_for_register(dev_priv,
+Category: FP
+Explanation: value is being at lot of places
+Patch: No

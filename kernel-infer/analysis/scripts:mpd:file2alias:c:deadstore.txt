@@ -1,0 +1,8 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/scripts/mod/file2alias.c#L204
+Code:
+	DEF_FIELD(symval, usb_device_id, bcdDevice_lo);
+Commit ID: TODO
+Category: FP
+Explanation: bcdDevice_lo is used for a check on bcdDecice_digits required length
+Patch: No

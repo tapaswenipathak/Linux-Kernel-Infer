@@ -1,0 +1,21 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/ata/libata-acpi.c#L291
+Code:
+	union acpi_object *out_obj;
+	acpi_status status;
+	int rc = 0;
+	acpi_handle handle = ACPI_HANDLE(&ap->tdev);
+
+	if (!handle)
+		return -EINVAL;
+
+	status = acpi_evaluate_object(handle, "_GTM", NULL, &output);
+
+	rc = -ENOENT;
+	if (status == AE_NOT_FOUND)
+		goto out_free;
+
+Commit ID: TODO
+Category: FP
+Explanation: rc is storing the errorneous value
+Patch: No

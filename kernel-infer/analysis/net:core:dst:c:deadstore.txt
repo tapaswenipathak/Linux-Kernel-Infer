@@ -1,0 +1,10 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/net/core/dst.c#L154
+Code:
+	struct dst_entry *dst = container_of(head, struct dst_entry, rcu_head);
+
+		dst = dst_destroy(dst);
+Commit ID: TODO
+Category: Bug
+Explanation: this is last statement so assignment to dst can be dropped.
+Patch: In process

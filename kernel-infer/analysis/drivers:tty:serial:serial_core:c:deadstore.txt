@@ -1,0 +1,46 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/tty/serial/serial_core.c#L189
+Code:
+
+	int retval = 0;
+
+	if (uport->type == PORT_UNKNOWN)
+		return 1;
+
+	/*
+	 * Make sure the device is in D0 state.
+	 */
+	uart_change_pm(state, UART_PM_STATE_ON);
+
+	/*
+	 * Initialise and allocate the transmit and temporary
+	 * buffer.
+	 */
+	page = get_zeroed_page(GFP_KERNEL);
+	if (!page)
+		return -ENOMEM;
+
+	uart_port_lock(state, flags);
+	if (!state->xmit.buf) {
+		state->xmit.buf = (unsigned char *) page;
+		uart_circ_clear(&state->xmit);
+		uart_port_unlock(uport, flags);
+	} else {
+		uart_port_unlock(uport, flags);
+		/*
+		 * Do not free() the page under the port lock, see
+		 * uart_shutdown().
+		 */
+		free_page(page);
+	}
+
+	retval = uport->ops->startup(uport);
+	if (retval == 0) {
+		if (uart_console(uport) && uport->cons->cflag) {
+			tty->termios.c_cflag = uport->cons->cflag;
+			uport->cons->cflag = 0;
+		}
+Commit ID: TODO
+Category: FP
+Explanation: ret is being initialised.
+Patch: No

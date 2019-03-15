@@ -1,0 +1,41 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/ipv6/sit.c#L304
+Code:
+	struct ip_tunnel_prl kprl, *kp;
+	struct ip_tunnel_prl_entry *prl;
+	unsigned int cmax, c = 0, ca, len;
+	int ret = 0;
+
+	if (copy_from_user(&kprl, a, sizeof(kprl)))
+		return -EFAULT;
+	cmax = kprl.datalen / sizeof(kprl);
+	if (cmax > 1 && kprl.addr != htonl(INADDR_ANY))
+		cmax = 1;
+
+	/* For simple GET or for root users,
+	 * we try harder to allocate.
+	 */
+	kp = (cmax <= 1 || capable(CAP_NET_ADMIN)) ?
+		kcalloc(cmax, sizeof(*kp), GFP_KERNEL | __GFP_NOWARN) :
+		NULL;
+
+	rcu_read_lock();
+
+	ca = t->prl_count < cmax ? t->prl_count : cmax;
+
+	if (!kp) {
+		/* We don't try hard to allocate much memory for
+		 * non-root users.
+		 * For root users, retry allocating enough memory for
+		 * the answer.
+		 */
+		kp = kcalloc(ca, sizeof(*kp), GFP_ATOMIC);
+		if (!kp) {
+			ret = -ENOMEM;
+			goto out;
+		}
+	}
+Commit ID: TODO
+Category: FP
+Explanation: ret is storing the error type
+Patch: No

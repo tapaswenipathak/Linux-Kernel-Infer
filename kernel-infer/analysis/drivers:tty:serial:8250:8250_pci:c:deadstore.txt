@@ -1,0 +1,32 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/tty/serial/8250/8250_pci.c#L106
+Code:
+	unsigned int bar = 0, offset = board->first_offset;
+	bar = FL_GET_BASE(board->flags);
+
+	if (idx < 2) {
+		offset += idx * board->uart_offset;
+	} else if ((idx >= 2) && (idx < 4)) {
+		bar += 1;
+		offset += ((idx - 2) * board->uart_offset);
+	} else if ((idx >= 4) && (idx < 6)) {
+		bar += 2;
+		offset += ((idx - 4) * board->uart_offset);
+	} else if (idx >= 6) {
+		bar += 3;
+		offset += ((idx - 6) * board->uart_offset);
+	}
+
+	return setup_port(priv, port, bar, offset, board->reg_shift);
+Commit ID: TODO
+Category: FP
+Explanation: bar is variable which holds pci support value which could be any of the
+following
+#define FL_BASE_MASK		0x0007
+#define FL_BASE0		0x0000
+#define FL_BASE1		0x0001
+#define FL_BASE2		0x0002
+#define FL_BASE3		0x0003
+#define FL_BASE4		0x0004
+#define FL_GET_BASE(x)		(x & FL_BASE_MASK)
+Patch: No

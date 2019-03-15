@@ -1,7 +1,0 @@
-default 0
-timeout 10
-
-title webos (from USB)
-root (hd0,0)
-kernel /boot/linux-4.16 rdinit=/usbboot video=vesa:ywrap,mtrr:3 vga=0x314 rw quiet
-initrd /boot/initramfs.cpio.gz

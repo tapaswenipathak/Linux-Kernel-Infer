@@ -1,0 +1,18 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/ipv4/sysctl_net_ipv4.c#L358
+Code:
+	int ret = 0;
+
+	ret = proc_dointvec(table, write, buffer, lenp, ppos);
+
+	if (write && !ret) {
+		int enabled = init_net.ipv4.sysctl_tcp_early_demux;
+
+		proc_configure_early_demux(enabled, IPPROTO_TCP);
+	}
+
+	return ret;
+Commit ID: TODO
+Category: FP
+Explanation: ret is storing the return value of the function
+Patch: No

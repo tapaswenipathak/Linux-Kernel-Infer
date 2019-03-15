@@ -1,0 +1,27 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/power/supply/power_supply_sysfs.c#L119
+Code:
+					  char *buf) {
+	ssize_t ret;
+	struct power_supply *psy = dev_get_drvdata(dev);
+	enum power_supply_property psp = attr - power_supply_attrs;
+	union power_supply_propval value;
+
+	if (psp == POWER_SUPPLY_PROP_TYPE) {
+		value.intval = psy->desc->type;
+	} else {
+		ret = power_supply_get_property(psy, psp, &value);
+
+		if (ret < 0) {
+			if (ret == -ENODATA)
+				dev_dbg(dev, "driver has no data for `%s' property\n",
+					attr->attr.name);
+			else if (ret != -ENODEV && ret != -EAGAIN)
+				dev_err_ratelimited(dev,
+					"driver failed to report `%s' property: %zd\n",
+					attr->attr.name, ret);
+			return ret;
+Commit ID: TODO
+Category: FP
+Explanation: ret is storing the error codes and is also the return variable of the function.
+Patch: No

@@ -1,0 +1,24 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/ipv4/ip_tunnel.c#L233
+Code:
+	__be32 remote = parms->iph.daddr;
+	__be32 local = parms->iph.saddr;
+	__be32 key = parms->i_key;
+	__be16 flags = parms->i_flags;
+	int link = parms->link;
+	struct ip_tunnel *t = NULL;
+	struct hlist_head *head = ip_bucket(itn, parms);
+
+	hlist_for_each_entry_rcu(t, head, hash_node) {
+		if (local == t->parms.iph.saddr &&
+		    remote == t->parms.iph.daddr &&
+		    link == t->parms.link &&
+		    type == t->dev->type &&
+		    ip_tunnel_key_match(&t->parms, flags, key))
+			break;
+	}
+	return t;
+Commit ID: TODO
+Category: FP
+Explanation: ip_tunnel is iterating to the list ds
+Patch: No

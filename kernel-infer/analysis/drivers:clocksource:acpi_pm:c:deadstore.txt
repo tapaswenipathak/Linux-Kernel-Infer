@@ -1,0 +1,17 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/clocksource/acpi_pm.c#L179
+Code:
+	u64 value1, value2;
+	unsigned int i, j = 0;
+
+	if (!pmtmr_ioport)
+		return -ENODEV;
+
+	/* "verify" this timing source: */
+	for (j = 0; j < ACPI_PM_MONOTONICITY_CHECKS; j++) {
+		udelay(100 * j);
+Commit ID: TODO
+Category: FP
+Explanation: j is used as loop counter.
+Patch to kernel: No
+Patch to infer: Yes

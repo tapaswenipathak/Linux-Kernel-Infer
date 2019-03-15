@@ -1,0 +1,41 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/crypto/jitterentropy-kcapi.c#L100
+Code:
+void jent_get_nstime(__u64 *out)
+{
+	__u64 tmp = 0;
+
+	tmp = random_get_entropy();
+
+	/*
+	 * If random_get_entropy does not return a value, i.e. it is not
+	 * implemented for a given architecture, use a clock source.
+	 * hoping that there are timers we can work with.
+	 */
+	if (tmp == 0)
+		tmp = ktime_get_ns();
+
+	*out = tmp;
+}
+Commit ID: TODO
+Category: FP
+Explanation: tmp is storing the value returned from random_get_entropy().
+Patch: No
+
+
+----------------
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/crypto/jitterentropy-kcapi.c#L186
+Code:
+	int ret = 0;
+
+	ret = jent_entropy_init();
+	if (ret) {
+		pr_info("jitterentropy: Initialization failed with host not compliant with requirements: %d\n", ret);
+		return -EFAULT;
+	}
+	return crypto_register_rng(&jent_alg);
+Commit ID: TODO
+Category: FP
+Explanation: based on ret the error code is return. stores the value from jetn_entropy_init error code or 0 on success.
+Patch: No

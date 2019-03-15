@@ -1,0 +1,23 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/hid/hidraw.c#L118
+Code:
+	int ret = 0;
+
+	if (!hidraw_table[minor] || !hidraw_table[minor]->exist) {
+		ret = -ENODEV;
+		goto out;
+	}
+
+	dev = hidraw_table[minor]->hid;
+
+	if (count > HID_MAX_BUFFER_SIZE) {
+		hid_warn(dev, "pid %d passed too large report\n",
+			 task_pid_nr(current));
+		ret = -EINVAL;
+		goto out;
+	}
+Commit ID: TODO
+Category: FP
+Explanation: ret stores the error codes for the function.
+Patch to kernel: No
+Patch to infer: Yes

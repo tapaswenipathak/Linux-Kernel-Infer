@@ -1,0 +1,29 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/security/selinux/netport.c#L152
+Code:
+	int ret = -ENOMEM;
+	struct sel_netport *port;
+	struct sel_netport *new = NULL;
+
+	spin_lock_bh(&sel_netport_lock);
+	port = sel_netport_find(protocol, pnum);
+	if (port != NULL) {
+		*sid = port->psec.sid;
+		spin_unlock_bh(&sel_netport_lock);
+		return 0;
+	}
+	new = kzalloc(sizeof(*new), GFP_ATOMIC);
+	if (new == NULL)
+		goto out;
+	ret = security_port_sid(&selinux_state, protocol, pnum, sid);
+	if (ret != 0)
+		goto out;
+
+	new->psec.port = pnum;
+	new->psec.protocol = protocol;
+	new->psec.sid = *sid;
+	sel_netport_insert(new);
+Commit ID: TODO
+Category: FP
+Explanation: new is pointer to type sel_netport allocated memory using kzalloc.
+Patch: No

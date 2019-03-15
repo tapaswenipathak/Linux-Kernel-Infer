@@ -1,0 +1,30 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/net/ethernet/intel/e1000e/80003es2lan.c#L376
+Code:
+		ret_val = e1000e_read_phy_reg_mdic(hw, page_select, &temp);
+
+		if (((u16)offset >> GG82563_PAGE_SHIFT) != temp) {
+			e1000_release_phy_80003es2lan(hw);
+			return -E1000_ERR_PHY;
+		}
+
+		usleep_range(200, 400);
+
+		ret_val = e1000e_read_phy_reg_mdic(hw,
+						   MAX_PHY_REG_ADDRESS & offset,
+						   data);
+
+		usleep_range(200, 400);
+	} else {
+		ret_val = e1000e_read_phy_reg_mdic(hw,
+						   MAX_PHY_REG_ADDRESS & offset,
+						   data);
+	}
+
+	e1000_release_phy_80003es2lan(hw);
+
+	return ret_val;
+Commit ID: TODO
+Category: FP
+Explanation: ret_val is storing the return value of the function
+Patch: No

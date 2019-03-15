@@ -1,0 +1,23 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/security/keys/key.c#L233
+Code:
+	struct key_user *user = NULL;
+	struct key *key;
+	size_t desclen, quotalen;
+	int ret;
+
+	key = ERR_PTR(-EINVAL);
+	if (!desc || !*desc)
+		goto error;
+
+	if (type->vet_description) {
+		ret = type->vet_description(desc);
+		if (ret < 0) {
+			key = ERR_PTR(ret);
+			goto error;
+		}
+	}
+Commit ID: TODO
+Category: FP
+Explanation: key is storing key_user_lookup return value
+Patch: No

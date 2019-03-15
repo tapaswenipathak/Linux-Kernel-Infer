@@ -1,0 +1,21 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/gpu/drm/i915/intel_hdmi.c#L270
+Code:
+	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+	enum pipe pipe = to_intel_crtc(pipe_config->base.crtc)->pipe;
+	i915_reg_t reg = TVIDEO_DIP_CTL(pipe);
+	u32 val = I915_READ(reg);
+
+	if ((val & VIDEO_DIP_ENABLE) == 0)
+		return false;
+
+	if ((val & VIDEO_DIP_PORT_MASK) != VIDEO_DIP_PORT(encoder->port))
+		return false;
+
+	return val & (VIDEO_DIP_ENABLE_AVI |
+		      VIDEO_DIP_ENABLE_VENDOR | VIDEO_DIP_ENABLE_GAMUT |
+		      VIDEO_DIP_ENABLE_SPD | VIDEO_DIP_ENABLE_GCP);
+Commit ID: TODO
+Category: FP
+Explanation: intel_dig_port is passed to the function call determining intel port
+Patch: No

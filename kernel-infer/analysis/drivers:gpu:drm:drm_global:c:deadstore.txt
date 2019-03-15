@@ -1,0 +1,37 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/gpu/drm/drm_global.c#L80
+Code:
+	int ret = 0;
+	struct drm_global_item *item = &glob[ref->global_type];
+
+	mutex_lock(&item->mutex);
+	if (item->refcount == 0) {
+		ref->object = kzalloc(ref->size, GFP_KERNEL);
+		if (unlikely(ref->object == NULL)) {
+			ret = -ENOMEM;
+			goto error_unlock;
+		}
+		ret = ref->init(ref);
+		if (unlikely(ret != 0))
+			goto error_free;
+
+		item->object = ref->object;
+	} else {
+		ref->object = item->object;
+	}
+
+	++item->refcount;
+	mutex_unlock(&item->mutex);
+	return 0;
+
+error_free:
+	kfree(ref->object);
+	ref->object = NULL;
+error_unlock:
+	mutex_unlock(&item->mutex);
+	return ret;
+
+Commit ID: TODO
+Category: FP
+Explanation: ret is the return value of the function, non zero erroneous and zero on success.
+Patch: No

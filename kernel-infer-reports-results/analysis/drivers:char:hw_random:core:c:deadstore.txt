@@ -1,0 +1,30 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/char/hw_random/core.c#L322
+Code:
+	int err = -ENODEV;
+	struct hwrng *rng;
+
+	err = mutex_lock_interruptible(&rng_mutex);
+	if (err)
+		return -ERESTARTSYS;
+
+	if (sysfs_streq(buf, "")) {
+		err = enable_best_rng();
+	} else {
+		list_for_each_entry(rng, &rng_list, list) {
+			if (sysfs_streq(rng->name, buf)) {
+				cur_rng_set_by_user = 1;
+				err = set_current_rng(rng);
+				break;
+			}
+		}
+	}
+
+	mutex_unlock(&rng_mutex);
+
+	return err ? : len;
+Commit ID: TODO
+Category: FP
+Explanation: err is storing the mutex_lock_interruptible and is also the return value
+of the function
+Patch: No

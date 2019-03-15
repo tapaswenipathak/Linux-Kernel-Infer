@@ -1,0 +1,27 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/net/core/scm.c#L264
+Code:
+	struct file **fp = scm->fp->fp;
+	int __user *cmfptr;
+	int err = 0, i;
+
+	if (MSG_CMSG_COMPAT & msg->msg_flags) {
+		scm_detach_fds_compat(msg, scm);
+		return;
+	}
+
+	if (msg->msg_controllen > sizeof(struct cmsghdr))
+		fdmax = ((msg->msg_controllen - sizeof(struct cmsghdr))
+			 / sizeof(int));
+
+	if (fdnum < fdmax)
+		fdmax = fdnum;
+
+	for (i=0, cmfptr=(__force int __user *)CMSG_DATA(cm); i<fdmax;
+	     i++, cmfptr++)
+	{
+		
+Commit ID: TODO
+Category: FP
+Explanation: err is storing the err returned from security_file_receive
+Patch: No

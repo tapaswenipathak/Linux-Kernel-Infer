@@ -1,0 +1,19 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/md/dm-raid1.c#L124
+Code:
+	int should_wake = 0;
+	struct bio_list *bl;
+
+	bl = (rw == WRITE) ? &ms->writes : &ms->reads;
+	spin_lock_irqsave(&ms->lock, flags);
+	should_wake = !(bl->head);
+	bio_list_add(bl, bio);
+	spin_unlock_irqrestore(&ms->lock, flags);
+
+	if (should_wake)
+		wakeup_mirrord(ms);
+Commit ID: TODO
+Category: FP
+Explanation: well, infer
+Patch to kernel: No
+Patch to infer: Yes

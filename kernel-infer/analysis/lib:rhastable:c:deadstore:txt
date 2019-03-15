@@ -1,0 +1,22 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/lib/rhashtable.c#L171
+Code:
+	struct bucket_table *tbl = NULL;
+	size_t size, max_locks;
+	int i;
+
+	size = sizeof(*tbl) + nbuckets * sizeof(tbl->buckets[0]);
+	tbl = kvzalloc(size, gfp);
+
+	size = nbuckets;
+
+	if (tbl == NULL && (gfp & ~__GFP_NOFAIL) != GFP_KERNEL) {
+		tbl = nested_bucket_table_alloc(ht, nbuckets, gfp);
+		nbuckets = 0;
+	}
+
+Commit ID: TODO
+Category: FP
+Explanation: tbl is being allocated memory using kvzalloc which is being null checked
+before being dereferenced at all places
+Patch: No

@@ -1,0 +1,35 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/usb/core/usb-acpi.c#L100
+Code:
+	acpi_status status;
+
+	/*
+	 * According to 9.14 in ACPI Spec 6.2. _PLD indicates whether usb port
+	 * is user visible and _UPC indicates whether it is connectable. If
+	 * the port was visible and connectable, it could be freely connected
+	 * and disconnected with USB devices. If no visible and connectable,
+	 * a usb device is directly hard-wired to the port. If no visible and
+	 * no connectable, the port would be not used.
+	 */
+	status = acpi_evaluate_object(handle, "_UPC", NULL, &buffer);
+	upc = buffer.pointer;
+	if (!upc || (upc->type != ACPI_TYPE_PACKAGE)
+		|| upc->package.count != 4) {
+		goto out;
+	}
+
+	if (upc->package.elements[0].integer.value)
+		if (pld->user_visible)
+			connect_type = USB_PORT_CONNECT_TYPE_HOT_PLUG;
+		else
+			connect_type = USB_PORT_CONNECT_TYPE_HARD_WIRED;
+	else if (!pld->user_visible)
+		connect_type = USB_PORT_NOT_USED;
+out:
+	kfree(upc);
+	return connect_type;
+Commit ID: TODO
+Category: Bug
+Explanation: status is of type acpi_status holding the return valye from acpi_evaluate_object
+and not is being used futher for error check or return value.
+Patch: In process

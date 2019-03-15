@@ -1,0 +1,29 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/pci/slot.c#L266
+Code:
+	struct pci_dev *dev;
+	struct pci_slot *slot;
+	int err = 0;
+	char *slot_name = NULL;
+
+	mutex_lock(&pci_slot_mutex);
+
+	if (slot_nr == -1)
+		goto placeholder;
+
+	/*
+	 * Hotplug drivers are allowed to rename an existing slot,
+	 * but only if not already claimed.
+	 */
+	slot = get_slot(parent, slot_nr);
+	if (slot) {
+		if (hotplug) {
+			if ((err = slot->hotplug ? -EBUSY : 0)
+			     || (err = rename_slot(slot, name))) {
+				kobject_put(&slot->kobj);
+				slot = NULL;
+				goto err;
+Commit ID: TODO
+Category: FP
+Explanation: err is storing the return value of the function 
+Patch: No

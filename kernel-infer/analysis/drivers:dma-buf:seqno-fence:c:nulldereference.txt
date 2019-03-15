@@ -1,0 +1,18 @@
+Type: NULL_DEREFERENCE
+Where: https://elixir.bootlin.com/linux/v4.20-rc3/source/drivers/dma-buf/seqno-fence.c#L56
+Code:
+static void seqno_release(struct dma_fence *fence)
+{
+	struct seqno_fence *f = to_seqno_fence(fence);
+
+	dma_buf_put(f->sync_buf);
+	if (f->ops->release)
+		f->ops->release(fence);
+	else
+		dma_fence_free(&f->base);
+}
+Commit ID: TODO
+Category: Bug
+Explanation: to_seqno_fence can return null, before dereferencing f there should be a
+null check.
+Patch: In process

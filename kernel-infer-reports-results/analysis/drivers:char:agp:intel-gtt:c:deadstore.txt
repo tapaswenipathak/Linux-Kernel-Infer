@@ -1,0 +1,28 @@
+Type: DEAD_STORE
+Where: https://elixir.bootlin.com/linux/v5.0-rc8/source/drivers/char/agp/intel-gtt.c#L342
+Code:
+	static const int ddt[4] = { 0, 16, 32, 64 };
+	resource_size_t stolen_size = 0;
+
+	if (INTEL_GTT_GEN == 1)
+		return 0; /* no stolen mem on i81x */
+
+	pci_read_config_word(intel_private.bridge_dev,
+			     I830_GMCH_CTRL, &gmch_ctrl);
+
+	if (intel_private.bridge_dev->device == PCI_DEVICE_ID_INTEL_82830_HB ||
+	    intel_private.bridge_dev->device == PCI_DEVICE_ID_INTEL_82845G_HB) {
+		switch (gmch_ctrl & I830_GMCH_GMS_MASK) {
+		case I830_GMCH_GMS_STOLEN_512:
+			stolen_size = KB(512);
+			break;
+		case I830_GMCH_GMS_STOLEN_1024:
+			stolen_size = MB(1);
+			break;
+		case I830_GMCH_GMS_STOLEN_8192:
+			stolen_size = MB(8);
+			break;
+Commit ID: TODO
+Category: FP
+Explanation: stolen_size is storing the number of MBs
+Patch: No
